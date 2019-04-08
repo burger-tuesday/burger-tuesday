@@ -21,9 +21,9 @@ buildscript {
 	}
 }
 
-val versionObj = Version(major = 1, minor = 0, revision = 0)
+val versionObj = Version(major = 0, minor = 0, revision = 1)
 group = "com.grosslicht"
-version = "0.0.1-SNAPSHOT"
+version = "$versionObj"
 
 repositories {
 	mavenCentral()
@@ -77,7 +77,7 @@ tasks.withType<Test> {
 }
 
 data class Version(val major: Int, val minor: Int, val revision: Int) {
-	private val buildNumber: String = System.getenv("TRAVIS_BUILD_NUMBER") ?: "dev"
+	private val buildNumber: String = System.getenv("TRAVIS_BUILD_NUMBER") ?: "SNAPSHOT"
 
 	override fun toString(): String = "$major.$minor.$revision-$buildNumber"
 }

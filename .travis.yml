@@ -11,12 +11,12 @@ matrix:
     cache: yarn
     before_script:
     - cd frontend
-    echo "$DOCKER_PASSWORD" | docker login -u "pdgwien" --password-stdin
+    - echo "$DOCKER_PASSWORD" | docker login -u "pdgwien" --password-stdin
     - yarn install
     script:
     - yarn test
     - docker build -t "$CONTAINER_NAME:latest" .
-    - docker tag "$CONTAINER_NAME:latest" "$CONTAINER_NAME:$TRAVIS_BUILD_NUMER" && docker push "$CONTAINER_NAME"
+    - docker tag "$CONTAINER_NAME:latest" "$CONTAINER_NAME:$TRAVIS_BUILD_NUMBER" && docker push "$CONTAINER_NAME"
     env: CONTAINER_NAME=pdgwien/burgertuesday-frontend
   - language: java
     jdk: openjdk8
