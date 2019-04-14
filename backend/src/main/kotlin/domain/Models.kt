@@ -129,7 +129,7 @@ data class Review(
     val id: Long = 0,
     @ManyToOne(optional = false)
     @JsonIgnoreProperties("reviews")
-    var visit: Visit,
+    var visit: Visit?,
     val text: String?,
     val taste: Int,
     val likeness: Int,
@@ -137,13 +137,13 @@ data class Review(
     val service: Int,
     val priceLevel: Int,
     val recommended: Boolean,
-    val createdBy: String,
-    val createdByName: String,
+    var createdBy: String?,
+    var createdByName: String?,
     val createdAt: Instant = Instant.now(),
     val updatedAt: Instant = Instant.now()
 ) {
     override fun hashCode(): Int = id.hashCode()
-    override fun toString(): String = "Review(id=$id, visit=${visit.id}, text=$text, taste=$taste, likeness=$likeness, menuDiversity=$menuDiversity, service=$service, priceLevel=$priceLevel, recommended=$recommended)"
+    override fun toString(): String = "Review(id=$id, visit=${visit?.id}, text=$text, taste=$taste, likeness=$likeness, menuDiversity=$menuDiversity, service=$service, priceLevel=$priceLevel, recommended=$recommended)"
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

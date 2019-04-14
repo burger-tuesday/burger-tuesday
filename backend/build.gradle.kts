@@ -36,6 +36,8 @@ dependencies {
     implementation("com.auth0:auth0-spring-security-api:1.2.1")
     implementation("com.google.maps:google-maps-services:0.9.3")
     implementation("at.favre.lib:id-mask:0.3.0")
+    implementation("com.squareup.retrofit2:retrofit:2.5.0")
+    implementation("com.squareup.retrofit2:converter-jackson:2.5.0")
 
     kapt("org.springframework.boot:spring-boot-configuration-processor")
 

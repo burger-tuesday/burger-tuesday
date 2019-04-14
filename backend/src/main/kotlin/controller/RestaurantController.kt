@@ -35,5 +35,3 @@ class RestaurantController(private val restaurantService: RestaurantService) {
         return ResponseEntity.ok(restaurantService.addRestaurant(placeId, principal.name))
     }
 }
-
-//[PlaceDetails: "DOOR No. 8 - The Steakhouse" ChIJwfNYEowHbUcRJ5omltDrMp0 (GOOGLE) address="Neubaugasse 8, 1070 Wien, Austria" geometry=[Geometry: 48.19896400,16.34993800 (null) bounds=null, viewport=[48.20028763,16.35118403, 48.19758967,16.34848607]], vicinity=Neubaugasse 8, Wien, types=[restaurant, point_of_interest, food, establishment], phone=01 5220392, internationalPhoneNumber=+43 1 5220392, url=https://maps.google.com/?cid=11327375293895055911, website=http://www.door8.at/, icon, openingHours, utcOffset=120, priceLevel=3, rating=4.6, 10 photos, 5 reviews]
