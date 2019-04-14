@@ -87,7 +87,7 @@ data class Visit(
     @JoinColumn
     @JsonIgnoreProperties("visits")
     var restaurant: Restaurant,
-    @OneToMany(mappedBy = "review", orphanRemoval = true, cascade = [CascadeType.ALL])
+    @OneToMany(mappedBy = "visit", orphanRemoval = true, cascade = [CascadeType.ALL])
     val reviews: MutableSet<Review> = mutableSetOf(),
     val createdBy: String,
     val createdAt: Instant = Instant.now(),
@@ -130,7 +130,7 @@ data class Review(
     @ManyToOne(optional = false)
     @JsonIgnoreProperties("reviews")
     var visit: Visit,
-    val review: String?,
+    val text: String?,
     val taste: Int,
     val likeness: Int,
     val menuDiversity: Int,
@@ -143,7 +143,7 @@ data class Review(
     val updatedAt: Instant = Instant.now()
 ) {
     override fun hashCode(): Int = id.hashCode()
-    override fun toString(): String = "Review(id=$id, visit=${visit.id}, review=$review, taste=$taste, likeness=$likeness, menuDiversity=$menuDiversity, service=$service, priceLevel=$priceLevel, recommended=$recommended)"
+    override fun toString(): String = "Review(id=$id, visit=${visit.id}, text=$text, taste=$taste, likeness=$likeness, menuDiversity=$menuDiversity, service=$service, priceLevel=$priceLevel, recommended=$recommended)"
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

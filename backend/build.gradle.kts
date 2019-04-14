@@ -46,6 +46,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.2.0-alpha-2")
     runtimeOnly("com.h2database:h2:1.4.197")
+    runtimeOnly("org.postgresql:postgresql:42.2.5")
     runtimeOnly("org.springframework.boot:spring-boot-devtools")
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(module = "junit")

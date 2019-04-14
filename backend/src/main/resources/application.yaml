@@ -3,19 +3,11 @@ spring:
     serialization:
       write-dates-as-timestamps: false
   datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:bt
-    username: admin
-    password:
-  h2:
-    console:
-      enabled: true
+    driver-class-name: org.postgresql.Driver
   jpa:
     show-sql: true
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
-    hibernate:
-      ddl-auto: create
     properties:
       generate_statistics: true
   http:
