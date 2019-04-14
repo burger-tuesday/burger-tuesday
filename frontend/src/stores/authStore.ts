@@ -5,22 +5,11 @@ import history from '../history';
 import {AUTH_CONFIG} from './auth-variables';
 import commonStore from './commonStore';
 
-export interface IAuthStore {
-  readonly accessToken: string | null;
-  readonly idToken: string | null;
-  readonly expiresAt: number;
-  readonly isAuthenticated: boolean;
-  readonly userProfile: Auth0UserProfile | null;
-  login(): void;
-  handleAuthentication(): void;
-  renewSession(): void;
-  logout(): void;
-}
-
-class AuthStore implements IAuthStore {
-  @observable public accessToken: string | null;
+class AuthStore {
+  @observable public accessToken: string | null = window.localStorage.getItem('accessToken');
   @observable public idToken: string | null;
   @observable public expiresAt: number;
+  @observable public scope: string | null;
   @observable public userProfile: Auth0UserProfile | null;
   private auth: WebAuth;
 
@@ -31,13 +20,18 @@ class AuthStore implements IAuthStore {
       domain: AUTH_CONFIG.domain,
       redirectUri: AUTH_CONFIG.callbackUrl,
       responseType: 'id_token token',
-      scope: 'openid profile email read:burgers manage:burgers test:something'
+      scope: 'openid profile email manage:restaurants manage:visits'
     });
 
     reaction(
         () => this.accessToken,
         accessToken => {
           this.getProfile();
+          if (accessToken) {
+            window.localStorage.setItem('accessToken', accessToken);
+          } else {
+            window.localStorage.removeItem('accessToken');
+          }
         }
     );
   }
@@ -52,6 +46,7 @@ class AuthStore implements IAuthStore {
     this.auth.parseHash((err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
         this.setSession(authResult);
+        history.replace('/home');
       } else if (err) {
         history.replace('/home');
         console.log(err);
@@ -63,6 +58,9 @@ class AuthStore implements IAuthStore {
 
   @action
   public renewSession() {
+    if (new Date().getTime() + 60*60*1000 < this.expiresAt) {
+      return;
+    }
     this.auth.checkSession({}, (err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
         this.setSession(authResult);
@@ -94,6 +92,7 @@ class AuthStore implements IAuthStore {
     // Remove tokens and expiry time
     this.accessToken = null;
     this.idToken = null;
+    this.scope = null;
     this.expiresAt = 0;
 
     commonStore.setLoggedIn(false);
@@ -112,19 +111,24 @@ class AuthStore implements IAuthStore {
     return new Date().getTime() < this.expiresAt
   }
 
+  public isAuthorized(scope: string): boolean {
+    if (this.scope == null) {
+      return false;
+    }
+    return this.scope.includes(scope);
+  }
+
   @action
   private setSession(authResult: Auth0DecodedHash) {
     commonStore.setLoggedIn(true);
 
     // Set the time that the access token will expire at
-    const {idToken = null, accessToken = null, expiresIn = 0} = authResult;
+    const {idToken = null, accessToken = null, expiresIn = 0, scope = null} = authResult;
     const expiresAt = (expiresIn * 1000) + new Date().getTime();
     this.accessToken = accessToken;
     this.idToken = idToken;
     this.expiresAt = expiresAt;
-
-    // navigate to the home route
-    history.replace('/home');
+    this.scope = scope;
   }
 
   @action

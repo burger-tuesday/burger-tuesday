@@ -39,7 +39,7 @@ class LoggingAspect(private val env: Environment) {
     @Pointcut(
         "within(com.grosslicht.burgertuesday.repository..*)" +
                 " || within(com.grosslicht.burgertuesday.service..*)" +
-                " || within(com.grosslicht.burgertuesday.web..*)"
+                " || within(com.grosslicht.burgertuesday.controller..*)"
     )
     fun applicationPackagePointcut() {
         // Method is empty as this is just a Pointcut, the implementations are in the advices.

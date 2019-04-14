@@ -7,14 +7,17 @@
     "@fortawesome/free-solid-svg-icons": "^5.8.1",
     "@fortawesome/react-fontawesome": "^0.1.4",
     "auth0-js": "^9.10.1",
+    "axios": "^0.18.0",
     "history": "latest",
     "inversify": "^5.0.1",
     "mobx": "^5.9.4",
     "mobx-react": "^5.4.3",
     "react": "^16.8.4",
     "react-dom": "^16.8.6",
+    "react-places-autocomplete": "^7.2.1",
     "react-router-dom": "^5.0.0",
     "react-scripts-ts": "3.1.0",
+    "react-table": "^6.9.2",
     "reactstrap": "^8.0.0",
     "reflect-metadata": "^0.1.13"
   },
@@ -26,12 +29,15 @@
   },
   "devDependencies": {
     "@types/auth0-js": "^8.11.12",
+    "@types/axios": "^0.14.0",
     "@types/history": "^4.7.2",
     "@types/jest": "^24.0.9",
     "@types/node": "^11.10.5",
     "@types/react": "^16.8.7",
     "@types/react-dom": "^16.8.2",
+    "@types/react-places-autocomplete": "^7.2.5",
     "@types/react-router-dom": "^4.3.1",
+    "@types/react-table": "^6.8.1",
     "@types/reactstrap": "^7.1.3",
     "typescript": "^3.3.3333"
   }

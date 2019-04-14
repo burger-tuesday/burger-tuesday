@@ -1,11 +1,32 @@
 spring:
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
   datasource:
     driver-class-name: org.h2.Driver
-    url: jdbc:h2:./db
+    url: jdbc:h2:mem:bt
     username: admin
     password:
+  h2:
+    console:
+      enabled: true
+  jpa:
+    show-sql: true
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: create
+    properties:
+      generate_statistics: true
+  http:
+    log-request-details: true
 application:
   auth0:
     audience: https://burgertuesday.rocks
     issuer: https://burgertuesday.eu.auth0.com/
+  google:
+    apiKey: ${GOOGLE_API_KEY}
+  idMask:
+    secret: ${ID_MASK_SECRET}
 logging.level.org.springframework.web: DEBUG
+logging.level.org.hibernate.stat: DEBUG

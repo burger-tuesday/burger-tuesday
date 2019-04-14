@@ -1,0 +1,104 @@
+.map-maker-icon {
+  color: #FD6C6C;
+}
+
+.github-icon {
+  font-size: 24px;
+}
+
+.github-link {
+  color: #262626;
+  font-size: 20px;
+}
+
+.github-link:hover,
+.github-link:active {
+  color: #4078c0;
+  text-decoration: none;
+}
+
+.suggestion-icon {
+  margin-right: 8px;
+}
+
+.search-bar-container {
+  width: 90%;
+  max-width: 500px;
+  margin: 40px auto;
+}
+
+.search-input-container {
+  position: relative;
+}
+
+.search-input,
+.search-input:focus,
+.search-input:active {
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08);
+  border: honeydew;
+  display: block;
+  width: 100%;
+  padding: 16px;
+  font-size: 16px;
+  border-radius: 2px;
+  outline: none;
+}
+
+.clear-button,
+.clear-button:active,
+.clear-button:focus {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  outline: none;
+  font-weight: 600;
+  color: #999;
+}
+
+.autocomplete-container {
+  border-bottom: honeydew;
+  border-left: honeydew;
+  border-right: honeydew;
+  border-top: 1px solid #e6e6e6;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  border-radius: 0 0 2px 2px;
+}
+
+.suggestion-item {
+  padding: 8px;
+  text-align: left;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.suggestion-item--active {
+  background-color: #fafafa;
+}
+
+.dropdown-footer {
+  display: flex;
+  justify-content: flex-end;
+  padding: 4px;
+}
+
+.dropdown-footer-image {
+  display: inline-block;
+  width: 150px;
+}
+
+.spinner {
+  color: #18bc9c;
+  font-size: 30px;
+}
+
+.error-message {
+  color: red;
+}
+
+.geocode-result-header {
+  font-size: 20px;
+  color: #222222;
+}
