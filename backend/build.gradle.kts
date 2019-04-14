@@ -1,6 +1,6 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-val kotlinVersion: String = "1.3.21"
+val kotlinVersion: String = "1.3.30"
 val springBootVersion: String = "2.1.2.RELEASE"
 
 plugins {
@@ -15,12 +15,6 @@ plugins {
     id("org.jetbrains.kotlin.plugin.allopen") version kotlinVersion
     id("com.google.cloud.tools.jib") version "1.0.2"
     id("com.diffplug.gradle.spotless") version "3.21.1"
-}
-
-buildscript {
-    repositories {
-        mavenCentral()
-    }
 }
 
 val versionObj = Version(major = 0, minor = 0, revision = 1)
@@ -39,8 +33,6 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-aop")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-    implementation("org.springframework.security:spring-security-oauth2-jose")
-    implementation("org.springframework.security:spring-security-oauth2-resource-server")
     implementation("com.auth0:auth0-spring-security-api:1.2.1")
     implementation("com.google.maps:google-maps-services:0.9.3")
     implementation("at.favre.lib:id-mask:0.3.0")
@@ -52,6 +44,7 @@ dependencies {
     //implementation("org.flywaydb:flyway-core")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.2.0-alpha-2")
     runtimeOnly("com.h2database:h2:1.4.197")
     runtimeOnly("org.springframework.boot:spring-boot-devtools")
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
