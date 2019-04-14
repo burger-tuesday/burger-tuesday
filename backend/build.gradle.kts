@@ -42,6 +42,8 @@ dependencies {
     implementation("org.springframework.security:spring-security-oauth2-jose")
     implementation("org.springframework.security:spring-security-oauth2-resource-server")
     implementation("com.auth0:auth0-spring-security-api:1.2.1")
+    implementation("com.google.maps:google-maps-services:0.9.3")
+    implementation("at.favre.lib:id-mask:0.3.0")
 
     kapt("org.springframework.boot:spring-boot-configuration-processor")
 
