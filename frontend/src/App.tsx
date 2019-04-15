@@ -1,5 +1,7 @@
 import * as React from 'react';
 import {Router} from 'react-router';
+import {ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 import NavigationMenu from './components/Navigation/Navigation';
 import history from './history';
@@ -14,6 +16,7 @@ export default class App extends React.Component<{}, {}> {
             <NavigationMenu/>
             <ErrorBoundary>
               <AppRoutes/>
+              <ToastContainer/>
             </ErrorBoundary>
           </div>
         </Router>

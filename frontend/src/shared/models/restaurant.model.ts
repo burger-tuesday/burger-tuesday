@@ -1,7 +1,7 @@
 import {IVisit} from './visit.model';
 
 export interface IRestaurant {
-  id?: number;
+  id?: string;
   placeId?: string;
   name?: string;
   address?: string;

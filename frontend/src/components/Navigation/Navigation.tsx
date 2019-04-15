@@ -33,6 +33,7 @@ export default class NavigationMenu extends React.Component {
                   </NavLink>
                 </NavItem>
                 {this.authenticatedLink('/restaurants', 'Restaurants', 'manage:restaurants')}
+                {this.authenticatedLink('/review', 'Reviews')}
               </Nav>
 
 

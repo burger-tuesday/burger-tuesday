@@ -4,6 +4,7 @@ import Callback from './components/Callback/Callback';
 import Home from './components/Home/Home';
 import Profile from './components/Profile/Profile';
 import Restaurant from './components/Restaurant/Restaurant';
+import Review from './components/Review/Review';
 import ErrorBoundaryRoute from './shared/error/error-boundary-route';
 import authStore from './stores/authStore';
 
@@ -21,6 +22,7 @@ export const AppRoutes = () => {
           <ErrorBoundaryRoute path="/home" component={Home}/>
           <ErrorBoundaryRoute path="/profile" component={Profile}/>
           <ErrorBoundaryRoute path="/restaurants" component={Restaurant}/>
+          <ErrorBoundaryRoute path="/review" component={Review}/>
 
           <Route path="/callback" render={(props: RouteComponentProps) => {
             handleAuthentication(props);

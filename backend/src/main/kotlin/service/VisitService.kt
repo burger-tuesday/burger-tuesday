@@ -50,6 +50,9 @@ class VisitService(
             ?: throw ResponseStatusException(HttpStatus.BAD_REQUEST, "Error while resolving user")
         val unmaskedId = idMask.unmask(id)
         val visit = visitRepository.findById(unmaskedId).orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND, "Visit not found") }
+        if (visit.reviews.any { r -> r.createdBy == userInfo.sub }) {
+            throw ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "User already reviewed this visit.")
+        }
         review.createdBy = userInfo.sub
         review.createdByName = userInfo.name
         review.visit = visit
