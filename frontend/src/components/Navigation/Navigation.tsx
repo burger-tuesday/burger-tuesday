@@ -32,7 +32,7 @@ export default class NavigationMenu extends React.Component {
                     Home
                   </NavLink>
                 </NavItem>
-                {this.authenticatedLink('/restaurants', 'Restaurants', 'manage:restaurants')}
+                {this.authenticatedLink('/restaurants', 'Restaurants')}
                 {this.authenticatedLink('/review', 'Reviews')}
               </Nav>
 
