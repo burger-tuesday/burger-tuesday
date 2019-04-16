@@ -42,7 +42,7 @@ class SecurityConfig(
         val configuration = CorsConfiguration()
         configuration.allowedOrigins = listOf("https://app.burgertuesday.rocks")
         configuration.allowedMethods = listOf("GET", "POST", "PUT", "DELETE")
-        configuration.allowedHeaders = listOf("Authorization")
+        configuration.allowedHeaders = listOf("Authorization", "Content-Type")
         configuration.exposedHeaders = listOf("Link", "X-Total-Count")
         val source = UrlBasedCorsConfigurationSource()
         source.registerCorsConfiguration("/**", configuration)
