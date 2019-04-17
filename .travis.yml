@@ -12,6 +12,8 @@ matrix:
       script:
         - 'if [ "$TRAVIS_PULL_REQUEST" != "false" ] || [ "$TRAVIS_BRANCH" != "master" ]; then bash ./ci/build_pull_request.sh; fi'
         - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ] && [ "$TRAVIS_BRANCH" = "master" ]; then bash ./ci/build_and_deploy.sh; fi'
+      after_success:
+        - bash <(curl -s https://codecov.io/bash)
       env: CONTAINER_NAME=pdgwien/burgertuesday-frontend
     - language: java
       jdk: openjdk8
@@ -28,7 +30,13 @@ matrix:
       script:
         - 'if [ "$TRAVIS_PULL_REQUEST" != "false" ] || [ "$TRAVIS_BRANCH" != "master" ]; then bash ./ci/build_pull_request.sh; fi'
         - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ] && [ "$TRAVIS_BRANCH" = "master" ]; then bash ./ci/build_and_deploy.sh; fi'
+      after_success:
+        - bash <(curl -s https://codecov.io/bash)
       env: CONTAINER_NAME=pdgwien/burgertuesday-backend
 env:
   global:
     secure: ls9+zqNpVlQ2XOwPjVvT00f2E4xeqKp8KksvdkwrPsqIn23olUNtDpaP9gGtHZa5dvV6w/ay5ZIAUP8n9Ojl9DuD1ETFtuyRXks8OUb1ICJWHpzw9ih/oogRTKvsCd6/K4FApNy93+lLL/PF14GCxM0B51crY9R0pDJrUN0EPGNihP/Z1CDDr64l0ETwffRFyjt2wZew5qsWdcXdBR8sycmcW2BfaUzxcpXZQJ4zjzaAhDJsDEJU90S3rwe3kOlp0GCj4coC/DO4n/a9GnnQ7kuGeg/o8Ru4W8z37YcBUbahQG3geoHZ5958EHmGeGfgjNMou5faLKoEMSyITkJ/o42jdNar3QoiiSzUxFxMOwNd1T7+/MYrDLMqrEXiFiUpWBdLd8PSlMxvuxkn6UzXWEXmoQ4vRuGgfD91WvZgMgqXKX8ObL43TsBzMjOx8q/HH5mrrZEq7GUw8+lWStJg0UmJz4ZPpXnk8kSNp4cQZrbWKq3iw5lM9HxC0bijF/FGtsBhYdYZn72GRuUWBC6a4FOkxc66+O1Z50eFs+OP51Vf/JwCK6Us+dz0L/BN+AXwsJrvXsfvVSdNdMvRo0gm6V3gee0Zyf62kCyMkEtLiHY0QwcClAE31jKaPrjxjvO7TbL42maxtl987wuNjJ6JttaO11Vw6sVbApTLLN4aDrE=
+notifications:
+  webhooks:
+    - https://hooks.microbadger.com/images/pdgwien/burgertuesday-backend/XWc0gT7MJ5aqpwiV_-e5qic_A8Q=
+    - https://hooks.microbadger.com/images/pdgwien/burgertuesday-frontend/z1scdZp9B5WqhyDP3Xuk21t4_TE=

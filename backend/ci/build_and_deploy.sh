@@ -1,2 +1,2 @@
 #!/bin/sh
-./gradlew --no-daemon build jib
+./gradlew --no-daemon build jacocoTestReport jib

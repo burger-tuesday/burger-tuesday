@@ -15,6 +15,7 @@ plugins {
     id("org.jetbrains.kotlin.plugin.allopen") version kotlinVersion
     id("com.google.cloud.tools.jib") version "1.0.2"
     id("com.diffplug.gradle.spotless") version "3.21.1"
+    jacoco
 }
 
 val versionObj = Version(major = 0, minor = 0, revision = 1)
@@ -81,6 +82,16 @@ tasks.withType<Test> {
     testLogging {
         events("passed", "skipped", "failed")
     }
+}
+
+tasks.withType<JacocoReport> {
+    reports {
+        xml.isEnabled = true
+        html.isEnabled = false
+        csv.isEnabled = false
+    }
+    val jacocoTestReport by tasks
+    jacocoTestReport.dependsOn("test")
 }
 
 spotless {

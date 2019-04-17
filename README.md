@@ -1,4 +1,4 @@
-# Burger Tuesday [![Build Status](https://travis-ci.com/burger-tuesday/burger-tuesday.svg?branch=master)](https://travis-ci.com/burger-tuesday/burger-tuesday)
+# Burger Tuesday ![Build status](https://img.shields.io/travis/com/burger-tuesday/burger-tuesday.svg) ![Codecov](https://img.shields.io/codecov/c/gh/burger-tuesday/burger-tuesday.svg)
 
 This is the repository that contains the frontend and backend source code for the upcoming Burger Tuesday web application.
 
