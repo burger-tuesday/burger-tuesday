@@ -44,6 +44,6 @@
     "@types/react-table": "^6.8.1",
     "@types/react-toastify": "^4.0.2",
     "@types/reactstrap": "^8.0.1",
-    "typescript": "^3.3.3333"
+    "typescript": "^3.4.4"
   }
 }
