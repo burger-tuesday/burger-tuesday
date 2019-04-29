@@ -11,6 +11,7 @@ COPY yarn.lock /usr/src/app/yarn.lock
 RUN yarn install
 COPY . /usr/src/app
 RUN yarn build
+RUN /usr/src/app/node_modules/.bin/sentry-cli releases set-commits --auto $SENTRY_RELEASE
 
 # production environment
 FROM nginx:1.15-alpine
