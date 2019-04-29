@@ -2,6 +2,7 @@
 FROM node:11 as builder
 ARG UPLOAD_SOURCEMAPS
 ARG SENTRY_AUTH_TOKEN
+ARG SENTRY_RELEASE
 RUN mkdir /usr/src/app
 WORKDIR /usr/src/app
 ENV PATH /usr/src/app/node_modules/.bin:$PATH
