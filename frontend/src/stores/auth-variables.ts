@@ -1,6 +1,6 @@
 export const AUTH_CONFIG = {
-  audience: 'https://burgertuesday.rocks',
-  callbackUrl: 'https://app.burgertuesday.rocks/callback',
-  clientId: 'skDe4MqsVC6BSn6DbrbRC5ZEgEqniWwT',
-  domain: 'burgertuesday.eu.auth0.com',
+  audience: process.env.REACT_APP_AUTH_AUDIENCE,
+  callbackUrl: process.env.REACT_APP_AUTH_CALLBACK_URL,
+  clientId: process.env.REACT_APP_AUTH_CLIENT_ID,
+  domain: process.env.REACT_APP_AUTH_DOMAIN
 };

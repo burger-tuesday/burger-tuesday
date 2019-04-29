@@ -16,9 +16,9 @@ class PlacesStore {
       this.address = "";
     })
     .catch(error => {
-      console.log(error);
       this.placeId = "";
       this.address = "";
+      throw error;
     });
   }
 }

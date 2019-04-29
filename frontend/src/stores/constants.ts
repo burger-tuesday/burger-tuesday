@@ -1,3 +1,3 @@
 export const CONSTANTS = {
-  API_URL: 'https://api.burgertuesday.rocks/v1'
+  API_URL: process.env.REACT_APP_API_URL
 };

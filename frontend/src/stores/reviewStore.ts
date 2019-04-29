@@ -67,8 +67,8 @@ class ReviewStore {
       toast('Review successfully saved!', {type: 'success'});
     })
     .catch(error => {
-      console.log(error);
       toast('Something went wrong while saving!', {type: 'error'});
+      throw error;
     });
   }
 }
