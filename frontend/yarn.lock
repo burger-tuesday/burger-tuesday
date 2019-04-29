@@ -115,10 +115,10 @@
     humps "^2.0.1"
     prop-types "^15.5.10"
 
-"@types/auth0-js@^9.10.1":
-  version "9.10.1"
-  resolved "https://registry.yarnpkg.com/@types/auth0-js/-/auth0-js-9.10.1.tgz#fc4147b0cdf8abb949fb4d73d2382de3e2ce6ad8"
-  integrity sha512-jVg2r+TVcN0lcp4MEGprSlN3NCQLU8mqK3sOsAxtuMhBMMkabJuv+ECSR2lxhSW3FrYNBHPN8ZqC7scJP+2zcQ==
+"@types/auth0-js@^9.10.2":
+  version "9.10.2"
+  resolved "https://registry.yarnpkg.com/@types/auth0-js/-/auth0-js-9.10.2.tgz#66e8744fcac80dd1784b3a46b81ff7fd64fbeba7"
+  integrity sha512-nKsvF2H4aoJ1O1yV4sRg1kav/7rTRR1OhMxdUrw7fmEmO9QR0fGRB63/tYgYAEez2efSJ2sJ2gMjgsnNX/ILqw==
 
 "@types/axios@^0.14.0":
   version "0.14.0"
