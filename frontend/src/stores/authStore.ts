@@ -42,9 +42,12 @@ class AuthStore {
           Sentry.configureScope(scope => {
             if (userProfile) {
               scope.setUser({
-                username: userProfile.username,
+                username: userProfile.nickname,
                 email: userProfile.email,
-                id: userProfile.user_id
+                id: userProfile.sub,
+                scope: this.scope,
+                expiresAt: this.expiresAt,
+                locale: userProfile.locale
               })
             } else {
               scope.setUser(null);
@@ -67,8 +70,8 @@ class AuthStore {
         history.replace('/home');
       } else if (err) {
         history.replace('/home');
+        Sentry.captureException(err);
         console.log(err);
-        alert(`Error: ${err.error}. Check the console for further details.`);
       }
     });
   }
@@ -84,8 +87,8 @@ class AuthStore {
         this.setSession(authResult);
       } else if (err) {
         this.logout();
+        Sentry.captureException(err);
         console.log(err);
-        alert(`Could not get a new token (${err.error}: ${err.errorDescription}).`);
       }
     });
   }
@@ -100,6 +103,7 @@ class AuthStore {
       if (profile) {
         this.setUserProfile(profile);
       } else if (err) {
+        Sentry.captureException(err);
         console.log(err);
       }
     });

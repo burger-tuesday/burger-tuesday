@@ -99,6 +99,12 @@ tasks.withType<JacocoReport> {
     jacocoTestReport.dependsOn("test")
 }
 
+tasks.named<ProcessResources>("processResources") {
+    filesMatching("**/sentry.properties") {
+        expand("sentryRelease" to System.getenv("TRAVIS_COMMIT"))
+    }
+}
+
 spotless {
     kotlin {
         ktlint()
