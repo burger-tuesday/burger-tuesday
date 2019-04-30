@@ -1,20 +1,18 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-val kotlinVersion: String = "1.3.30"
-val springBootVersion: String = "2.1.2.RELEASE"
-
 plugins {
-    val kotlinVersion = "1.3.21"
+    val kotlinVersion = "1.3.31"
+    val springBootVersion = "2.1.4.RELEASE"
     kotlin("jvm") version kotlinVersion
-    kotlin("kapt") version "1.3.21"
-    id("org.springframework.boot") version "2.1.2.RELEASE"
+    kotlin("kapt") version kotlinVersion
+    id("org.springframework.boot") version springBootVersion
     id("io.spring.dependency-management") version "1.0.7.RELEASE"
     id("org.jetbrains.kotlin.plugin.spring") version kotlinVersion
     id("org.jetbrains.kotlin.plugin.jpa") version kotlinVersion
     id("org.jetbrains.kotlin.plugin.noarg") version kotlinVersion
     id("org.jetbrains.kotlin.plugin.allopen") version kotlinVersion
-    id("com.google.cloud.tools.jib") version "1.0.2"
-    id("com.diffplug.gradle.spotless") version "3.21.1"
+    id("com.google.cloud.tools.jib") version "1.1.2"
+    id("com.diffplug.gradle.spotless") version "3.23.0"
     jacoco
 }
 
@@ -36,19 +34,24 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("com.auth0:auth0-spring-security-api:1.2.1")
     implementation("com.google.maps:google-maps-services:0.9.3")
-    implementation("at.favre.lib:id-mask:0.3.0")
+    implementation("at.favre.lib:id-mask:0.5.0")
     implementation("com.squareup.retrofit2:retrofit:2.5.0")
     implementation("com.squareup.retrofit2:converter-jackson:2.5.0")
 
     kapt("org.springframework.boot:spring-boot-configuration-processor")
 
-    implementation("io.github.microutils:kotlin-logging:1.6.24")
+    implementation("org.slf4j:slf4j-api:1.7.25")
+    implementation("ch.qos.logback:logback-core:1.2.3")
+    implementation("io.github.microutils:kotlin-logging:1.6.26")
 
-    //implementation("org.flywaydb:flyway-core")
+    implementation("io.sentry:sentry:1.7.22")
+    implementation("io.sentry:sentry-logback:1.7.22")
+
+    // implementation("org.flywaydb:flyway-core")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.2.0-alpha-2")
-    runtimeOnly("com.h2database:h2:1.4.197")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.2.1")
+    runtimeOnly("com.h2database:h2:1.4.199")
     runtimeOnly("org.postgresql:postgresql:42.2.5")
     runtimeOnly("org.springframework.boot:spring-boot-devtools")
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
@@ -64,6 +67,8 @@ val dockerImage = System.getenv("CONTAINER_NAME")
 jib.to {
     image = dockerImage
     tags = setOf("latest", "${project.version}")
+    jib.container.jvmFlags = listOf("-agentpath:/sentry/libsentry_agent_linux-x86_64.so")
+
     auth {
         username = "pdgwien"
         password = System.getenv("DOCKER_PASSWORD")
