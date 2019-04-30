@@ -1,7 +1,6 @@
 import * as Sentry from '@sentry/browser';
 import * as React from 'react';
 import {ErrorInfo} from 'react';
-import authStore from '../../stores/authStore';
 
 
 interface IErrorBoundaryProps {
@@ -27,13 +26,6 @@ class ErrorBoundary extends React.Component<IErrorBoundaryProps, IErrorBoundaryS
       errorInfo
     });
     Sentry.withScope(scope => {
-      if (authStore.userProfile) {
-        scope.setUser({
-          username: authStore.userProfile.username,
-          email: authStore.userProfile.email,
-          id: authStore.userProfile.user_id
-        })
-      }
       scope.setExtras(errorInfo);
       const eventId = Sentry.captureException(error);
       this.setState({eventId})

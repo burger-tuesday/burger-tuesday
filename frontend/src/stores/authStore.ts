@@ -1,3 +1,4 @@
+import * as Sentry from '@sentry/browser';
 import * as auth0 from 'auth0-js';
 import {Auth0DecodedHash, Auth0Error, Auth0UserProfile, WebAuth} from 'auth0-js';
 import {action, computed, observable, reaction} from 'mobx';
@@ -34,6 +35,23 @@ class AuthStore {
           }
         }
     );
+
+    reaction(
+        () => this.userProfile,
+        userProfile => {
+          Sentry.configureScope(scope => {
+            if (userProfile) {
+              scope.setUser({
+                username: userProfile.username,
+                email: userProfile.email,
+                id: userProfile.user_id
+              })
+            } else {
+              scope.setUser(null);
+            }
+          });
+        }
+    )
   }
 
   @action
@@ -58,7 +76,7 @@ class AuthStore {
 
   @action
   public renewSession() {
-    if (new Date().getTime() + 60*60*1000 < this.expiresAt) {
+    if (new Date().getTime() + 60 * 60 * 1000 < this.expiresAt) {
       return;
     }
     this.auth.checkSession({}, (err, authResult) => {
