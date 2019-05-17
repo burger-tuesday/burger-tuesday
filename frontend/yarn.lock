@@ -272,10 +272,10 @@
     "@types/history" "*"
     "@types/react" "*"
 
-"@types/react-select@^2.0.17":
-  version "2.0.17"
-  resolved "https://registry.yarnpkg.com/@types/react-select/-/react-select-2.0.17.tgz#e59ad7f292abff1311ce2ca7e130fff85df18aa2"
-  integrity sha512-KJrLLL3FEKb3phpcSU7cF3bw7C7UpVNgsAddsS6gjaa83fRKAVZ0DdpRhO+OnerZvkuGTCwRRzU8/Ngq6vEEjQ==
+"@types/react-select@^2.0.18":
+  version "2.0.18"
+  resolved "https://registry.yarnpkg.com/@types/react-select/-/react-select-2.0.18.tgz#6a1f7da389638a6e6d9b8a3a2f7fb87d1a085880"
+  integrity sha512-VzaNOhmrp7cCNklAXGs/yA3J9tooO62F9qkhzoKQkeAAji9IFA2+Y4RK46M2JJuntM9ACUWj9+3v3tk/qDVIBw==
   dependencies:
     "@types/react" "*"
     "@types/react-dom" "*"
