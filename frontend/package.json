@@ -7,7 +7,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.8.2",
     "@fortawesome/react-fontawesome": "^0.1.4",
     "@sentry/browser": "^5.2.0",
-    "auth0-js": "^9.10.2",
+    "auth0-js": "^9.10.3",
     "axios": "^0.18.0",
     "history": "latest",
     "inversify": "^5.0.1",
