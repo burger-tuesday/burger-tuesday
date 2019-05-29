@@ -281,10 +281,10 @@
     "@types/react-dom" "*"
     "@types/react-transition-group" "*"
 
-"@types/react-table@^6.8.1":
-  version "6.8.1"
-  resolved "https://registry.yarnpkg.com/@types/react-table/-/react-table-6.8.1.tgz#ff92b25677a220356064321234fd89ba590db1e3"
-  integrity sha512-56wi1s7+H4eGbtXsppNz/OeBeUiPQZnJYLxia0ZpwcD47VfYFE1EkbVadEoJshJIjR4nbSQSF/AgJHvC/ZwHaQ==
+"@types/react-table@^6.8.2":
+  version "6.8.2"
+  resolved "https://registry.yarnpkg.com/@types/react-table/-/react-table-6.8.2.tgz#3dc97df6b21c9b44d3584a1d4efe39a808430321"
+  integrity sha512-Ry/Xs3V910hJkxybX9tJL8juGWy3SHV/ZKnXnrriiWlYSGGl1FIy7lnZ5wGetyr0LRG+yFwQJEsW6EVOUxLdTA==
   dependencies:
     "@types/react" "*"
 
