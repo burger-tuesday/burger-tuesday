@@ -7380,10 +7380,10 @@ react-table@^6.10.0:
   dependencies:
     classnames "^2.2.5"
 
-react-toastify@^5.1.0:
-  version "5.1.0"
-  resolved "https://registry.yarnpkg.com/react-toastify/-/react-toastify-5.1.0.tgz#aefe1f084bf4733f083423f013d24242cb63c482"
-  integrity sha512-0kVAAE7VO609EeXLVaFHDTc6Bnd/OUAb7rrRAwMsHeaThKEhH+WEQEPftTjuA4rP59K0QhCnWu4Ds2hXAcFxaw==
+react-toastify@^5.2.0:
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/react-toastify/-/react-toastify-5.2.0.tgz#1bf4c54b435fe8b0ea15fb13e5a3ff429da6898d"
+  integrity sha512-/JKPbjF0MrrclHhqW5trezPYDf+EmpFBw5t3oY6Jd+Q+OP4sBk0fpR1XcAaCzG3WDHfqVlJeIkXKeyGyN82agw==
   dependencies:
     "@babel/runtime" "^7.4.2"
     classnames "^2.2.6"
