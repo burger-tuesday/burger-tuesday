@@ -9,6 +9,8 @@
     "@sentry/browser": "^5.2.0",
     "auth0-js": "^9.10.2",
     "axios": "^0.18.0",
+    "formstate": "^1.2.0",
+    "fp-ts": "^1.18.2",
     "history": "latest",
     "inversify": "^5.0.1",
     "mobx": "^5.9.4",

@@ -15,7 +15,7 @@ class Profile extends React.Component {
           <Card>
             <CardHeader>Profile</CardHeader>
             <CardBody>
-              <img src={profile.picture} alt="profile"/>
+              <img src={profile.picture} alt='profile'/>
               <pre>{JSON.stringify(profile, null, 2)}</pre>
             </CardBody>
           </Card>

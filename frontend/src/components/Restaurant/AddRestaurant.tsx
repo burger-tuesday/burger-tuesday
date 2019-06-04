@@ -20,8 +20,8 @@ export default class AddRestaurant extends React.Component {
   }
 
   public handleClear() {
-    placesStore.address = "";
-    placesStore.placeId = "";
+    placesStore.address = '';
+    placesStore.placeId = '';
   }
 
   public render() {
@@ -39,8 +39,8 @@ export default class AddRestaurant extends React.Component {
             onChange={this.handleChange}
             onSelect={this.handleSelect}
             searchOptions={{
-              types: ["establishment"],
-              fields: ["place_id", "name", "types"],
+              types: ['establishment'],
+              fields: ['place_id', 'name', 'types'],
               location: new google.maps.LatLng(48.1954495, 16.3708058),
               radius: 10000
             }}
@@ -49,8 +49,8 @@ export default class AddRestaurant extends React.Component {
         >
           {({getInputProps, suggestions, getSuggestionItemProps}) => {
             return (
-                <div className="search-bar-container">
-                  <div className="search-input-container">
+                <div className='search-bar-container'>
+                  <div className='search-input-container'>
                     <input
                         {...getInputProps({
                           placeholder: 'Search Places...',
@@ -59,7 +59,7 @@ export default class AddRestaurant extends React.Component {
                     />
                     {placesStore.address.length > 0 && (
                         <button
-                            className="clear-button"
+                            className='clear-button'
                             onClick={this.handleClear}
                         >
                           x
@@ -67,7 +67,7 @@ export default class AddRestaurant extends React.Component {
                     )}
                   </div>
                   {suggestions.length > 0 && (
-                      <div className="autocomplete-container">
+                      <div className='autocomplete-container'>
                         {suggestions.map(suggestion => {
                           const className = this.classnames('suggestion-item', {
                             'suggestion-item--active': suggestion.active,
@@ -88,11 +88,11 @@ export default class AddRestaurant extends React.Component {
                           );
                           /* eslint-enable react/jsx-key */
                         })}
-                        <div className="dropdown-footer">
+                        <div className='dropdown-footer'>
                           <div>
                             <img
                                 src={require('../../images/powered_by_google_default.png')}
-                                className="dropdown-footer-image"
+                                className='dropdown-footer-image'
                             />
                           </div>
                         </div>

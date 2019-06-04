@@ -25,8 +25,9 @@ class VisitService(
     private val auth0Api: Auth0Api
 ) {
     @PreAuthorize("hasAuthority('manage:visits')")
-    fun addVisit(placeId: Long, date: LocalDate, sponsored: Boolean, username: String): Visit {
-        val restaurant = restaurantRepository.findById(placeId)
+    fun addVisit(restaurantId: String, date: LocalDate, sponsored: Boolean, username: String): Visit {
+        val unmaskedId = idMask.unmask(restaurantId)
+        val restaurant = restaurantRepository.findById(unmaskedId)
             .orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND, "Restaurant not found") }
         val visit = visitRepository.save(
             Visit(

@@ -37,7 +37,7 @@ class ErrorBoundary extends React.Component<IErrorBoundaryProps, IErrorBoundaryS
     if (errorInfo) {
       const errorDetails =
           process.env.NODE_ENV === 'development' ? (
-              <details className="preserve-space">
+              <details className='preserve-space'>
                 {error && error.toString()}
                 <br/>
                 {errorInfo.componentStack}
@@ -47,7 +47,7 @@ class ErrorBoundary extends React.Component<IErrorBoundaryProps, IErrorBoundaryS
           );
       return (
           <div>
-            <h2 className="error">An unexpected error has occurred.</h2>
+            <h2 className='error'>An unexpected error has occurred.</h2>
             <a onClick={() => Sentry.showReportDialog({eventId: this.state.eventId})}>Report
               feedback</a>
             {errorDetails}

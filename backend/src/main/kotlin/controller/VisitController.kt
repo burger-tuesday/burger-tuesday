@@ -30,15 +30,22 @@ class VisitController(private val visitService: VisitService) {
         return ResponseEntity.ok().headers(headers).body(page.content)
     }
 
-    @PostMapping("/visit/{placeId}/add/{date}")
+    @PostMapping("/visit/{restaurantId}/add/{date}")
     @CrossOrigin
     fun add(
-        @PathVariable("placeId") placeId: Long,
+        @PathVariable("restaurantId") restaurantId: String,
         @PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) date: LocalDate,
         @RequestParam("sponsored") sponsored: Boolean,
         principal: Principal
     ): ResponseEntity<Visit> {
-        return ResponseEntity.ok(visitService.addVisit(placeId, date, sponsored, principal.name))
+        return ResponseEntity.ok(
+            visitService.addVisit(
+                restaurantId,
+                date,
+                sponsored,
+                principal.name
+            )
+        )
     }
 
     @PostMapping("/visit/{id}/review")

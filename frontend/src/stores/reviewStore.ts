@@ -1,4 +1,5 @@
 import axios from 'axios';
+import {FieldState, FormState} from 'formstate';
 import {action, computed, observable} from 'mobx';
 import {toast} from 'react-toastify';
 import {IReview} from '../shared/models/review.model';
@@ -13,14 +14,16 @@ interface ISelectOptions {
 
 class ReviewStore {
   @observable public visits: IVisit[] = [];
-  @observable public selectedVisit: ISelectOptions | ISelectOptions[] | undefined = undefined;
-  @observable public taste: number = 0;
-  @observable public likeness: number = 0;
-  @observable public menuDiversity: number = 0;
-  @observable public service: number = 0;
-  @observable public priceLevel: number = 0;
-  @observable public recommended: boolean = false;
-  @observable public text: string | null = null;
+  @observable public formState = new FormState({
+    selectedVisit: new FieldState<ISelectOptions | ISelectOptions[] | undefined>(undefined).validators(this.requiredVisit),
+    taste: new FieldState(0).validators(this.requiredReview('Taste')),
+    likeness: new FieldState(0).validators(this.requiredReview('Likeness')),
+    menuDiversity: new FieldState(0).validators(this.requiredReview('Menu Diversity')),
+    service: new FieldState(0).validators(this.requiredReview('Service')),
+    priceLevel: new FieldState(0).validators(this.requiredReview('Price Level')),
+    recommended: new FieldState<boolean | null>(null).validators(this.requiredRecommendation),
+    text: new FieldState<string | undefined>(undefined)
+  });
 
   @computed
   public get visitOptions(): ISelectOptions[] {
@@ -34,7 +37,7 @@ class ReviewStore {
 
   @action
   public getVisits() {
-    const headers = {'Authorization': `Bearer ${authStore.accessToken}`}
+    const headers = {'Authorization': `Bearer ${authStore.accessToken}`};
     axios.get<IVisit[]>(`${CONSTANTS.API_URL}/visits?sort=date,desc`, {headers})
     .then(response => {
       console.log(response);
@@ -47,29 +50,58 @@ class ReviewStore {
   }
 
   @action
-  public saveReview() {
-    if (!this.selectedVisit) {
-      toast('Visit must be selected!', {type: 'error'});
+  public async saveReview() {
+    await this.formState.validate();
+    if (this.formState.error) {
+      toast(this.formState.error, {type: 'error'});
       return;
     }
-    const headers = {'Authorization': `Bearer ${authStore.accessToken}`}
-    axios.post<IReview>(`${CONSTANTS.API_URL}/visit/${(this.selectedVisit as ISelectOptions).value}/review`, {
-      taste: this.taste,
-      likeness: this.likeness,
-      menuDiversity: this.menuDiversity,
-      service: this.service,
-      priceLevel: this.priceLevel,
-      recommended: this.recommended,
-      text: this.text
+    const headers = {'Authorization': `Bearer ${authStore.accessToken}`};
+    axios.post<IReview>(`${CONSTANTS.API_URL}/visit/${(this.formState.$.selectedVisit.$ as ISelectOptions).value}/review`, {
+      taste: this.formState.$.taste.$,
+      likeness: this.formState.$.likeness.$,
+      menuDiversity: this.formState.$.menuDiversity.$,
+      service: this.formState.$.service.$,
+      priceLevel: this.formState.$.priceLevel.$,
+      recommended: this.formState.$.recommended.$,
+      text: this.formState.$.text.$
     } as IReview, {headers})
     .then(response => {
       console.log(response);
       toast('Review successfully saved!', {type: 'success'});
+      this.formState.reset();
     })
     .catch(error => {
-      toast('Something went wrong while saving!', {type: 'error'});
+      if (error.response && error.response.data && error.response.data.message) {
+        toast(error.response.data.message, {type: 'error'});
+      } else {
+        toast('Something went wrong while saving!', {type: 'error'});
+      }
       throw error;
     });
+  }
+
+  private requiredVisit(val: ISelectOptions | ISelectOptions[] | undefined): string {
+    if (!val) {
+      return 'You must select a visit!'
+    }
+    return '';
+  }
+
+  private requiredRecommendation(val: boolean | null): string {
+    if (!val) {
+      return 'You must select a recommendation!'
+    }
+    return '';
+  }
+
+  private requiredReview(name: string): ((v: number) => string) {
+    return (v: number) => {
+      if (v === 0) {
+        return `Value for ${name} required!`;
+      }
+      return '';
+    }
   }
 }
 

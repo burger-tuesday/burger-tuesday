@@ -16,7 +16,7 @@ export default class NavigationMenu extends React.Component {
     return (
 
         <div>
-          <Navbar color="light" light={true} expand="lg">
+          <Navbar color='light' light={true} expand='lg'>
             {/* Brandname */}
             <NavbarBrand tag={RRNavLink} to={'/home'}>
               <FontAwesomeIcon icon={faHamburger}/> Tuesday

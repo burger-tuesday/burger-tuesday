@@ -1,5 +1,6 @@
 package com.grosslicht.burgertuesday.service
 
+import at.favre.lib.idmask.IdMask
 import com.google.maps.GeoApiContext
 import com.google.maps.PlaceDetailsRequest.FieldMask.FORMATTED_ADDRESS
 import com.google.maps.PlaceDetailsRequest.FieldMask.NAME
@@ -19,11 +20,13 @@ import org.springframework.data.jpa.domain.AbstractAuditable_.createdBy
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.stereotype.Service
 import java.math.BigDecimal
+import java.util.Optional
 
 @Service
 class RestaurantService(
     private val restaurantRepository: RestaurantRepository,
-    private val geoApiContext: GeoApiContext
+    private val geoApiContext: GeoApiContext,
+    private val idMask: IdMask<Long>
 ) {
     @PreAuthorize("hasAuthority('manage:restaurants')")
     fun addRestaurant(placeId: String, username: String): Restaurant {
@@ -55,5 +58,10 @@ class RestaurantService(
 
     fun findAll(pageable: Pageable): Page<Restaurant> {
         return restaurantRepository.findAll(pageable)
+    }
+
+    fun find(id: String): Optional<Restaurant> {
+        val unmaskedId = idMask.unmask(id)
+        return restaurantRepository.findById(unmaskedId)
     }
 }

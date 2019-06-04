@@ -4,20 +4,20 @@ import authStore from './authStore';
 import {CONSTANTS} from './constants';
 
 class PlacesStore {
-  @observable public address: string = "";
-  @observable public placeId: string = "";
+  @observable public address: string = '';
+  @observable public placeId: string = '';
 
   @action public savePlace() {
-    const headers = {'Authorization': `Bearer ${authStore.accessToken}`}
+    const headers = {'Authorization': `Bearer ${authStore.accessToken}`};
     axios.post(`${CONSTANTS.API_URL}/restaurant/add/${this.placeId}`, null, {headers})
     .then(response => {
       console.log(response);
-      this.placeId = "";
-      this.address = "";
+      this.placeId = '';
+      this.address = '';
     })
     .catch(error => {
-      this.placeId = "";
-      this.address = "";
+      this.placeId = '';
+      this.address = '';
       throw error;
     });
   }

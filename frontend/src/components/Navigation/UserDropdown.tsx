@@ -11,10 +11,10 @@ export default class UserDropdown extends React.Component {
   public render() {
     if (authStore.isAuthenticated) {
       return (
-          <Nav className="ml-auto" navbar={true}>
+          <Nav className='ml-auto' navbar={true}>
             <UncontrolledDropdown inNavbar={true}>
 
-              <DropdownToggle data-toggle="dropdown" nav={true} caret={true}>
+              <DropdownToggle data-toggle='dropdown' nav={true} caret={true}>
                 <FontAwesomeIcon icon={faUser} /> {authStore.userProfile != null ? authStore.userProfile.name : '...'}
               </DropdownToggle>
 
@@ -32,11 +32,11 @@ export default class UserDropdown extends React.Component {
       )
     }
     return (
-        <Nav className="ml-auto" navbar={true}>
+        <Nav className='ml-auto' navbar={true}>
           <UncontrolledDropdown inNavbar={true}>
 
 
-            <DropdownToggle data-toggle="dropdown" nav={true} caret={true}>
+            <DropdownToggle data-toggle='dropdown' nav={true} caret={true}>
               Not logged in
             </DropdownToggle>
 

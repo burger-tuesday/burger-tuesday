@@ -29,6 +29,14 @@ class RestaurantController(private val restaurantService: RestaurantService) {
         return ResponseEntity.ok().headers(headers).body(page.content)
     }
 
+    @GetMapping("/restaurant/{id}")
+    @CrossOrigin
+    fun getRestaurantDetails(@PathVariable("id") id: String): ResponseEntity<Restaurant> {
+        logger.debug("REST request to get details of a Restaurant")
+        val restaurant = restaurantService.find(id)
+        return ResponseEntity.of(restaurant)
+    }
+
     @PostMapping("/restaurant/add/{placeId}")
     @CrossOrigin
     fun add(@PathVariable("placeId") placeId: String, principal: Principal): ResponseEntity<Restaurant> {
