@@ -2,7 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     val kotlinVersion = "1.3.31"
-    val springBootVersion = "2.1.4.RELEASE"
+    val springBootVersion = "2.1.5.RELEASE"
     kotlin("jvm") version kotlinVersion
     kotlin("kapt") version kotlinVersion
     id("org.springframework.boot") version springBootVersion
@@ -11,7 +11,7 @@ plugins {
     id("org.jetbrains.kotlin.plugin.jpa") version kotlinVersion
     id("org.jetbrains.kotlin.plugin.noarg") version kotlinVersion
     id("org.jetbrains.kotlin.plugin.allopen") version kotlinVersion
-    id("com.google.cloud.tools.jib") version "1.1.2"
+    id("com.google.cloud.tools.jib") version "1.2.0"
     id("com.diffplug.gradle.spotless") version "3.23.0"
     jacoco
 }
@@ -32,7 +32,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-aop")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-    implementation("com.auth0:auth0-spring-security-api:1.2.1")
+    implementation("com.auth0:auth0-spring-security-api:1.2.3")
     implementation("com.google.maps:google-maps-services:0.9.3")
     implementation("at.favre.lib:id-mask:0.5.0")
     implementation("com.squareup.retrofit2:retrofit:2.5.0")
