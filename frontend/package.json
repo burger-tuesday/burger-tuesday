@@ -44,7 +44,7 @@
     "@types/react-dom": "^16.8.2",
     "@types/react-places-autocomplete": "^7.2.5",
     "@types/react-router-dom": "^4.3.3",
-    "@types/react-select": "^2.0.17",
+    "@types/react-select": "^2.0.19",
     "@types/react-table": "^6.8.3",
     "@types/react-toastify": "^4.0.2",
     "@types/reactstrap": "^8.0.1",
