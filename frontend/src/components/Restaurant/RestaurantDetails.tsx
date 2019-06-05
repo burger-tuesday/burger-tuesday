@@ -91,7 +91,7 @@ class RestaurantDetails extends React.Component<RouteComponentProps<IRestaurantP
                         {
                           Header: 'Taste',
                           accessor: 'taste',
-                          aggregate: vals => _.mean(vals),
+                          aggregate: vals => _.round(_.mean(vals), 2),
                           Aggregated: row => (<span>{row.value}/10 (avg)</span>),
                           Cell: row => <FixedRating readonly={true} stop={10}
                                                     initialRating={row.value}
@@ -103,7 +103,7 @@ class RestaurantDetails extends React.Component<RouteComponentProps<IRestaurantP
                         {
                           Header: 'Likeness',
                           accessor: 'likeness',
-                          aggregate: vals => _.mean(vals),
+                          aggregate: vals => _.round(_.mean(vals), 2),
                           Aggregated: row => (<span>{row.value}/5 (avg)</span>),
                           Cell: row => <FixedRating readonly={true} initialRating={row.value}
                                                     emptySymbol={<FontAwesomeIcon icon={faHamburger}
@@ -114,7 +114,7 @@ class RestaurantDetails extends React.Component<RouteComponentProps<IRestaurantP
                         {
                           Header: 'Menu Diversity',
                           accessor: 'menuDiversity',
-                          aggregate: vals => _.mean(vals),
+                          aggregate: vals => _.round(_.mean(vals), 2),
                           Aggregated: row => (<span>{row.value}/5 (avg)</span>),
                           Cell: row => <FixedRating readonly={true} initialRating={row.value}
                                                     emptySymbol={<FontAwesomeIcon icon={faHamburger}
@@ -125,7 +125,7 @@ class RestaurantDetails extends React.Component<RouteComponentProps<IRestaurantP
                         {
                           Header: 'Service',
                           accessor: 'service',
-                          aggregate: vals => _.mean(vals),
+                          aggregate: vals => _.round(_.mean(vals), 2),
                           Aggregated: row => (<span>{row.value}/5 (avg)</span>),
                           Cell: row => <FixedRating readonly={true} initialRating={row.value}
                                                     emptySymbol={<FontAwesomeIcon icon={faHamburger}
@@ -136,7 +136,7 @@ class RestaurantDetails extends React.Component<RouteComponentProps<IRestaurantP
                         {
                           Header: 'Price Level',
                           accessor: 'priceLevel',
-                          aggregate: vals => _.mean(vals),
+                          aggregate: vals => _.round(_.mean(vals), 2),
                           Aggregated: row => (<span>{row.value}/3 (avg)</span>),
                           Cell: row => _.times(row.value, (n) => <FontAwesomeIcon icon={faEuroSign}
                                                                                   key={n}/>)
@@ -144,7 +144,7 @@ class RestaurantDetails extends React.Component<RouteComponentProps<IRestaurantP
                         {
                           Header: 'Recommended',
                           accessor: 'recommended',
-                          aggregate: vals => _.mean(vals),
+                          aggregate: vals => _.round(_.mean(vals), 2),
                           Aggregated: row => (<span>{row.value}/1 (avg)</span>),
                           Cell: row => (row.value ? <FontAwesomeIcon icon={faCheck}/> :
                               <FontAwesomeIcon icon={faTimes}/>)
