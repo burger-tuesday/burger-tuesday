@@ -1,7 +1,7 @@
-import {faCheck} from '@fortawesome/free-solid-svg-icons/faCheck';
 import {faEuroSign} from '@fortawesome/free-solid-svg-icons/faEuroSign';
 import {faHamburger} from '@fortawesome/free-solid-svg-icons/faHamburger';
-import {faTimes} from '@fortawesome/free-solid-svg-icons/faTimes';
+import {faThumbsDown} from '@fortawesome/free-solid-svg-icons/faThumbsDown';
+import {faThumbsUp} from '@fortawesome/free-solid-svg-icons/faThumbsUp';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import * as _ from 'lodash';
 import {observer} from 'mobx-react';
@@ -77,11 +77,14 @@ class RestaurantDetails extends React.Component<RouteComponentProps<IRestaurantP
               <ReactTable
                   columns={[
                     {
-                      Header: 'Date',
+                      Header: 'Visit',
                       columns: [
                         {
-                          Header: 'Date',
+                          Header: 'Visit',
                           accessor: 'date',
+                          Cell: row => <span>{row.value} ${row.original.sponsored ?
+                              <FontAwesomeIcon icon={'sack-dollar'}
+                                               title={'Sponsored'}/> : ''}</span>
                         }
                       ]
                     },
@@ -146,8 +149,8 @@ class RestaurantDetails extends React.Component<RouteComponentProps<IRestaurantP
                           accessor: 'recommended',
                           aggregate: vals => _.round(_.mean(vals), 2),
                           Aggregated: row => (<span>{row.value}/1 (avg)</span>),
-                          Cell: row => (row.value ? <FontAwesomeIcon icon={faCheck}/> :
-                              <FontAwesomeIcon icon={faTimes}/>)
+                          Cell: row => (row.value ? <FontAwesomeIcon icon={faThumbsUp}/> :
+                              <FontAwesomeIcon icon={faThumbsDown}/>)
                         },
                         {
                           Header: 'Notes',
@@ -164,7 +167,7 @@ class RestaurantDetails extends React.Component<RouteComponentProps<IRestaurantP
                   ]}
                   data={restaurantStore.restaurant.mapNullable(x => _.flatMap(x.visits, v => {
                     return _.map(v.reviews, r => {
-                      return {...r, date: v.date}
+                      return {...r, date: v.date, sponsored: v.sponsored}
                     });
                   })).getOrElse([])}
                   pivotBy={['date']}
