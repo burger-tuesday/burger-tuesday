@@ -7,15 +7,15 @@ import {IVisit} from '../shared/models/visit.model';
 import authStore from './authStore';
 import {CONSTANTS} from './constants';
 
-interface ISelectOptions {
+export interface ISelectOptions {
   label: string
-  value: string | undefined
+  value: string
 }
 
 class ReviewStore {
   @observable public visits: IVisit[] = [];
   @observable public formState = new FormState({
-    selectedVisit: new FieldState<ISelectOptions | ISelectOptions[] | undefined>(undefined).validators(this.requiredVisit),
+    selectedVisit: new FieldState<ISelectOptions | undefined>(undefined).validators(this.requiredVisit),
     taste: new FieldState(0).validators(this.requiredReview('Taste')),
     likeness: new FieldState(0).validators(this.requiredReview('Likeness')),
     menuDiversity: new FieldState(0).validators(this.requiredReview('Menu Diversity')),
@@ -30,7 +30,7 @@ class ReviewStore {
     return this.visits.map(value => {
       return {
         label: `${value.date} - ${value.restaurant ? value.restaurant.name : 'name missing'}`,
-        value: value.id
+        value: value.id!
       }
     })
   }

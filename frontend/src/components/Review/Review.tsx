@@ -6,7 +6,7 @@ import Select from 'react-select';
 import {Button, Col, Container, Form, FormGroup, Jumbotron, Row} from 'reactstrap';
 import {withAuthorization} from '../../shared/auth/session-renewing-component';
 import FixedRating from '../../shared/FixedRating';
-import reviewStore from '../../stores/reviewStore';
+import reviewStore, {ISelectOptions} from '../../stores/reviewStore';
 
 @observer
 class Review extends React.Component<{}, {}> {
@@ -27,7 +27,7 @@ class Review extends React.Component<{}, {}> {
                 <legend>Visit to review</legend>
                 <Select id='visit' options={reviewStore.visitOptions}
                         value={formState.$.selectedVisit.$}
-                        onChange={value => formState.$.selectedVisit.onChange(value == null ? undefined : value)}/>
+                        onChange={(value: ISelectOptions) => formState.$.selectedVisit.onChange(value == null ? undefined : value)}/>
               </FormGroup>
               <FormGroup>
                 <legend>Taste of Burger?</legend>
@@ -110,7 +110,7 @@ class Review extends React.Component<{}, {}> {
                   label: 'Nope 😕',
                   value: false
                 }]}
-                        onChange={value => formState.$.recommended.onChange(!!value)}/>
+                        onChange={(value: { label: string, value: boolean }) => formState.$.recommended.onChange(!!value)}/>
               </FormGroup>
               <FormGroup>
                 <legend>Anything more to say?</legend>
