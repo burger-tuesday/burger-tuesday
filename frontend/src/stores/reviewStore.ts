@@ -53,7 +53,7 @@ class ReviewStore {
   public async saveReview() {
     await this.formState.validate();
     if (this.formState.error) {
-      toast(this.formState.error, {type: 'error'});
+      toast.error(this.formState.error);
       return;
     }
     const headers = {'Authorization': `Bearer ${authStore.accessToken}`};
@@ -68,14 +68,14 @@ class ReviewStore {
     } as IReview, {headers})
     .then(response => {
       console.log(response);
-      toast('Review successfully saved!', {type: 'success'});
+      toast.success('Review successfully saved!');
       this.formState.reset();
     })
     .catch(error => {
       if (error.response && error.response.data && error.response.data.message) {
-        toast(error.response.data.message, {type: 'error'});
+        toast.error(error.response.data.message);
       } else {
-        toast('Something went wrong while saving!', {type: 'error'});
+        toast.error('Something went wrong while saving!');
       }
       throw error;
     });

@@ -3,23 +3,23 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^1.2.18",
-    "@fortawesome/free-solid-svg-icons": "^5.8.2",
+    "@fortawesome/fontawesome-svg-core": "^1.2.19",
+    "@fortawesome/free-solid-svg-icons": "^5.9.0",
     "@fortawesome/react-fontawesome": "^0.1.4",
     "@sentry/browser": "^5.4.0",
     "auth0-js": "^9.10.4",
-    "axios": "^0.18.1",
-    "formstate": "^1.2.0",
+    "axios": "^0.19.0",
+    "formstate": "^1.3.0",
     "fp-ts": "^1.18.2",
     "history": "latest",
     "inversify": "^5.0.1",
-    "mobx": "^5.9.4",
+    "mobx": "^5.10.0",
     "mobx-react": "^6.0.3",
     "react": "^16.8.4",
     "react-dom": "^16.8.6",
     "react-places-autocomplete": "^7.2.1",
     "react-rating": "^1.7.2",
-    "react-router-dom": "^5.0.0",
+    "react-router-dom": "^5.0.1",
     "react-scripts-ts": "3.1.0",
     "react-select": "^3.0.4",
     "react-table": "^6.10.0",
@@ -49,6 +49,6 @@
     "@types/react-toastify": "^4.0.2",
     "@types/reactstrap": "^8.0.1",
     "react-app-rewired": "1.6.2",
-    "typescript": "^3.4.5"
+    "typescript": "^3.5.1"
   }
 }

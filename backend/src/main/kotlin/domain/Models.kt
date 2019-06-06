@@ -156,3 +156,5 @@ data class Review(
         return true
     }
 }
+
+data class ReviewEvent(val visitDate: LocalDate, val visitName: String, val author: String, val recommended: Boolean)

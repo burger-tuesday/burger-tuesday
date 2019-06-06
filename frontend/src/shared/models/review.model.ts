@@ -12,3 +12,10 @@ export interface IReview {
   createdByName?: string;
   visit?: IVisit;
 }
+
+export interface IReviewEvent {
+  visitDate: string;
+  visitName: string;
+  author: string;
+  recommended: boolean;
+}

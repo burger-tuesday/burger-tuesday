@@ -44,9 +44,6 @@ export default class UserDropdown extends React.Component {
               <DropdownItem onClick={() => authStore.login()}>
                 Login
               </DropdownItem>
-              <DropdownItem onClick={() => authStore.login()}>
-                Sign up
-              </DropdownItem>
             </DropdownMenu>
           </UncontrolledDropdown>
         </Nav>

@@ -34,6 +34,7 @@ class SecurityConfig(
             .configure(http)
             .cors().and()
             .authorizeRequests()
+            .antMatchers("/v1/reviews/live").permitAll()
             .anyRequest().authenticated()
     }
 

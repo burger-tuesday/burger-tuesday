@@ -2,6 +2,7 @@ package com.grosslicht.burgertuesday.service
 
 import at.favre.lib.idmask.IdMask
 import com.grosslicht.burgertuesday.api.auth0.Auth0Api
+import com.grosslicht.burgertuesday.controller.ReviewController
 import com.grosslicht.burgertuesday.domain.Review
 import com.grosslicht.burgertuesday.domain.Visit
 import com.grosslicht.burgertuesday.repository.RestaurantRepository
@@ -25,7 +26,12 @@ class VisitService(
     private val auth0Api: Auth0Api
 ) {
     @PreAuthorize("hasAuthority('manage:visits')")
-    fun addVisit(restaurantId: String, date: LocalDate, sponsored: Boolean, username: String): Visit {
+    fun addVisit(
+        restaurantId: String,
+        date: LocalDate,
+        sponsored: Boolean,
+        username: String
+    ): Visit {
         val unmaskedId = idMask.unmask(restaurantId)
         val restaurant = restaurantRepository.findById(unmaskedId)
             .orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND, "Restaurant not found") }
@@ -47,19 +53,21 @@ class VisitService(
         review: Review,
         authentication: Authentication
     ): Review {
-        val userInfo = auth0Api.userInfo("Bearer ${authentication.credentials}").execute().body()
-            ?: throw ResponseStatusException(HttpStatus.BAD_REQUEST, "Error while resolving user")
         val unmaskedId = idMask.unmask(id)
-        val visit = visitRepository.findById(unmaskedId).orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND, "Visit not found") }
-        if (visit.reviews.any { r -> r.createdBy == userInfo.sub }) {
+        val visit = visitRepository.findById(unmaskedId)
+            .orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND, "Visit not found") }
+        if (visit.reviews.any { r -> r.createdBy == authentication.principal }) {
             throw ResponseStatusException(HttpStatus.FORBIDDEN, "User already reviewed this visit.")
         }
-        review.createdBy = userInfo.sub
+        val userInfo = auth0Api.userInfo("Bearer ${authentication.credentials}").execute().body()
+            ?: throw ResponseStatusException(HttpStatus.BAD_REQUEST, "Error while resolving user")
+        review.createdBy = authentication.principal.toString()
         review.createdByName = userInfo.name
         review.visit = visit
         val savedReview = reviewRepository.save(review)
         visit.addReview(savedReview)
         visitRepository.save(visit)
+        ReviewController.sink.next(savedReview)
         return savedReview
     }
 

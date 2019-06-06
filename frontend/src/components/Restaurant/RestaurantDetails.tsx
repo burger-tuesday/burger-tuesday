@@ -81,10 +81,7 @@ class RestaurantDetails extends React.Component<RouteComponentProps<IRestaurantP
                       columns: [
                         {
                           Header: 'Visit',
-                          accessor: 'date',
-                          Cell: row => <span>{row.value} ${row.original.sponsored ?
-                              <FontAwesomeIcon icon={'sack-dollar'}
-                                               title={'Sponsored'}/> : ''}</span>
+                          accessor: 'date'
                         }
                       ]
                     },
@@ -148,7 +145,10 @@ class RestaurantDetails extends React.Component<RouteComponentProps<IRestaurantP
                           Header: 'Recommended',
                           accessor: 'recommended',
                           aggregate: vals => _.round(_.mean(vals), 2),
-                          Aggregated: row => (<span>{row.value}/1 (avg)</span>),
+                          Aggregated: row => (<span>{row.value > 0.5 ?
+                              <FontAwesomeIcon icon={faThumbsUp} title={row.value.toString()}/> :
+                              <FontAwesomeIcon icon={faThumbsDown}
+                                               title={row.value.toString()}/>} (avg)</span>),
                           Cell: row => (row.value ? <FontAwesomeIcon icon={faThumbsUp}/> :
                               <FontAwesomeIcon icon={faThumbsDown}/>)
                         },

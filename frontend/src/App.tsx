@@ -3,6 +3,7 @@ import {Router} from 'react-router';
 import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
+import LiveReviews from './components/LiveReviews/LiveReviews';
 import NavigationMenu from './components/Navigation/Navigation';
 import history from './history';
 import {AppRoutes} from './routes';
@@ -17,6 +18,7 @@ export default class App extends React.Component<{}, {}> {
             <ErrorBoundary>
               <AppRoutes/>
               <ToastContainer/>
+              <LiveReviews />
             </ErrorBoundary>
           </div>
         </Router>

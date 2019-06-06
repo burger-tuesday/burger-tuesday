@@ -40,6 +40,7 @@ export default class AddRestaurant extends React.Component {
             onSelect={this.handleSelect}
             searchOptions={{
               types: ['establishment'],
+              // @ts-ignore
               fields: ['place_id', 'name', 'types'],
               location: new google.maps.LatLng(48.1954495, 16.3708058),
               radius: 10000
