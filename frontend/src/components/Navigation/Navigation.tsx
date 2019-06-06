@@ -34,6 +34,7 @@ export default class NavigationMenu extends React.Component {
                 </NavItem>
                 {this.authenticatedLink('/restaurants', 'Restaurants')}
                 {this.authenticatedLink('/review', 'Reviews')}
+                {this.authenticatedLink('/toplist', 'Toplist')}
               </Nav>
 
 

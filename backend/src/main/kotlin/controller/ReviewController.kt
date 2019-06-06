@@ -5,6 +5,8 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.grosslicht.burgertuesday.domain.Review
 import com.grosslicht.burgertuesday.domain.ReviewEvent
+import com.grosslicht.burgertuesday.domain.ToplistEntry
+import com.grosslicht.burgertuesday.service.ReviewService
 import org.springframework.http.MediaType
 import org.springframework.http.codec.ServerSentEvent
 import org.springframework.web.bind.annotation.GetMapping
@@ -17,7 +19,7 @@ import java.time.Duration
 
 @RestController
 @RequestMapping("/v1")
-class ReviewController {
+class ReviewController(private val reviewService: ReviewService) {
     companion object {
         private val mapper = jacksonObjectMapper()
             .registerModule(JavaTimeModule())
@@ -46,5 +48,10 @@ class ReviewController {
                 ServerSentEvent.builder(System.currentTimeMillis().toString()).event("ping").build()
             }
         return Flux.merge(flux, pingFlux)
+    }
+
+    @GetMapping("/reviews/top")
+    fun getReviewRanking(): List<ToplistEntry> {
+        return reviewService.getReviewRanking()
     }
 }

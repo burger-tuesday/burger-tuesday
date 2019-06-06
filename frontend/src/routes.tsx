@@ -6,6 +6,7 @@ import Profile from './components/Profile/Profile';
 import Restaurant from './components/Restaurant/Restaurant';
 import RestaurantDetails from './components/Restaurant/RestaurantDetails';
 import Review from './components/Review/Review';
+import Toplist from './components/Toplist/Toplist';
 import ErrorBoundaryRoute from './shared/error/error-boundary-route';
 import authStore from './stores/authStore';
 
@@ -25,6 +26,7 @@ export const AppRoutes = () => {
           <ErrorBoundaryRoute path='/restaurants' component={Restaurant}/>
           <ErrorBoundaryRoute path='/restaurant/:id' component={RestaurantDetails}/>
           <ErrorBoundaryRoute path='/review' component={Review}/>
+          <ErrorBoundaryRoute path='/toplist' component={Toplist}/>
 
           <Route path='/callback' render={(props: RouteComponentProps) => {
             handleAuthentication(props);

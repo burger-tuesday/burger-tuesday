@@ -19,3 +19,10 @@ export interface IReviewEvent {
   author: string;
   recommended: boolean;
 }
+
+export interface IToplistEntry {
+  rank: number;
+  amount: number;
+  reviewer: string;
+  revieverName: string;
+}

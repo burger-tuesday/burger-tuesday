@@ -143,7 +143,8 @@ data class Review(
     val updatedAt: Instant = Instant.now()
 ) {
     override fun hashCode(): Int = id.hashCode()
-    override fun toString(): String = "Review(id=$id, visit=${visit?.id}, text=$text, taste=$taste, likeness=$likeness, menuDiversity=$menuDiversity, service=$service, priceLevel=$priceLevel, recommended=$recommended)"
+    override fun toString(): String =
+        "Review(id=$id, visit=${visit?.id}, text=$text, taste=$taste, likeness=$likeness, menuDiversity=$menuDiversity, service=$service, priceLevel=$priceLevel, recommended=$recommended)"
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -157,4 +158,16 @@ data class Review(
     }
 }
 
-data class ReviewEvent(val visitDate: LocalDate, val visitName: String, val author: String, val recommended: Boolean)
+data class ReviewEvent(
+    val visitDate: LocalDate,
+    val visitName: String,
+    val author: String,
+    val recommended: Boolean
+)
+
+data class ToplistEntry(
+    val rank: Int,
+    val amount: Long,
+    val reviewer: String,
+    val reviewerName: String
+)
