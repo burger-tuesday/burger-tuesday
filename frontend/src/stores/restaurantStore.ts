@@ -36,7 +36,7 @@ class RestaurantStore {
   @action public getRestaurant(id: string) {
     this.loading = true;
     const headers = {'Authorization': `Bearer ${authStore.accessToken}`};
-    axios.get<IRestaurant>(`${CONSTANTS.API_URL}/restaurant/${id}`, {headers})
+    axios.get<IRestaurant>(`${CONSTANTS.API_URL}/restaurants/${id}`, {headers})
     .then(response => {
       console.log(response);
       this.restaurant = some(response.data);

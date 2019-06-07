@@ -1,0 +1,781 @@
+openapi: 3.0.1
+info:
+  title: Burger Tuesday API
+  description: Burger Tuesday API documentation
+  version: 0.0.1
+servers:
+  - url: https://api.burgertuesday.rocks/api
+tags:
+  - name: restaurant-resource
+    description: Restaurant Resource
+  - name: review-resource
+    description: Review Resource
+  - name: visit-resource
+    description: Visit Resource
+  - name: user-jwt-controller
+    description: User JWT Controller
+paths:
+  /v1/_search/restaurants:
+    get:
+      tags:
+        - restaurant-resource
+      summary: searchRestaurants
+      operationId: searchRestaurantsUsingGET
+      parameters:
+        - name: page
+          in: query
+          description: Page number of the requested page
+          schema:
+            type: integer
+            format: int32
+        - name: query
+          in: query
+          description: query
+          required: true
+          schema:
+            type: string
+        - name: size
+          in: query
+          description: Size of a page
+          schema:
+            type: integer
+            format: int32
+        - name: sort
+          in: query
+          description: 'Sorting criteria in the format: property(,asc|desc). Default
+          sort order is ascending. Multiple sort criteria are supported.'
+          style: form
+          explode: true
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Restaurant'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      deprecated: false
+  /v1/_search/reviews:
+    get:
+      tags:
+        - review-resource
+      summary: searchReviews
+      operationId: searchReviewsUsingGET
+      parameters:
+        - name: page
+          in: query
+          description: Page number of the requested page
+          schema:
+            type: integer
+            format: int32
+        - name: query
+          in: query
+          description: query
+          required: true
+          schema:
+            type: string
+        - name: size
+          in: query
+          description: Size of a page
+          schema:
+            type: integer
+            format: int32
+        - name: sort
+          in: query
+          description: 'Sorting criteria in the format: property(,asc|desc). Default
+          sort order is ascending. Multiple sort criteria are supported.'
+          style: form
+          explode: true
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Review'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      deprecated: false
+  /v1/_search/visits:
+    get:
+      tags:
+        - visit-resource
+      summary: searchVisits
+      operationId: searchVisitsUsingGET
+      parameters:
+        - name: page
+          in: query
+          description: Page number of the requested page
+          schema:
+            type: integer
+            format: int32
+        - name: query
+          in: query
+          description: query
+          required: true
+          schema:
+            type: string
+        - name: size
+          in: query
+          description: Size of a page
+          schema:
+            type: integer
+            format: int32
+        - name: sort
+          in: query
+          description: 'Sorting criteria in the format: property(,asc|desc). Default
+          sort order is ascending. Multiple sort criteria are supported.'
+          style: form
+          explode: true
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Visit'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      deprecated: false
+  /v1/restaurants:
+    get:
+      tags:
+        - restaurant-resource
+      summary: getAllRestaurants
+      operationId: getAllRestaurantsUsingGET
+      parameters:
+        - name: page
+          in: query
+          description: Page number of the requested page
+          schema:
+            type: integer
+            format: int32
+        - name: size
+          in: query
+          description: Size of a page
+          schema:
+            type: integer
+            format: int32
+        - name: sort
+          in: query
+          description: 'Sorting criteria in the format: property(,asc|desc). Default
+          sort order is ascending. Multiple sort criteria are supported.'
+          style: form
+          explode: true
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Restaurant'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      deprecated: false
+    put:
+      tags:
+        - restaurant-resource
+      summary: updateRestaurant
+      operationId: updateRestaurantUsingPUT
+      requestBody:
+        description: restaurant
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Restaurant'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Restaurant'
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      deprecated: false
+    post:
+      tags:
+        - restaurant-resource
+      summary: createRestaurant
+      operationId: createRestaurantUsingPOST
+      requestBody:
+        description: restaurant
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Restaurant'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Restaurant'
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      deprecated: false
+  /v1/restaurants/{id}:
+    get:
+      tags:
+        - restaurant-resource
+      summary: getRestaurant
+      operationId: getRestaurantUsingGET
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Restaurant'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      deprecated: false
+    delete:
+      tags:
+        - restaurant-resource
+      summary: deleteRestaurant
+      operationId: deleteRestaurantUsingDELETE
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: OK
+          content: {}
+        204:
+          description: No Content
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+      deprecated: false
+  /v1/reviews:
+    get:
+      tags:
+        - review-resource
+      summary: getAllReviews
+      operationId: getAllReviewsUsingGET
+      parameters:
+        - name: page
+          in: query
+          description: Page number of the requested page
+          schema:
+            type: integer
+            format: int32
+        - name: size
+          in: query
+          description: Size of a page
+          schema:
+            type: integer
+            format: int32
+        - name: sort
+          in: query
+          description: 'Sorting criteria in the format: property(,asc|desc). Default
+          sort order is ascending. Multiple sort criteria are supported.'
+          style: form
+          explode: true
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Review'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      deprecated: false
+    put:
+      tags:
+        - review-resource
+      summary: updateReview
+      operationId: updateReviewUsingPUT
+      requestBody:
+        description: review
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Review'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Review'
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      deprecated: false
+    post:
+      tags:
+        - review-resource
+      summary: createReview
+      operationId: createReviewUsingPOST
+      requestBody:
+        description: review
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Review'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Review'
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      deprecated: false
+  /v1/reviews/{id}:
+    get:
+      tags:
+        - review-resource
+      summary: getReview
+      operationId: getReviewUsingGET
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Review'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      deprecated: false
+    delete:
+      tags:
+        - review-resource
+      summary: deleteReview
+      operationId: deleteReviewUsingDELETE
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: OK
+          content: {}
+        204:
+          description: No Content
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+      deprecated: false
+  /v1/visits:
+    get:
+      tags:
+        - visit-resource
+      summary: getAllVisits
+      operationId: getAllVisitsUsingGET
+      parameters:
+        - name: page
+          in: query
+          description: Page number of the requested page
+          schema:
+            type: integer
+            format: int32
+        - name: size
+          in: query
+          description: Size of a page
+          schema:
+            type: integer
+            format: int32
+        - name: sort
+          in: query
+          description: 'Sorting criteria in the format: property(,asc|desc). Default
+          sort order is ascending. Multiple sort criteria are supported.'
+          style: form
+          explode: true
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Visit'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      deprecated: false
+    put:
+      tags:
+        - visit-resource
+      summary: updateVisit
+      operationId: updateVisitUsingPUT
+      requestBody:
+        description: visit
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Visit'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Visit'
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      deprecated: false
+    post:
+      tags:
+        - visit-resource
+      summary: createVisit
+      operationId: createVisitUsingPOST
+      requestBody:
+        description: visit
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Visit'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Visit'
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      deprecated: false
+  /v1/visits/{id}:
+    get:
+      tags:
+        - visit-resource
+      summary: getVisit
+      operationId: getVisitUsingGET
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Visit'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      deprecated: false
+    delete:
+      tags:
+        - visit-resource
+      summary: deleteVisit
+      operationId: deleteVisitUsingDELETE
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: OK
+          content: {}
+        204:
+          description: No Content
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+      deprecated: false
+  /v1/jwt/authToken:
+    post:
+      tags:
+        - user-jwt-controller
+      summary: authorize
+      operationId: authorizeUsingPOST
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/AuthToken'
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      deprecated: false
+components:
+  schemas:
+    Restaurant:
+      title: Restaurant
+      type: object
+      properties:
+        address:
+          type: string
+        googleRating:
+          type: number
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        permanentlyClosed:
+          type: boolean
+        placeId:
+          type: string
+        priceLevel:
+          type: string
+        url:
+          type: string
+        vicinity:
+          type: string
+        visits:
+          type: array
+          items:
+            $ref: '#/components/schemas/Visit'
+        website:
+          type: string
+    Visit:
+      title: Visit
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+        id:
+          type: integer
+          format: int64
+        restaurant:
+          $ref: '#/components/schemas/Restaurant'
+        reviews:
+          type: array
+          items:
+            $ref: '#/components/schemas/Review'
+    AuthToken:
+      title: AuthToken
+      type: object
+      properties:
+        token:
+          type: string
+    Review:
+      title: Review
+      type: object
+      properties:
+        createdByName:
+          type: string
+        id:
+          type: integer
+          format: int64
+        review:
+          type: string
+        visit:
+          $ref: '#/components/schemas/Visit'

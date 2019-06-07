@@ -57,7 +57,7 @@ class ReviewStore {
       return;
     }
     const headers = {'Authorization': `Bearer ${authStore.accessToken}`};
-    axios.post<IReview>(`${CONSTANTS.API_URL}/visit/${(this.formState.$.selectedVisit.$ as ISelectOptions).value}/review`, {
+    axios.post<IReview>(`${CONSTANTS.API_URL}/visits/${(this.formState.$.selectedVisit.$ as ISelectOptions).value}/review`, {
       taste: this.formState.$.taste.$,
       likeness: this.formState.$.likeness.$,
       menuDiversity: this.formState.$.menuDiversity.$,

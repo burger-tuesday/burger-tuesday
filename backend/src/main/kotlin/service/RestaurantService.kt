@@ -29,7 +29,7 @@ class RestaurantService(
     private val idMask: IdMask<Long>
 ) {
     @PreAuthorize("hasAuthority('manage:restaurants')")
-    fun addRestaurant(placeId: String, username: String): Restaurant {
+    fun addByPlaceId(placeId: String, username: String): Restaurant {
         val placeDetails = PlacesApi.placeDetails(geoApiContext, placeId).fields(
             PLACE_ID,
             NAME,

@@ -9,7 +9,7 @@ class PlacesStore {
 
   @action public savePlace() {
     const headers = {'Authorization': `Bearer ${authStore.accessToken}`};
-    axios.post(`${CONSTANTS.API_URL}/restaurant/add/${this.placeId}`, null, {headers})
+    axios.post(`${CONSTANTS.API_URL}/restaurants/add/${this.placeId}`, null, {headers})
     .then(response => {
       console.log(response);
       this.placeId = '';
