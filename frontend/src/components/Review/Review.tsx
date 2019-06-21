@@ -115,7 +115,7 @@ class Review extends React.Component<{}, {}> {
               <FormGroup>
                 <legend>Anything more to say?</legend>
                 <textarea onChange={value => formState.$.text.onChange(value.target.value)}
-                          value={formState.$.text.$}/>
+                          value={formState.$.text.value}/>
               </FormGroup>
               <Button color={'primary'} onClick={() => reviewStore.saveReview()}>Save</Button>
             </Form>
