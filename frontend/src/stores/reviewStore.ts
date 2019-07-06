@@ -38,7 +38,7 @@ class ReviewStore {
   @action
   public getVisits() {
     const headers = {'Authorization': `Bearer ${authStore.accessToken}`};
-    axios.get<IVisit[]>(`${CONSTANTS.API_URL}/visits?sort=date,desc`, {headers})
+    axios.get<IVisit[]>(`${CONSTANTS.API_URL}/visits/unreviewed?sort=date,desc`, {headers})
     .then(response => {
       console.log(response);
       this.visits = response.data;
@@ -69,6 +69,7 @@ class ReviewStore {
     .then(response => {
       console.log(response);
       toast.success('Review successfully saved!');
+      this.getVisits();
       this.formState.reset();
     })
     .catch(error => {
@@ -89,7 +90,7 @@ class ReviewStore {
   }
 
   private requiredRecommendation(val: boolean | null): string {
-    if (!val) {
+    if (val === null) {
       return 'You must select a recommendation!'
     }
     return '';

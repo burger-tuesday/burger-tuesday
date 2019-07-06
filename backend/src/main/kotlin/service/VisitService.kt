@@ -74,4 +74,8 @@ class VisitService(
     fun findAll(pageable: Pageable): Page<Visit> {
         return visitRepository.findAll(pageable)
     }
+
+    fun findAllUnreviewed(user: String): List<Visit> {
+        return visitRepository.findUnreviewedVisits(user)
+    }
 }

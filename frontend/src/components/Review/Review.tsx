@@ -25,8 +25,8 @@ class Review extends React.Component<{}, {}> {
             }}>
               <FormGroup>
                 <legend>Visit to review</legend>
-                <Select id='visit' options={reviewStore.visitOptions}
-                        value={formState.$.selectedVisit.$}
+                <Select id='visit' options={reviewStore.visitOptions} isClearable={true}
+                        value={formState.$.selectedVisit.value}
                         onChange={(value: ISelectOptions) => formState.$.selectedVisit.onChange(value == null ? undefined : value)}/>
               </FormGroup>
               <FormGroup>
@@ -34,6 +34,7 @@ class Review extends React.Component<{}, {}> {
                 <Row className={'align-items-center'}>
                   <Col xs={1}>Meh</Col>
                   <Col xs={'auto'}><FixedRating
+                      initialRating={formState.$.taste.value}
                       emptySymbol={<FontAwesomeIcon icon={faHamburger}
                                                     color={'#777777'}
                                                     className={'fa-2x'}/>}
@@ -49,6 +50,7 @@ class Review extends React.Component<{}, {}> {
                 <Row className={'align-items-center'}>
                   <Col xs={1}>Not even Toilets</Col>
                   <Col xs={'auto'}><FixedRating
+                      initialRating={formState.$.likeness.value}
                       emptySymbol={<FontAwesomeIcon icon={faHamburger}
                                                     color={'#777777'}
                                                     className={'fa-2x'}/>}
@@ -64,6 +66,7 @@ class Review extends React.Component<{}, {}> {
                 <Row className={'align-items-center'}>
                   <Col xs={1}>Only a single Burger</Col>
                   <Col xs={'auto'}><FixedRating
+                      initialRating={formState.$.menuDiversity.value}
                       emptySymbol={<FontAwesomeIcon icon={faHamburger}
                                                     color={'#777777'}
                                                     className={'fa-2x'}/>}
@@ -79,6 +82,7 @@ class Review extends React.Component<{}, {}> {
                 <Row className={'align-items-center'}>
                   <Col xs={1}>Still waiting for the Burger</Col>
                   <Col xs={'auto'}><FixedRating
+                      initialRating={formState.$.service.value}
                       emptySymbol={<FontAwesomeIcon icon={faHamburger}
                                                     color={'#777777'}
                                                     className={'fa-2x'}/>}
@@ -94,6 +98,7 @@ class Review extends React.Component<{}, {}> {
                 <Row className={'align-items-center'}>
                   <Col xs={1}>Cheap ($)</Col>
                   <Col xs={'auto'}><FixedRating
+                      initialRating={formState.$.priceLevel.value}
                       emptySymbol={<FontAwesomeIcon icon={faHamburger}
                                                     color={'#777777'}
                                                     className={'fa-2x'}/>}
@@ -106,11 +111,9 @@ class Review extends React.Component<{}, {}> {
               </FormGroup>
               <FormGroup>
                 <legend>Would You Recommend/Come Again?</legend>
-                <Select id='recommended' options={[{label: 'Yep! 😁', value: true}, {
-                  label: 'Nope 😕',
-                  value: false
-                }]}
-                        onChange={(value: { label: string, value: boolean }) => formState.$.recommended.onChange(!!value)}/>
+                <Select id='recommended'
+                        options={[{label: 'Yep! 😁', value: true}, {label: 'Nope 😕', value: false}]}
+                        onChange={(value: { label: string, value: boolean }) => formState.$.recommended.onChange(value.value)}/>
               </FormGroup>
               <FormGroup>
                 <legend>Anything more to say?</legend>

@@ -39,6 +39,11 @@ interface VisitApi {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
+    @GetMapping("/visits/unreviewed")
+    fun getAllUnreviewedVisits(principal: Principal): ResponseEntity<List<Visit>> {
+        return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
+    }
+
     @GetMapping("/visits/{id}")
     fun getVisit(@PathVariable("id") id: String): ResponseEntity<Visit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)

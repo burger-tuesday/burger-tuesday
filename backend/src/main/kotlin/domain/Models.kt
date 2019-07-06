@@ -106,7 +106,7 @@ data class Visit(
 
     override fun hashCode(): Int = id.hashCode()
     override fun toString(): String =
-        "Visit(id=$id, restaurant=Restaurant(id=${restaurant.id}), date=$date)"
+        "Visit(id=$id, date=$date)"
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -144,7 +144,7 @@ data class Review(
 ) {
     override fun hashCode(): Int = id.hashCode()
     override fun toString(): String =
-        "Review(id=$id, visit=${visit?.id}, text=$text, taste=$taste, likeness=$likeness, menuDiversity=$menuDiversity, service=$service, priceLevel=$priceLevel, recommended=$recommended)"
+        "Review(id=$id, text=$text, taste=$taste, likeness=$likeness, menuDiversity=$menuDiversity, service=$service, priceLevel=$priceLevel, recommended=$recommended)"
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
