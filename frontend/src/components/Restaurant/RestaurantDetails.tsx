@@ -6,12 +6,19 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import * as _ from 'lodash';
 import {observer} from 'mobx-react';
 import * as React from 'react';
+import {ReactNode} from 'react';
+import {SingleDatePicker} from 'react-dates';
+import 'react-dates/initialize';
+import 'react-dates/lib/css/_datepicker.css';
 import {RouteComponentProps, withRouter} from 'react-router';
+import Select from 'react-select';
 import ReactTable from 'react-table';
-import {Card, CardBody, CardHeader, Container} from 'reactstrap';
+import {Button, Card, CardBody, CardHeader, Container, Form, FormGroup} from 'reactstrap';
 import {withAuthorization} from '../../shared/auth/session-renewing-component';
 import FixedRating from '../../shared/FixedRating';
+import authStore from '../../stores/authStore';
 import restaurantStore from '../../stores/restaurantStore';
+
 
 interface IRestaurantProps {
   id: string;
@@ -31,6 +38,7 @@ class RestaurantDetails extends React.Component<RouteComponentProps<IRestaurantP
     return (
         <Container fluid={true}>
           <h1>{restaurantStore.restaurant.map(r => r.name).toNullable()}</h1>
+          {this.addVisitComponent()}
           <Card>
             <CardHeader>Details</CardHeader>
             <CardBody>
@@ -178,6 +186,42 @@ class RestaurantDetails extends React.Component<RouteComponentProps<IRestaurantP
           </Card>
         </Container>
     );
+  }
+
+  private addVisitComponent(): ReactNode | null {
+    if (authStore.isAuthorized('manage:visits')) {
+      return (<Card>
+        <CardHeader>Add Visit</CardHeader>
+        <CardBody>
+          <Form onSubmit={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+          }}>
+            <FormGroup>
+              <legend>Date</legend>
+              <SingleDatePicker
+                  date={restaurantStore.date}
+                  onDateChange={date => restaurantStore.date = date}
+                  focused={restaurantStore.focused || false}
+                  onFocusChange={({focused}) => restaurantStore.focused = focused}
+                  id="date"
+                  enableOutsideDays={true}
+              />
+              <FormGroup>
+                <legend>Sponsored</legend>
+                <Select id='sponsored'
+                        options={[{label: 'Yep! 😁', value: true}, {label: 'Nope 😕', value: false}]}
+                        onChange={(value: { label: string, value: boolean }) => restaurantStore.sponsored = value.value}/>
+              </FormGroup>
+              <Button color={'primary'}
+                      onClick={() => restaurantStore.addVisit(this.props.match.params.id)}>Add
+                visit</Button>
+            </FormGroup>
+          </Form>
+        </CardBody>
+      </Card>)
+    }
+    return null;
   }
 }
 
