@@ -1,0 +1,61 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="review">
+            <h2><span jhiTranslate="burgertuesdayApp.review.detail.title">Review</span> {{review.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="burgertuesdayApp.review.review">Review</span></dt>
+                <dd>
+                    <span>{{review.review}}</span>
+                </dd>
+                <dt><span jhiTranslate="burgertuesdayApp.review.taste">Taste</span></dt>
+                <dd>
+                    <span>{{review.taste}}</span>
+                </dd>
+                <dt><span jhiTranslate="burgertuesdayApp.review.likeness">Likeness</span></dt>
+                <dd>
+                    <span>{{review.likeness}}</span>
+                </dd>
+                <dt><span jhiTranslate="burgertuesdayApp.review.menuDiversity">Menu Diversity</span></dt>
+                <dd>
+                    <span>{{review.menuDiversity}}</span>
+                </dd>
+                <dt><span jhiTranslate="burgertuesdayApp.review.service">Service</span></dt>
+                <dd>
+                    <span>{{review.service}}</span>
+                </dd>
+                <dt><span jhiTranslate="burgertuesdayApp.review.priceLevel">Price Level</span></dt>
+                <dd>
+                    <span>{{review.priceLevel}}</span>
+                </dd>
+                <dt><span jhiTranslate="burgertuesdayApp.review.recommended">Recommended</span></dt>
+                <dd>
+                    <span>{{review.recommended}}</span>
+                </dd>
+                <dt><span jhiTranslate="burgertuesdayApp.review.visit">Visit</span></dt>
+                <dd>
+                    <div *ngIf="review.visitId">
+                        <a [routerLink]="['/admin/visit', review.visitId, 'view']">{{review.visitId}}</a>
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="burgertuesdayApp.review.user">User</span></dt>
+                <dd>
+                    {{review.userId}}
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/admin/review', review.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

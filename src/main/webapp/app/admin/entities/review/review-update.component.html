@@ -1,0 +1,85 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-review-heading" jhiTranslate="burgertuesdayApp.review.home.createOrEditLabel">Create or edit a Review</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!editForm.get('id').value">
+                    <label for="id" jhiTranslate="global.field.id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id"
+                        readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="burgertuesdayApp.review.review" for="field_review">Review</label>
+                    <input type="text" class="form-control" name="review" id="field_review"
+                           formControlName="review"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="burgertuesdayApp.review.taste" for="field_taste">Taste</label>
+                    <input type="number" class="form-control" name="taste" id="field_taste"
+                           formControlName="taste"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="burgertuesdayApp.review.likeness" for="field_likeness">Likeness</label>
+                    <input type="number" class="form-control" name="likeness" id="field_likeness"
+                           formControlName="likeness"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="burgertuesdayApp.review.menuDiversity" for="field_menuDiversity">Menu Diversity</label>
+                    <input type="number" class="form-control" name="menuDiversity" id="field_menuDiversity"
+                           formControlName="menuDiversity"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="burgertuesdayApp.review.service" for="field_service">Service</label>
+                    <input type="number" class="form-control" name="service" id="field_service"
+                           formControlName="service"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="burgertuesdayApp.review.priceLevel" for="field_priceLevel">Price Level</label>
+                    <input type="number" class="form-control" name="priceLevel" id="field_priceLevel"
+                           formControlName="priceLevel"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="burgertuesdayApp.review.recommended" for="field_recommended">Recommended</label>
+                    <input type="checkbox" class="form-control" name="recommended" id="field_recommended"
+                           formControlName="recommended"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="burgertuesdayApp.review.visit" for="field_visit">Visit</label>
+                    <select class="form-control" id="field_visit" name="visit" formControlName="visitId">
+                        <option *ngIf="!editForm.get('visitId').value" [ngValue]="null" selected></option>
+                        <option [ngValue]="visitOption.id" *ngFor="let visitOption of visits; trackBy: trackVisitById">{{visitOption.id}}</option>
+                    </select>
+                </div>
+                <div *ngIf="editForm.get('visitId').invalid && (editForm.get('visitId').dirty || editForm.get('visitId').touched)">
+                    <small class="form-text text-danger"
+                           *ngIf="editForm.get('visitId').errors.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                    </small>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="burgertuesdayApp.review.user" for="field_user">User</label>
+                    <select class="form-control" id="field_user" name="user" formControlName="userId">
+                        <option *ngIf="!editForm.get('userId').value" [ngValue]="null" selected></option>
+                        <option [ngValue]="userOption.id" *ngFor="let userOption of users; trackBy: trackUserById">{{userOption.id}}</option>
+                    </select>
+                </div>
+                <div *ngIf="editForm.get('userId').invalid && (editForm.get('userId').dirty || editForm.get('userId').touched)">
+                    <small class="form-text text-danger"
+                           *ngIf="editForm.get('userId').errors.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                    </small>
+                </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

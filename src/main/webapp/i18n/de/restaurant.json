@@ -1,0 +1,33 @@
+{
+  "burgertuesdayApp": {
+    "restaurant": {
+      "home": {
+        "title": "Restaurants",
+        "createLabel": "Restaurant erstellen",
+        "createOrEditLabel": "Restaurant erstellen oder bearbeiten",
+        "search": "Suche nach Restaurant",
+        "notFound": "No Restaurants found"
+      },
+      "created": "Restaurant erstellt mit ID {{ param }}",
+      "updated": "Restaurant aktualisiert mit ID {{ param }}",
+      "deleted": "Restaurant gelöscht mit ID {{ param }}",
+      "delete": {
+        "question": "Soll Restaurant {{ id }} wirklich dauerhaft gelöscht werden?"
+      },
+      "detail": {
+        "title": "Restaurant"
+      },
+      "placeId": "Place Id",
+      "name": "Name",
+      "address": "Address",
+      "vicinity": "Vicinity",
+      "url": "Url",
+      "website": "Website",
+      "googleRating": "Google Rating",
+      "priceLevel": "Price Level",
+      "permanentlyClosed": "Permanently Closed",
+      "user": "User",
+      "visits": "Visits"
+    }
+  }
+}

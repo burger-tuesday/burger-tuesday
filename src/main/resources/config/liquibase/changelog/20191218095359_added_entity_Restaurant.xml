@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+
+    <!--
+        Added the entity Restaurant.
+    -->
+    <changeSet id="20191218095359-1" author="jhipster">
+        <createTable tableName="restaurant">
+            <column name="id" type="bigint" autoIncrement="${autoIncrement}">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="place_id" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="name" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="address" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="vicinity" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="url" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="website" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="google_rating" type="decimal(21,2)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="bt_rating" type="decimal(21,2)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="num_reviews" type="bigint" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="price_level" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="permanently_closed" type="boolean">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="user_id" type="varchar(100)">
+                <constraints nullable="false" />
+            </column>
+
+            <column name="created_by" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="created_date" type="timestamp"/>
+
+            <column name="last_modified_by" type="varchar(100)"/>
+
+            <column name="last_modified_date" type="timestamp"/>
+
+            <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
+        </createTable>
+
+    </changeSet>
+
+    <changeSet id="20191218095359-1-relations" author="jhipster">
+
+    </changeSet>
+    <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
+
+</databaseChangeLog>

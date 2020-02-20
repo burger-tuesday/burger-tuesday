@@ -1,0 +1,82 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-restaurant-heading" jhiTranslate="burgertuesdayApp.restaurant.home.createOrEditLabel">Create or edit a Restaurant</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!editForm.get('id').value">
+                    <label for="id" jhiTranslate="global.field.id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id"
+                        readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="burgertuesdayApp.restaurant.placeId" for="field_placeId">Place Id</label>
+                    <input type="text" class="form-control" name="placeId" id="field_placeId"
+                           formControlName="placeId"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="burgertuesdayApp.restaurant.name" for="field_name">Name</label>
+                    <input type="text" class="form-control" name="name" id="field_name"
+                           formControlName="name"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="burgertuesdayApp.restaurant.address" for="field_address">Address</label>
+                    <input type="text" class="form-control" name="address" id="field_address"
+                           formControlName="address"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="burgertuesdayApp.restaurant.vicinity" for="field_vicinity">Vicinity</label>
+                    <input type="text" class="form-control" name="vicinity" id="field_vicinity"
+                           formControlName="vicinity"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="burgertuesdayApp.restaurant.url" for="field_url">Url</label>
+                    <input type="text" class="form-control" name="url" id="field_url"
+                           formControlName="url"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="burgertuesdayApp.restaurant.website" for="field_website">Website</label>
+                    <input type="text" class="form-control" name="website" id="field_website"
+                           formControlName="website"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="burgertuesdayApp.restaurant.googleRating" for="field_googleRating">Google Rating</label>
+                    <input type="number" class="form-control" name="googleRating" id="field_googleRating"
+                           formControlName="googleRating"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="burgertuesdayApp.restaurant.priceLevel" for="field_priceLevel">Price Level</label>
+                    <input type="text" class="form-control" name="priceLevel" id="field_priceLevel"
+                           formControlName="priceLevel"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="burgertuesdayApp.restaurant.permanentlyClosed" for="field_permanentlyClosed">Permanently Closed</label>
+                    <input type="checkbox" class="form-control" name="permanentlyClosed" id="field_permanentlyClosed"
+                           formControlName="permanentlyClosed"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="burgertuesdayApp.restaurant.user" for="field_user">User</label>
+                    <select class="form-control" id="field_user" name="user" formControlName="userId">
+                        <option *ngIf="!editForm.get('userId').value" [ngValue]="null" selected></option>
+                        <option [ngValue]="userOption.id" *ngFor="let userOption of users; trackBy: trackUserById">{{userOption.id}}</option>
+                    </select>
+                </div>
+                <div *ngIf="editForm.get('userId').invalid && (editForm.get('userId').dirty || editForm.get('userId').touched)">
+                    <small class="form-text text-danger"
+                           *ngIf="editForm.get('userId').errors.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                    </small>
+                </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

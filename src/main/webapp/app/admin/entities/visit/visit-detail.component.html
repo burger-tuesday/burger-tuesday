@@ -1,0 +1,41 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="visit">
+            <h2><span jhiTranslate="burgertuesdayApp.visit.detail.title">Visit</span> {{visit.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="burgertuesdayApp.visit.date">Date</span></dt>
+                <dd>
+                    <span>{{visit.date}}</span>
+                </dd>
+                <dt><span jhiTranslate="burgertuesdayApp.visit.sponsored">Sponsored</span></dt>
+                <dd>
+                    <span>{{visit.sponsored}}</span>
+                </dd>
+                <dt><span jhiTranslate="burgertuesdayApp.visit.restaurant">Restaurant</span></dt>
+                <dd>
+                    <div *ngIf="visit.restaurantId">
+                        <a [routerLink]="['/admin/restaurant', visit.restaurantId, 'view']">{{visit.restaurantId}}</a>
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="burgertuesdayApp.visit.user">User</span></dt>
+                <dd>
+                    {{visit.userId}}
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/admin/visit', visit.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,11 @@
+version: '2'
+services:
+  burgertuesday-postgresql:
+    image: postgres:11.4
+    # volumes:
+    #     - ~/volumes/jhipster/burgertuesday/postgresql/:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=burgertuesday
+      - POSTGRES_PASSWORD=
+    ports:
+      - 5432:5432

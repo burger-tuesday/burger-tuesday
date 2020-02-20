@@ -1,0 +1,38 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="burgertuesdayApp.restaurant.home.title">Restaurants</span>
+    </h2>
+    <jhi-alert></jhi-alert>
+            <form name="searchForm" class="form-inline" *jhiHasAnyAuthority="'ROLE_ADMIN'">
+                <div class="input-group w-100 mt-3">
+                    <input type="text" class="form-control" [(ngModel)]="currentSearch"
+                           id="currentSearch" name="currentSearch"
+                           placeholder="{{ 'burgertuesdayApp.restaurant.home.search' | translate }}">
+                    <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
+                        <fa-icon [icon]="'search'"></fa-icon>
+                    </button>
+                    <button class="input-group-append btn btn-danger" (click)="clear()"
+                            *ngIf="currentSearch">
+                        <fa-icon [icon]="'trash-alt'"></fa-icon>
+                    </button>
+                </div>
+            </form>
+    <br/>
+
+    <div class="card-deck" infinite-scroll (scrolled)="loadPage(page + 1)"
+         [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0" fxLayout="row wrap" fxLayoutAlign="flex-start">
+            <div class="card card-item" *ngFor="let restaurant of restaurants; trackBy: trackId" fxFlex="-1 1 calc(33.3% - 32px)" fxFlex.lt-md="0 1 calc(50% - 32px)" fxFlex.lt-sm="100%">
+                <div class="card-body">
+                    <h5 class="card-title">{{restaurant.name}}</h5>
+                    <p class="card-text">
+                        {{restaurant.vicinity}}
+                        <span class="float-right">{{restaurant.btRating}}/5 ({{restaurant.numberOfReviews}})</span></p>
+                    <a [routerLink]="['/restaurant', restaurant.id, 'view' ]" class="btn btn-primary stretched-link" *jhiHasAnyAuthority="'ROLE_USER'">Read reviews</a>
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted">Visited {{restaurant.visits?.length}} times, last 2 weeks ago</small>
+                </div>
+            </div>
+
+    </div>
+</div>

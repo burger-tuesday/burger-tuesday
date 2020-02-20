@@ -1,0 +1,63 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="restaurant">
+            <h2><span jhiTranslate="burgertuesdayApp.restaurant.detail.title">Restaurant</span> {{restaurant.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="burgertuesdayApp.restaurant.placeId">Place Id</span></dt>
+                <dd>
+                    <span>{{restaurant.placeId}}</span>
+                </dd>
+                <dt><span jhiTranslate="burgertuesdayApp.restaurant.name">Name</span></dt>
+                <dd>
+                    <span>{{restaurant.name}}</span>
+                </dd>
+                <dt><span jhiTranslate="burgertuesdayApp.restaurant.address">Address</span></dt>
+                <dd>
+                    <span>{{restaurant.address}}</span>
+                </dd>
+                <dt><span jhiTranslate="burgertuesdayApp.restaurant.vicinity">Vicinity</span></dt>
+                <dd>
+                    <span>{{restaurant.vicinity}}</span>
+                </dd>
+                <dt><span jhiTranslate="burgertuesdayApp.restaurant.url">Url</span></dt>
+                <dd>
+                    <span>{{restaurant.url}}</span>
+                </dd>
+                <dt><span jhiTranslate="burgertuesdayApp.restaurant.website">Website</span></dt>
+                <dd>
+                    <span>{{restaurant.website}}</span>
+                </dd>
+                <dt><span jhiTranslate="burgertuesdayApp.restaurant.googleRating">Google Rating</span></dt>
+                <dd>
+                    <span>{{restaurant.googleRating}}</span>
+                </dd>
+                <dt><span jhiTranslate="burgertuesdayApp.restaurant.priceLevel">Price Level</span></dt>
+                <dd>
+                    <span>{{restaurant.priceLevel}}</span>
+                </dd>
+                <dt><span jhiTranslate="burgertuesdayApp.restaurant.permanentlyClosed">Permanently Closed</span></dt>
+                <dd>
+                    <span>{{restaurant.permanentlyClosed}}</span>
+                </dd>
+                <dt><span jhiTranslate="burgertuesdayApp.restaurant.user">User</span></dt>
+                <dd>
+                    {{restaurant.userId}}
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/admin/restaurant', restaurant.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,31 @@
+{
+  "burgertuesdayApp": {
+    "review": {
+      "home": {
+        "title": "Reviews",
+        "createLabel": "Create a new Review",
+        "createOrEditLabel": "Create or edit a Review",
+        "search": "Search for Review",
+        "notFound": "No Reviews found"
+      },
+      "created": "A new Review is created with identifier {{ param }}",
+      "updated": "A Review is updated with identifier {{ param }}",
+      "deleted": "A Review is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Review {{ id }}?"
+      },
+      "detail": {
+        "title": "Review"
+      },
+      "review": "Review",
+      "taste": "Taste",
+      "likeness": "Likeness",
+      "menuDiversity": "Menu Diversity",
+      "service": "Service",
+      "priceLevel": "Price Level",
+      "recommended": "Recommended",
+      "visit": "Visit",
+      "user": "User"
+    }
+  }
+}

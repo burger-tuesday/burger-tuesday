@@ -1,0 +1,27 @@
+{
+  "burgertuesdayApp": {
+    "visit": {
+      "home": {
+        "title": "Visits",
+        "createLabel": "Visit erstellen",
+        "createOrEditLabel": "Visit erstellen oder bearbeiten",
+        "search": "Suche nach Visit",
+        "notFound": "No Visits found"
+      },
+      "created": "Visit erstellt mit ID {{ param }}",
+      "updated": "Visit aktualisiert mit ID {{ param }}",
+      "deleted": "Visit gelöscht mit ID {{ param }}",
+      "delete": {
+        "question": "Soll Visit {{ id }} wirklich dauerhaft gelöscht werden?"
+      },
+      "detail": {
+        "title": "Visit"
+      },
+      "date": "Date",
+      "sponsored": "Sponsored",
+      "restaurant": "Restaurant",
+      "user": "User",
+      "reviews": "Reviews"
+    }
+  }
+}
