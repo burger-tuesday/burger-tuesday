@@ -1,5 +1,6 @@
 package rocks.burgertuesday.app.config
 
+import org.mockito.Mockito.mock
 import org.springframework.boot.test.context.TestConfiguration
 import org.springframework.context.annotation.Bean
 import org.springframework.security.oauth2.client.InMemoryOAuth2AuthorizedClientService
@@ -11,8 +12,6 @@ import org.springframework.security.oauth2.client.web.AuthenticatedPrincipalOAut
 import org.springframework.security.oauth2.core.AuthorizationGrantType
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod
 import org.springframework.security.oauth2.jwt.JwtDecoder
-
-import org.mockito.Mockito.mock
 
 /**
  * This class allows you to run unit and integration tests without an IdP.

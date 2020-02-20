@@ -1,20 +1,17 @@
 package rocks.burgertuesday.app.web.rest
 
-import rocks.burgertuesday.app.BurgertuesdayApp
-import rocks.burgertuesday.app.config.TestSecurityConfiguration
-import rocks.burgertuesday.app.domain.Visit
-import rocks.burgertuesday.app.domain.Restaurant
-import rocks.burgertuesday.app.repository.VisitRepository
-import rocks.burgertuesday.app.repository.search.VisitSearchRepository
-import rocks.burgertuesday.app.service.VisitService
-import rocks.burgertuesday.app.service.dto.VisitDTO
-import rocks.burgertuesday.app.service.mapper.VisitMapper
-import rocks.burgertuesday.app.web.rest.errors.ExceptionTranslator
-
+import java.time.LocalDate
+import java.time.ZoneId
+import javax.persistence.EntityManager
 import kotlin.test.assertNotNull
-
+import org.assertj.core.api.Assertions.assertThat
+import org.elasticsearch.index.query.QueryBuilders.queryStringQuery
+import org.hamcrest.Matchers.hasItem
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.mockito.Mockito.`when`
+import org.mockito.Mockito.times
+import org.mockito.Mockito.verify
 import org.mockito.MockitoAnnotations
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -24,19 +21,6 @@ import org.springframework.data.web.PageableHandlerMethodArgumentResolver
 import org.springframework.http.MediaType
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.setup.MockMvcBuilders
-import org.springframework.transaction.annotation.Transactional
-import org.springframework.validation.Validator
-import javax.persistence.EntityManager
-import java.time.LocalDate
-import java.time.ZoneId
-
-import org.assertj.core.api.Assertions.assertThat
-import org.elasticsearch.index.query.QueryBuilders.queryStringQuery
-import org.hamcrest.Matchers.hasItem
-import org.mockito.Mockito.`when`
-import org.mockito.Mockito.times
-import org.mockito.Mockito.verify
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
@@ -44,6 +28,18 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import org.springframework.test.web.servlet.setup.MockMvcBuilders
+import org.springframework.transaction.annotation.Transactional
+import org.springframework.validation.Validator
+import rocks.burgertuesday.app.BurgertuesdayApp
+import rocks.burgertuesday.app.config.TestSecurityConfiguration
+import rocks.burgertuesday.app.domain.Restaurant
+import rocks.burgertuesday.app.domain.Visit
+import rocks.burgertuesday.app.repository.VisitRepository
+import rocks.burgertuesday.app.repository.search.VisitSearchRepository
+import rocks.burgertuesday.app.service.VisitService
+import rocks.burgertuesday.app.service.mapper.VisitMapper
+import rocks.burgertuesday.app.web.rest.errors.ExceptionTranslator
 
 /**
  * Integration tests for the [VisitResource] REST controller.
@@ -108,6 +104,7 @@ class VisitResourceIT {
 
     @Test
     @Transactional
+    @Throws(Exception::class)
     fun createVisit() {
         val databaseSizeBeforeCreate = visitRepository.findAll().size
 
@@ -193,7 +190,6 @@ class VisitResourceIT {
         restVisitMockMvc.perform(get("/api/visits/{id}", Long.MAX_VALUE))
             .andExpect(status().isNotFound)
     }
-
     @Test
     @Transactional
     fun updateVisit() {
@@ -279,8 +275,9 @@ class VisitResourceIT {
 
     @Test
     @Transactional
+    @Throws(Exception::class)
     fun searchVisit() {
-        // Initialize the database
+        // InitializesearchVisit() the database
         visitRepository.saveAndFlush(visit)
         `when`(mockVisitSearchRepository.search(queryStringQuery("id:" + visit.id), PageRequest.of(0, 20)))
             .thenReturn(PageImpl(listOf(visit), PageRequest.of(0, 1), 1))
@@ -293,49 +290,10 @@ class VisitResourceIT {
             .andExpect(jsonPath("$.[*].sponsored").value(hasItem(DEFAULT_SPONSORED)))
     }
 
-    @Test
-    @Transactional
-    fun equalsVerifier() {
-        equalsVerifier(Visit::class)
-        val visit1 = Visit()
-        visit1.id = 1L
-        val visit2 = Visit()
-        visit2.id = visit1.id
-        assertThat(visit1).isEqualTo(visit2)
-        visit2.id = 2L
-        assertThat(visit1).isNotEqualTo(visit2)
-        visit1.id = null
-        assertThat(visit1).isNotEqualTo(visit2)
-    }
-
-    @Test
-    @Transactional
-    fun dtoEqualsVerifier() {
-        equalsVerifier(VisitDTO::class)
-        val visitDTO1 = VisitDTO()
-        visitDTO1.id = 1L
-        val visitDTO2 = VisitDTO()
-        assertThat(visitDTO1).isNotEqualTo(visitDTO2)
-        visitDTO2.id = visitDTO1.id
-        assertThat(visitDTO1).isEqualTo(visitDTO2)
-        visitDTO2.id = 2L
-        assertThat(visitDTO1).isNotEqualTo(visitDTO2)
-        visitDTO1.id = null
-        assertThat(visitDTO1).isNotEqualTo(visitDTO2)
-    }
-
-    @Test
-    @Transactional
-    fun testEntityFromId() {
-        assertThat(visitMapper.fromId(42L)?.id).isEqualTo(42)
-        assertThat(visitMapper.fromId(null)).isNull()
-    }
-
     companion object {
 
         private val DEFAULT_DATE: LocalDate = LocalDate.ofEpochDay(0L)
         private val UPDATED_DATE: LocalDate = LocalDate.now(ZoneId.systemDefault())
-        private val SMALLER_DATE: LocalDate = LocalDate.ofEpochDay(-1L)
 
         private const val DEFAULT_SPONSORED: Boolean = false
         private const val UPDATED_SPONSORED: Boolean = true

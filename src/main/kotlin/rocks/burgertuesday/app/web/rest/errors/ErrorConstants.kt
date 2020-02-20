@@ -9,5 +9,3 @@ const val PROBLEM_BASE_URL: String = "https://www.jhipster.tech/problem"
 val DEFAULT_TYPE: URI = URI.create("$PROBLEM_BASE_URL/problem-with-message")
 @JvmField
 val CONSTRAINT_VIOLATION_TYPE: URI = URI.create("$PROBLEM_BASE_URL/constraint-violation")
-@JvmField
-val ENTITY_NOT_FOUND_TYPE: URI = URI.create("$PROBLEM_BASE_URL/entity-not-found")

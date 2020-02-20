@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.SerializationFeature
 import com.github.vanroy.springdata.jest.JestElasticsearchTemplate
 import com.github.vanroy.springdata.jest.mapper.DefaultJestResultsMapper
 import io.searchbox.client.JestClient
+import java.io.IOException
 import org.springframework.boot.autoconfigure.data.elasticsearch.ElasticsearchProperties
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
@@ -15,8 +16,6 @@ import org.springframework.data.elasticsearch.core.ElasticsearchOperations
 import org.springframework.data.elasticsearch.core.EntityMapper
 import org.springframework.data.elasticsearch.core.convert.ElasticsearchConverter
 import org.springframework.data.elasticsearch.core.mapping.SimpleElasticsearchMappingContext
-
-import java.io.IOException
 
 @Configuration
 @EnableConfigurationProperties(ElasticsearchProperties::class)

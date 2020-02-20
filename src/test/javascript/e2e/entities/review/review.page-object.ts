@@ -5,19 +5,19 @@ export class ReviewComponentsPage {
   deleteButtons = element.all(by.css('jhi-review div table .btn-danger'));
   title = element.all(by.css('jhi-review div h2#page-heading span')).first();
 
-  async clickOnCreateButton(timeout?: number) {
+  async clickOnCreateButton(): Promise<void> {
     await this.createButton.click();
   }
 
-  async clickOnLastDeleteButton(timeout?: number) {
+  async clickOnLastDeleteButton(): Promise<void> {
     await this.deleteButtons.last().click();
   }
 
-  async countDeleteButtons() {
+  async countDeleteButtons(): Promise<number> {
     return this.deleteButtons.count();
   }
 
-  async getTitle() {
+  async getTitle(): Promise<string> {
     return this.title.getAttribute('jhiTranslate');
   }
 }
@@ -36,70 +36,70 @@ export class ReviewUpdatePage {
   visitSelect = element(by.id('field_visit'));
   userSelect = element(by.id('field_user'));
 
-  async getPageTitle() {
+  async getPageTitle(): Promise<string> {
     return this.pageTitle.getAttribute('jhiTranslate');
   }
 
-  async setReviewInput(review) {
+  async setReviewInput(review: string): Promise<void> {
     await this.reviewInput.sendKeys(review);
   }
 
-  async getReviewInput() {
+  async getReviewInput(): Promise<string> {
     return await this.reviewInput.getAttribute('value');
   }
 
-  async setTasteInput(taste) {
+  async setTasteInput(taste: string): Promise<void> {
     await this.tasteInput.sendKeys(taste);
   }
 
-  async getTasteInput() {
+  async getTasteInput(): Promise<string> {
     return await this.tasteInput.getAttribute('value');
   }
 
-  async setLikenessInput(likeness) {
+  async setLikenessInput(likeness: string): Promise<void> {
     await this.likenessInput.sendKeys(likeness);
   }
 
-  async getLikenessInput() {
+  async getLikenessInput(): Promise<string> {
     return await this.likenessInput.getAttribute('value');
   }
 
-  async setMenuDiversityInput(menuDiversity) {
+  async setMenuDiversityInput(menuDiversity: string): Promise<void> {
     await this.menuDiversityInput.sendKeys(menuDiversity);
   }
 
-  async getMenuDiversityInput() {
+  async getMenuDiversityInput(): Promise<string> {
     return await this.menuDiversityInput.getAttribute('value');
   }
 
-  async setServiceInput(service) {
+  async setServiceInput(service: string): Promise<void> {
     await this.serviceInput.sendKeys(service);
   }
 
-  async getServiceInput() {
+  async getServiceInput(): Promise<string> {
     return await this.serviceInput.getAttribute('value');
   }
 
-  async setPriceLevelInput(priceLevel) {
+  async setPriceLevelInput(priceLevel: string): Promise<void> {
     await this.priceLevelInput.sendKeys(priceLevel);
   }
 
-  async getPriceLevelInput() {
+  async getPriceLevelInput(): Promise<string> {
     return await this.priceLevelInput.getAttribute('value');
   }
 
-  getRecommendedInput(timeout?: number) {
+  getRecommendedInput(): ElementFinder {
     return this.recommendedInput;
   }
 
-  async visitSelectLastOption(timeout?: number) {
+  async visitSelectLastOption(): Promise<void> {
     await this.visitSelect
       .all(by.tagName('option'))
       .last()
       .click();
   }
 
-  async visitSelectOption(option) {
+  async visitSelectOption(option: string): Promise<void> {
     await this.visitSelect.sendKeys(option);
   }
 
@@ -107,18 +107,18 @@ export class ReviewUpdatePage {
     return this.visitSelect;
   }
 
-  async getVisitSelectedOption() {
+  async getVisitSelectedOption(): Promise<string> {
     return await this.visitSelect.element(by.css('option:checked')).getText();
   }
 
-  async userSelectLastOption(timeout?: number) {
+  async userSelectLastOption(): Promise<void> {
     await this.userSelect
       .all(by.tagName('option'))
       .last()
       .click();
   }
 
-  async userSelectOption(option) {
+  async userSelectOption(option: string): Promise<void> {
     await this.userSelect.sendKeys(option);
   }
 
@@ -126,15 +126,15 @@ export class ReviewUpdatePage {
     return this.userSelect;
   }
 
-  async getUserSelectedOption() {
+  async getUserSelectedOption(): Promise<string> {
     return await this.userSelect.element(by.css('option:checked')).getText();
   }
 
-  async save(timeout?: number) {
+  async save(): Promise<void> {
     await this.saveButton.click();
   }
 
-  async cancel(timeout?: number) {
+  async cancel(): Promise<void> {
     await this.cancelButton.click();
   }
 
@@ -147,11 +147,11 @@ export class ReviewDeleteDialog {
   private dialogTitle = element(by.id('jhi-delete-review-heading'));
   private confirmButton = element(by.id('jhi-confirm-delete-review'));
 
-  async getDialogTitle() {
+  async getDialogTitle(): Promise<string> {
     return this.dialogTitle.getAttribute('jhiTranslate');
   }
 
-  async clickOnConfirmButton(timeout?: number) {
+  async clickOnConfirmButton(): Promise<void> {
     await this.confirmButton.click();
   }
 }

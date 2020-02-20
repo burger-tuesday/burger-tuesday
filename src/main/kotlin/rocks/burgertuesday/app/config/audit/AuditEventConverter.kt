@@ -1,10 +1,9 @@
 package rocks.burgertuesday.app.config.audit
 
-import rocks.burgertuesday.app.domain.PersistentAuditEvent
-
 import org.springframework.boot.actuate.audit.AuditEvent
 import org.springframework.security.web.authentication.WebAuthenticationDetails
 import org.springframework.stereotype.Component
+import rocks.burgertuesday.app.domain.PersistentAuditEvent
 
 @Component
 class AuditEventConverter {

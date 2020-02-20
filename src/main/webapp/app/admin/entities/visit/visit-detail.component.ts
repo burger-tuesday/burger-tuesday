@@ -8,17 +8,17 @@ import { IVisit } from 'app/shared/model/visit.model';
   templateUrl: './visit-detail.component.html'
 })
 export class VisitDetailComponent implements OnInit {
-  visit: IVisit;
+  visit: IVisit | null = null;
 
   constructor(protected activatedRoute: ActivatedRoute) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ visit }) => {
       this.visit = visit;
     });
   }
 
-  previousState() {
+  previousState(): void {
     window.history.back();
   }
 }

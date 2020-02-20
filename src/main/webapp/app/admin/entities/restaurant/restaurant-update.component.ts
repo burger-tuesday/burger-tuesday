@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { HttpResponse } from '@angular/common/http';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
-import { JhiAlertService } from 'ng-jhipster';
+import { map } from 'rxjs/operators';
+
 import { IRestaurant, Restaurant } from 'app/shared/model/restaurant.model';
 import { RestaurantService } from './restaurant.service';
 import { IUser } from 'app/core/user/user.model';
@@ -17,9 +16,9 @@ import { UserService } from 'app/core/user/user.service';
   templateUrl: './restaurant-update.component.html'
 })
 export class RestaurantUpdateComponent implements OnInit {
-  isSaving: boolean;
+  isSaving = false;
 
-  users: IUser[];
+  users: IUser[] = [];
 
   editForm = this.fb.group({
     id: [],
@@ -30,34 +29,36 @@ export class RestaurantUpdateComponent implements OnInit {
     url: [],
     website: [],
     googleRating: [],
+    btRating: [],
+    numberOfReviews: [],
     priceLevel: [],
     permanentlyClosed: [],
     userId: [null, Validators.required]
   });
 
   constructor(
-    protected jhiAlertService: JhiAlertService,
     protected restaurantService: RestaurantService,
     protected userService: UserService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
   ) {}
 
-  ngOnInit() {
-    this.isSaving = false;
+  ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ restaurant }) => {
       this.updateForm(restaurant);
+
+      this.userService
+        .query()
+        .pipe(
+          map((res: HttpResponse<IUser[]>) => {
+            return res.body ? res.body : [];
+          })
+        )
+        .subscribe((resBody: IUser[]) => (this.users = resBody));
     });
-    this.userService
-      .query()
-      .pipe(
-        filter((mayBeOk: HttpResponse<IUser[]>) => mayBeOk.ok),
-        map((response: HttpResponse<IUser[]>) => response.body)
-      )
-      .subscribe((res: IUser[]) => (this.users = res), (res: HttpErrorResponse) => this.onError(res.message));
   }
 
-  updateForm(restaurant: IRestaurant) {
+  updateForm(restaurant: IRestaurant): void {
     this.editForm.patchValue({
       id: restaurant.id,
       placeId: restaurant.placeId,
@@ -67,17 +68,19 @@ export class RestaurantUpdateComponent implements OnInit {
       url: restaurant.url,
       website: restaurant.website,
       googleRating: restaurant.googleRating,
+      btRating: restaurant.btRating,
+      numberOfReviews: restaurant.numberOfReviews,
       priceLevel: restaurant.priceLevel,
       permanentlyClosed: restaurant.permanentlyClosed,
       userId: restaurant.userId
     });
   }
 
-  previousState() {
+  previousState(): void {
     window.history.back();
   }
 
-  save() {
+  save(): void {
     this.isSaving = true;
     const restaurant = this.createFromForm();
     if (restaurant.id !== undefined) {
@@ -90,37 +93,39 @@ export class RestaurantUpdateComponent implements OnInit {
   private createFromForm(): IRestaurant {
     return {
       ...new Restaurant(),
-      id: this.editForm.get(['id']).value,
-      placeId: this.editForm.get(['placeId']).value,
-      name: this.editForm.get(['name']).value,
-      address: this.editForm.get(['address']).value,
-      vicinity: this.editForm.get(['vicinity']).value,
-      url: this.editForm.get(['url']).value,
-      website: this.editForm.get(['website']).value,
-      googleRating: this.editForm.get(['googleRating']).value,
-      priceLevel: this.editForm.get(['priceLevel']).value,
-      permanentlyClosed: this.editForm.get(['permanentlyClosed']).value,
-      userId: this.editForm.get(['userId']).value
+      id: this.editForm.get(['id'])!.value,
+      placeId: this.editForm.get(['placeId'])!.value,
+      name: this.editForm.get(['name'])!.value,
+      address: this.editForm.get(['address'])!.value,
+      vicinity: this.editForm.get(['vicinity'])!.value,
+      url: this.editForm.get(['url'])!.value,
+      website: this.editForm.get(['website'])!.value,
+      googleRating: this.editForm.get(['googleRating'])!.value,
+      btRating: this.editForm.get(['btRating'])!.value,
+      numberOfReviews: this.editForm.get(['numberOfReviews'])!.value,
+      priceLevel: this.editForm.get(['priceLevel'])!.value,
+      permanentlyClosed: this.editForm.get(['permanentlyClosed'])!.value,
+      userId: this.editForm.get(['userId'])!.value
     };
   }
 
-  protected subscribeToSaveResponse(result: Observable<HttpResponse<IRestaurant>>) {
-    result.subscribe(() => this.onSaveSuccess(), () => this.onSaveError());
+  protected subscribeToSaveResponse(result: Observable<HttpResponse<IRestaurant>>): void {
+    result.subscribe(
+      () => this.onSaveSuccess(),
+      () => this.onSaveError()
+    );
   }
 
-  protected onSaveSuccess() {
+  protected onSaveSuccess(): void {
     this.isSaving = false;
     this.previousState();
   }
 
-  protected onSaveError() {
+  protected onSaveError(): void {
     this.isSaving = false;
   }
-  protected onError(errorMessage: string) {
-    this.jhiAlertService.error(errorMessage, null, null);
-  }
 
-  trackUserById(index: number, item: IUser) {
+  trackById(index: number, item: IUser): any {
     return item.id;
   }
 }

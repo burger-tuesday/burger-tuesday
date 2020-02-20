@@ -1,7 +1,7 @@
 package rocks.burgertuesday.app.web.rest.errors
 
 import io.github.jhipster.web.util.HeaderUtil
-
+import javax.servlet.http.HttpServletRequest
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.dao.ConcurrencyFailureException
 import org.springframework.http.ResponseEntity
@@ -15,9 +15,6 @@ import org.zalando.problem.Status
 import org.zalando.problem.spring.web.advice.ProblemHandling
 import org.zalando.problem.spring.web.advice.security.SecurityAdviceTrait
 import org.zalando.problem.violations.ConstraintViolationProblem
-
-import javax.servlet.http.HttpServletRequest
-import java.util.NoSuchElementException
 
 private const val FIELD_ERRORS_KEY = "fieldErrors"
 private const val MESSAGE_KEY = "message"
@@ -73,7 +70,7 @@ class ExceptionTranslator : ProblemHandling, SecurityAdviceTrait {
         request: NativeWebRequest
     ): ResponseEntity<Problem>? {
         val result = ex.bindingResult
-        val fieldErrors = result.fieldErrors.map { FieldErrorVM(it.objectName, it.field, it.code) }
+        val fieldErrors = result.fieldErrors.map { FieldErrorVM(it.objectName.replaceFirst(Regex("DTO$"), ""), it.field, it.code) }
 
         val problem = Problem.builder()
             .withType(CONSTRAINT_VIOLATION_TYPE)
@@ -81,15 +78,6 @@ class ExceptionTranslator : ProblemHandling, SecurityAdviceTrait {
             .withStatus(defaultConstraintViolationStatus())
             .with(MESSAGE_KEY, ERR_VALIDATION)
             .with(FIELD_ERRORS_KEY, fieldErrors)
-            .build()
-        return create(ex, problem, request)
-    }
-
-    @ExceptionHandler
-    fun handleNoSuchElementException(ex: NoSuchElementException, request: NativeWebRequest): ResponseEntity<Problem> {
-        val problem = Problem.builder()
-            .withStatus(Status.NOT_FOUND)
-            .with(MESSAGE_KEY, ENTITY_NOT_FOUND_TYPE)
             .build()
         return create(ex, problem, request)
     }

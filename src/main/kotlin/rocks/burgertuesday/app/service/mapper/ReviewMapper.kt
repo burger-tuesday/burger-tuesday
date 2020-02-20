@@ -1,11 +1,10 @@
 package rocks.burgertuesday.app.service.mapper
 
-import rocks.burgertuesday.app.domain.Review
-import rocks.burgertuesday.app.service.dto.ReviewDTO
-
 import org.mapstruct.Mapper
 import org.mapstruct.Mapping
 import org.mapstruct.Mappings
+import rocks.burgertuesday.app.domain.Review
+import rocks.burgertuesday.app.service.dto.ReviewDTO
 
 /**
  * Mapper for the entity [Review] and its DTO [ReviewDTO].

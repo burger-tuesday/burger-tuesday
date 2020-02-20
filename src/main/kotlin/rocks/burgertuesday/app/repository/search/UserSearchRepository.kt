@@ -1,7 +1,7 @@
 package rocks.burgertuesday.app.repository.search
 
-import rocks.burgertuesday.app.domain.User
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository
+import rocks.burgertuesday.app.domain.User
 
 /**
  * Spring Data Elasticsearch repository for the User entity.

@@ -1,38 +1,48 @@
 package rocks.burgertuesday.app.config
 
 import io.github.jhipster.config.JHipsterConstants
-import io.github.jhipster.config.liquibase.AsyncSpringLiquibase
+import io.github.jhipster.config.liquibase.SpringLiquibaseUtil
+import java.util.concurrent.Executor
+import javax.sql.DataSource
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.ObjectProvider
 import org.springframework.beans.factory.annotation.Qualifier
+import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties
+import org.springframework.boot.autoconfigure.liquibase.LiquibaseDataSource
 import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties
-import org.springframework.cache.CacheManager
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.env.Environment
 import org.springframework.core.env.Profiles
 
-import javax.sql.DataSource
-import java.util.concurrent.Executor
-
 @Configuration
-class LiquibaseConfiguration(private val env: Environment, private val cacheManager: CacheManager) {
+class LiquibaseConfiguration(private val env: Environment) {
 
     private val log = LoggerFactory.getLogger(javaClass)
 
     @Bean
     fun liquibase(
         @Qualifier("taskExecutor") executor: Executor,
-        dataSource: DataSource,
-        liquibaseProperties: LiquibaseProperties
+        @LiquibaseDataSource liquibaseDataSource: ObjectProvider<DataSource>,
+        liquibaseProperties: LiquibaseProperties,
+        dataSource: ObjectProvider<DataSource>,
+        dataSourceProperties: DataSourceProperties
     ) =
-        // Use liquibase.integration.spring.SpringLiquibase if you don't want Liquibase to start asynchronously
-        AsyncSpringLiquibase(executor, env).apply {
-            this.dataSource = dataSource
+        // If you don't want Liquibase to start asynchronously, substitute by this:
+        // SpringLiquibaseUtil.createSpringLiquibase(liquibaseDataSource.ifAvailable, liquibaseProperties, dataSource.ifUnique, dataSourceProperties);
+        SpringLiquibaseUtil.createAsyncSpringLiquibase(env, executor, liquibaseDataSource.ifAvailable, liquibaseProperties, dataSource.ifUnique, dataSourceProperties).apply {
             changeLog = "classpath:config/liquibase/master.xml"
             contexts = liquibaseProperties.contexts
             defaultSchema = liquibaseProperties.defaultSchema
+            liquibaseSchema = liquibaseProperties.liquibaseSchema
+            liquibaseTablespace = liquibaseProperties.liquibaseTablespace
+            databaseChangeLogLockTable = liquibaseProperties.databaseChangeLogLockTable
+            databaseChangeLogTable = liquibaseProperties.databaseChangeLogTable
             isDropFirst = liquibaseProperties.isDropFirst
+            labels = liquibaseProperties.labels
             setChangeLogParameters(liquibaseProperties.parameters)
+            setRollbackFile(liquibaseProperties.rollbackFile)
+            isTestRollbackOnUpdate = liquibaseProperties.isTestRollbackOnUpdate
 
             if (env.acceptsProfiles(Profiles.of(JHipsterConstants.SPRING_PROFILE_NO_LIQUIBASE))) {
                 setShouldRun(false)

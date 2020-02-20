@@ -1,20 +1,15 @@
 package rocks.burgertuesday.app.web.rest
 
-import rocks.burgertuesday.app.BurgertuesdayApp
-import rocks.burgertuesday.app.config.TestSecurityConfiguration
-import rocks.burgertuesday.app.domain.Review
-import rocks.burgertuesday.app.domain.Visit
-import rocks.burgertuesday.app.repository.ReviewRepository
-import rocks.burgertuesday.app.repository.search.ReviewSearchRepository
-import rocks.burgertuesday.app.service.ReviewService
-import rocks.burgertuesday.app.service.dto.ReviewDTO
-import rocks.burgertuesday.app.service.mapper.ReviewMapper
-import rocks.burgertuesday.app.web.rest.errors.ExceptionTranslator
-
+import javax.persistence.EntityManager
 import kotlin.test.assertNotNull
-
+import org.assertj.core.api.Assertions.assertThat
+import org.elasticsearch.index.query.QueryBuilders.queryStringQuery
+import org.hamcrest.Matchers.hasItem
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.mockito.Mockito.`when`
+import org.mockito.Mockito.times
+import org.mockito.Mockito.verify
 import org.mockito.MockitoAnnotations
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -24,17 +19,6 @@ import org.springframework.data.web.PageableHandlerMethodArgumentResolver
 import org.springframework.http.MediaType
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.setup.MockMvcBuilders
-import org.springframework.transaction.annotation.Transactional
-import org.springframework.validation.Validator
-import javax.persistence.EntityManager
-
-import org.assertj.core.api.Assertions.assertThat
-import org.elasticsearch.index.query.QueryBuilders.queryStringQuery
-import org.hamcrest.Matchers.hasItem
-import org.mockito.Mockito.`when`
-import org.mockito.Mockito.times
-import org.mockito.Mockito.verify
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
@@ -42,6 +26,18 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import org.springframework.test.web.servlet.setup.MockMvcBuilders
+import org.springframework.transaction.annotation.Transactional
+import org.springframework.validation.Validator
+import rocks.burgertuesday.app.BurgertuesdayApp
+import rocks.burgertuesday.app.config.TestSecurityConfiguration
+import rocks.burgertuesday.app.domain.Review
+import rocks.burgertuesday.app.domain.Visit
+import rocks.burgertuesday.app.repository.ReviewRepository
+import rocks.burgertuesday.app.repository.search.ReviewSearchRepository
+import rocks.burgertuesday.app.service.ReviewService
+import rocks.burgertuesday.app.service.mapper.ReviewMapper
+import rocks.burgertuesday.app.web.rest.errors.ExceptionTranslator
 
 /**
  * Integration tests for the [ReviewResource] REST controller.
@@ -106,6 +102,7 @@ class ReviewResourceIT {
 
     @Test
     @Transactional
+    @Throws(Exception::class)
     fun createReview() {
         val databaseSizeBeforeCreate = reviewRepository.findAll().size
 
@@ -206,7 +203,6 @@ class ReviewResourceIT {
         restReviewMockMvc.perform(get("/api/reviews/{id}", Long.MAX_VALUE))
             .andExpect(status().isNotFound)
     }
-
     @Test
     @Transactional
     fun updateReview() {
@@ -302,8 +298,9 @@ class ReviewResourceIT {
 
     @Test
     @Transactional
+    @Throws(Exception::class)
     fun searchReview() {
-        // Initialize the database
+        // InitializesearchReview() the database
         reviewRepository.saveAndFlush(review)
         `when`(mockReviewSearchRepository.search(queryStringQuery("id:" + review.id), PageRequest.of(0, 20)))
             .thenReturn(PageImpl(listOf(review), PageRequest.of(0, 1), 1))
@@ -321,68 +318,25 @@ class ReviewResourceIT {
             .andExpect(jsonPath("$.[*].recommended").value(hasItem(DEFAULT_RECOMMENDED)))
     }
 
-    @Test
-    @Transactional
-    fun equalsVerifier() {
-        equalsVerifier(Review::class)
-        val review1 = Review()
-        review1.id = 1L
-        val review2 = Review()
-        review2.id = review1.id
-        assertThat(review1).isEqualTo(review2)
-        review2.id = 2L
-        assertThat(review1).isNotEqualTo(review2)
-        review1.id = null
-        assertThat(review1).isNotEqualTo(review2)
-    }
-
-    @Test
-    @Transactional
-    fun dtoEqualsVerifier() {
-        equalsVerifier(ReviewDTO::class)
-        val reviewDTO1 = ReviewDTO()
-        reviewDTO1.id = 1L
-        val reviewDTO2 = ReviewDTO()
-        assertThat(reviewDTO1).isNotEqualTo(reviewDTO2)
-        reviewDTO2.id = reviewDTO1.id
-        assertThat(reviewDTO1).isEqualTo(reviewDTO2)
-        reviewDTO2.id = 2L
-        assertThat(reviewDTO1).isNotEqualTo(reviewDTO2)
-        reviewDTO1.id = null
-        assertThat(reviewDTO1).isNotEqualTo(reviewDTO2)
-    }
-
-    @Test
-    @Transactional
-    fun testEntityFromId() {
-        assertThat(reviewMapper.fromId(42L)?.id).isEqualTo(42)
-        assertThat(reviewMapper.fromId(null)).isNull()
-    }
-
     companion object {
 
-        private const val DEFAULT_REVIEW: String = "AAAAAAAAAA"
+        private const val DEFAULT_REVIEW = "AAAAAAAAAA"
         private const val UPDATED_REVIEW = "BBBBBBBBBB"
 
         private const val DEFAULT_TASTE: Int = 1
         private const val UPDATED_TASTE: Int = 2
-        private const val SMALLER_TASTE: Int = 1 - 1
 
         private const val DEFAULT_LIKENESS: Int = 1
         private const val UPDATED_LIKENESS: Int = 2
-        private const val SMALLER_LIKENESS: Int = 1 - 1
 
         private const val DEFAULT_MENU_DIVERSITY: Int = 1
         private const val UPDATED_MENU_DIVERSITY: Int = 2
-        private const val SMALLER_MENU_DIVERSITY: Int = 1 - 1
 
         private const val DEFAULT_SERVICE: Int = 1
         private const val UPDATED_SERVICE: Int = 2
-        private const val SMALLER_SERVICE: Int = 1 - 1
 
         private const val DEFAULT_PRICE_LEVEL: Int = 1
         private const val UPDATED_PRICE_LEVEL: Int = 2
-        private const val SMALLER_PRICE_LEVEL: Int = 1 - 1
 
         private const val DEFAULT_RECOMMENDED: Boolean = false
         private const val UPDATED_RECOMMENDED: Boolean = true

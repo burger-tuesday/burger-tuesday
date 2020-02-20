@@ -1,25 +1,31 @@
 import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes } from '@angular/router';
+import { Resolve, ActivatedRouteSnapshot, Routes, Router } from '@angular/router';
+import { Observable, of, EMPTY } from 'rxjs';
+import { flatMap } from 'rxjs/operators';
+
 import { UserRouteAccessService } from 'app/core/auth/user-route-access-service';
-import { Observable, of } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
-import { Restaurant } from 'app/shared/model/restaurant.model';
+import { IRestaurant, Restaurant } from 'app/shared/model/restaurant.model';
 import { RestaurantService } from './restaurant.service';
 import { RestaurantComponent } from './restaurant.component';
 import { RestaurantDetailComponent } from './restaurant-detail.component';
-import { IRestaurant } from 'app/shared/model/restaurant.model';
 
 @Injectable({ providedIn: 'root' })
 export class RestaurantResolve implements Resolve<IRestaurant> {
-  constructor(private service: RestaurantService) {}
+  constructor(private service: RestaurantService, private router: Router) {}
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IRestaurant> {
+  resolve(route: ActivatedRouteSnapshot): Observable<IRestaurant> | Observable<never> {
     const id = route.params['id'];
     if (id) {
       return this.service.find(id).pipe(
-        filter((response: HttpResponse<Restaurant>) => response.ok),
-        map((restaurant: HttpResponse<Restaurant>) => restaurant.body)
+        flatMap((restaurant: HttpResponse<Restaurant>) => {
+          if (restaurant.body) {
+            return of(restaurant.body);
+          } else {
+            this.router.navigate(['404']);
+            return EMPTY;
+          }
+        })
       );
     }
     return of(new Restaurant());
@@ -34,6 +40,7 @@ export const restaurantRoute: Routes = [
       authorities: [],
       pageTitle: 'burgertuesdayApp.restaurant.home.title'
     },
+    canActivate: [UserRouteAccessService]
   },
   {
     path: ':id/view',
@@ -42,8 +49,9 @@ export const restaurantRoute: Routes = [
       restaurant: RestaurantResolve
     },
     data: {
-      authorities: [],
+      authorities: ['ROLE_USER'],
       pageTitle: 'burgertuesdayApp.restaurant.home.title'
     },
-  },
+    canActivate: [UserRouteAccessService]
+  }
 ];

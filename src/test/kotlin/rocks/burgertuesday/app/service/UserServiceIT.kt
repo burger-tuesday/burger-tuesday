@@ -1,16 +1,10 @@
 package rocks.burgertuesday.app.service
 
-import rocks.burgertuesday.app.BurgertuesdayApp
-import rocks.burgertuesday.app.config.ANONYMOUS_USER
-import rocks.burgertuesday.app.config.DEFAULT_LANGUAGE
-import rocks.burgertuesday.app.config.TestSecurityConfiguration
-import rocks.burgertuesday.app.domain.User
-import rocks.burgertuesday.app.repository.search.UserSearchRepository
-import rocks.burgertuesday.app.repository.UserRepository
-import rocks.burgertuesday.app.security.ANONYMOUS
-
+import kotlin.test.assertNotNull
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.mockito.Mockito.times
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.data.domain.PageRequest
@@ -19,10 +13,14 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User
 import org.springframework.transaction.annotation.Transactional
-
-import org.assertj.core.api.Assertions.assertThat
-import org.mockito.Mockito.times
-import kotlin.test.assertNotNull
+import rocks.burgertuesday.app.BurgertuesdayApp
+import rocks.burgertuesday.app.config.ANONYMOUS_USER
+import rocks.burgertuesday.app.config.DEFAULT_LANGUAGE
+import rocks.burgertuesday.app.config.TestSecurityConfiguration
+import rocks.burgertuesday.app.domain.User
+import rocks.burgertuesday.app.repository.UserRepository
+import rocks.burgertuesday.app.repository.search.UserSearchRepository
+import rocks.burgertuesday.app.security.ANONYMOUS
 
 private const val DEFAULT_LOGIN = "johndoe"
 private const val DEFAULT_EMAIL = "johndoe@localhost"
@@ -137,7 +135,7 @@ class UserServiceIT {
 
     @Test
     @Transactional
-    fun testUserDetailsWithUSLocale() {
+    fun testUserDetailsWithUSLocaleUnderscore() {
         userDetails["locale"] = "en_US"
         val authentication = createMockOAuth2AuthenticationToken(userDetails)
         val userDTO = userService.getUserFromAuthentication(authentication)
@@ -146,7 +144,7 @@ class UserServiceIT {
 
     @Test
     @Transactional
-    fun testUserDetailsWithUSLocale2() {
+    fun testUserDetailsWithUSLocaleDash() {
         userDetails["locale"] = "en-US"
         val authentication = createMockOAuth2AuthenticationToken(userDetails)
         val userDTO = userService.getUserFromAuthentication(authentication)

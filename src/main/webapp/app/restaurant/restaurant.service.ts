@@ -3,7 +3,7 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { SERVER_API_URL } from 'app/app.constants';
-import { createRequestOption } from 'app/shared/util/request-util';
+import { createRequestOption, SearchWithPagination } from 'app/shared/util/request-util';
 import { IRestaurant } from 'app/shared/model/restaurant.model';
 
 type EntityResponseType = HttpResponse<IRestaurant>;
@@ -24,8 +24,7 @@ export class RestaurantService {
     const options = createRequestOption(req);
     return this.http.get<IRestaurant[]>(this.resourceUrl, { params: options, observe: 'response' });
   }
-
-  search(req?: any): Observable<EntityArrayResponseType> {
+  search(req: SearchWithPagination): Observable<EntityArrayResponseType> {
     const options = createRequestOption(req);
     return this.http.get<IRestaurant[]>(this.resourceSearchUrl, { params: options, observe: 'response' });
   }

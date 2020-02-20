@@ -1,11 +1,10 @@
 package rocks.burgertuesday.app.service.mapper
 
-import rocks.burgertuesday.app.domain.Visit
-import rocks.burgertuesday.app.service.dto.VisitDTO
-
 import org.mapstruct.Mapper
 import org.mapstruct.Mapping
 import org.mapstruct.Mappings
+import rocks.burgertuesday.app.domain.Visit
+import rocks.burgertuesday.app.service.dto.VisitDTO
 
 /**
  * Mapper for the entity [Visit] and its DTO [VisitDTO].

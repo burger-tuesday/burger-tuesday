@@ -2,21 +2,23 @@
     <h2 id="page-heading">
         <span jhiTranslate="burgertuesdayApp.restaurant.home.title">Restaurants</span>
     </h2>
+    <jhi-alert-error></jhi-alert-error>
     <jhi-alert></jhi-alert>
-            <form name="searchForm" class="form-inline" *jhiHasAnyAuthority="'ROLE_ADMIN'">
+    <div class="row">
+        <div class="col-sm-12">
+            <form name="searchForm" class="form-inline">
                 <div class="input-group w-100 mt-3">
-                    <input type="text" class="form-control" [(ngModel)]="currentSearch"
-                           id="currentSearch" name="currentSearch"
-                           placeholder="{{ 'burgertuesdayApp.restaurant.home.search' | translate }}">
+                    <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="{{ 'burgertuesdayApp.restaurant.home.search' | translate }}">
                     <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
                         <fa-icon [icon]="'search'"></fa-icon>
                     </button>
-                    <button class="input-group-append btn btn-danger" (click)="clear()"
-                            *ngIf="currentSearch">
+                    <button class="input-group-append btn btn-danger" (click)="search('')" *ngIf="currentSearch">
                         <fa-icon [icon]="'trash-alt'"></fa-icon>
                     </button>
                 </div>
             </form>
+        </div>
+    </div>
     <br/>
 
     <div class="card-deck" infinite-scroll (scrolled)="loadPage(page + 1)"

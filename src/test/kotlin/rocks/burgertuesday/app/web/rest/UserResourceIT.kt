@@ -1,19 +1,14 @@
 package rocks.burgertuesday.app.web.rest
 
-import rocks.burgertuesday.app.BurgertuesdayApp
-import rocks.burgertuesday.app.config.TestSecurityConfiguration
-import rocks.burgertuesday.app.domain.Authority
-import rocks.burgertuesday.app.domain.User
-import rocks.burgertuesday.app.repository.UserRepository
-import rocks.burgertuesday.app.repository.search.UserSearchRepository
-import rocks.burgertuesday.app.security.ADMIN
-import rocks.burgertuesday.app.security.USER
-
-import rocks.burgertuesday.app.service.UserService
-import rocks.burgertuesday.app.service.dto.UserDTO
-import rocks.burgertuesday.app.service.mapper.UserMapper
-import rocks.burgertuesday.app.web.rest.errors.ExceptionTranslator
+import java.time.Instant
+import java.util.UUID
+import javax.persistence.EntityManager
+import kotlin.test.assertNotNull
+import kotlin.test.assertNull
 import org.apache.commons.lang3.RandomStringUtils
+import org.assertj.core.api.Assertions.assertThat
+import org.hamcrest.Matchers.hasItem
+import org.hamcrest.Matchers.hasItems
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -23,22 +18,24 @@ import org.springframework.data.web.PageableHandlerMethodArgumentResolver
 import org.springframework.http.MediaType
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.setup.MockMvcBuilders
-import org.springframework.transaction.annotation.Transactional
-
-import javax.persistence.EntityManager
-import java.time.Instant
-import java.util.UUID
-
-import org.assertj.core.api.Assertions.assertThat
-import org.hamcrest.Matchers.hasItems
-import org.hamcrest.Matchers.hasItem
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
-import kotlin.test.assertNotNull
-import kotlin.test.assertNull
+import org.springframework.test.web.servlet.setup.MockMvcBuilders
+import org.springframework.transaction.annotation.Transactional
+import rocks.burgertuesday.app.BurgertuesdayApp
+import rocks.burgertuesday.app.config.TestSecurityConfiguration
+import rocks.burgertuesday.app.domain.Authority
+import rocks.burgertuesday.app.domain.User
+import rocks.burgertuesday.app.repository.UserRepository
+import rocks.burgertuesday.app.repository.search.UserSearchRepository
+import rocks.burgertuesday.app.security.ADMIN
+import rocks.burgertuesday.app.security.USER
+import rocks.burgertuesday.app.service.UserService
+import rocks.burgertuesday.app.service.dto.UserDTO
+import rocks.burgertuesday.app.service.mapper.UserMapper
+import rocks.burgertuesday.app.web.rest.errors.ExceptionTranslator
 
 /**
  * Integration tests for the [UserResource] REST controller.

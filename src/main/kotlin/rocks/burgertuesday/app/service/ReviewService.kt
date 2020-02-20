@@ -1,11 +1,9 @@
 package rocks.burgertuesday.app.service
 
-import rocks.burgertuesday.app.service.dto.ReviewDTO
-
+import java.util.Optional
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
-
-import java.util.Optional
+import rocks.burgertuesday.app.service.dto.ReviewDTO
 
 /**
  * Service Interface for managing [rocks.burgertuesday.app.domain.Review].

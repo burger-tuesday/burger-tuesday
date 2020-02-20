@@ -1,21 +1,18 @@
 package rocks.burgertuesday.app.service.impl
 
-import rocks.burgertuesday.app.service.VisitService
-import rocks.burgertuesday.app.domain.Visit
-import rocks.burgertuesday.app.repository.VisitRepository
-import rocks.burgertuesday.app.repository.search.VisitSearchRepository
-import rocks.burgertuesday.app.service.dto.VisitDTO
-import rocks.burgertuesday.app.service.mapper.VisitMapper
+import java.util.Optional
+import org.elasticsearch.index.query.QueryBuilders.queryStringQuery
 import org.slf4j.LoggerFactory
-
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-
-import java.util.Optional
-
-import org.elasticsearch.index.query.QueryBuilders.queryStringQuery
+import rocks.burgertuesday.app.domain.Visit
+import rocks.burgertuesday.app.repository.VisitRepository
+import rocks.burgertuesday.app.repository.search.VisitSearchRepository
+import rocks.burgertuesday.app.service.VisitService
+import rocks.burgertuesday.app.service.dto.VisitDTO
+import rocks.burgertuesday.app.service.mapper.VisitMapper
 
 /**
  * Service Implementation for managing [Visit].

@@ -3,23 +3,16 @@ package rocks.burgertuesday.app.config
 import io.github.jhipster.config.JHipsterConstants
 import io.github.jhipster.config.JHipsterProperties
 import io.github.jhipster.web.filter.CachingHttpHeadersFilter
-import org.h2.server.web.WebServlet
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
-import org.springframework.boot.web.embedded.undertow.UndertowServletWebServerFactory
-import org.springframework.http.HttpHeaders
-import org.springframework.mock.env.MockEnvironment
-import org.springframework.mock.web.MockServletContext
-import org.springframework.test.web.servlet.setup.MockMvcBuilders
-
+import java.io.File
 import javax.servlet.Filter
 import javax.servlet.FilterRegistration
 import javax.servlet.Servlet
 import javax.servlet.ServletException
 import javax.servlet.ServletRegistration
-import java.io.File
-
 import org.assertj.core.api.Assertions.assertThat
+import org.h2.server.web.WebServlet
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import org.mockito.ArgumentMatchers
 import org.mockito.ArgumentMatchers.any
 import org.mockito.ArgumentMatchers.anyString
@@ -28,10 +21,15 @@ import org.mockito.Mockito.mock
 import org.mockito.Mockito.never
 import org.mockito.Mockito.spy
 import org.mockito.Mockito.verify
+import org.springframework.boot.web.embedded.undertow.UndertowServletWebServerFactory
+import org.springframework.http.HttpHeaders
+import org.springframework.mock.env.MockEnvironment
+import org.springframework.mock.web.MockServletContext
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.options
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.header
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.test.web.servlet.setup.StandaloneMockMvcBuilder
 
 /**

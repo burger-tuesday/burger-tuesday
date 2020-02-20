@@ -1,9 +1,9 @@
 package rocks.burgertuesday.app.domain
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
-import org.hibernate.annotations.Cache
-import org.hibernate.annotations.CacheConcurrencyStrategy
-
+import java.io.Serializable
+import java.math.BigDecimal
+import java.time.Instant
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
@@ -14,11 +14,9 @@ import javax.persistence.OneToMany
 import javax.persistence.SequenceGenerator
 import javax.persistence.Table
 import javax.validation.constraints.NotNull
-
+import org.hibernate.annotations.Cache
+import org.hibernate.annotations.CacheConcurrencyStrategy
 import org.springframework.data.elasticsearch.annotations.FieldType
-import java.io.Serializable
-import java.math.BigDecimal
-import java.time.Instant
 
 /**
  * A Restaurant.
@@ -60,7 +58,7 @@ class Restaurant(
     var btRating: BigDecimal? = null,
 
     @Column(name = "num_reviews")
-    var numberOfReviews: Long? = null,
+    var numberOfReviews: Int? = null,
 
     @Column(name = "price_level")
     var priceLevel: String? = null,
@@ -115,6 +113,8 @@ class Restaurant(
         ", url='$url'" +
         ", website='$website'" +
         ", googleRating=$googleRating" +
+        ", btRating=$btRating" +
+        ", numberOfReviews=$numberOfReviews" +
         ", priceLevel='$priceLevel'" +
         ", permanentlyClosed='$permanentlyClosed'" +
         "}"

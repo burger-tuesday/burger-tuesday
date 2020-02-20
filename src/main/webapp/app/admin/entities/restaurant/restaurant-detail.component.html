@@ -33,6 +33,14 @@
                 <dd>
                     <span>{{restaurant.googleRating}}</span>
                 </dd>
+                <dt><span jhiTranslate="burgertuesdayApp.restaurant.btRating">Bt Rating</span></dt>
+                <dd>
+                    <span>{{restaurant.btRating}}</span>
+                </dd>
+                <dt><span jhiTranslate="burgertuesdayApp.restaurant.numberOfReviews">Number Of Reviews</span></dt>
+                <dd>
+                    <span>{{restaurant.numberOfReviews}}</span>
+                </dd>
                 <dt><span jhiTranslate="burgertuesdayApp.restaurant.priceLevel">Price Level</span></dt>
                 <dd>
                     <span>{{restaurant.priceLevel}}</span>
@@ -54,7 +62,7 @@
             </button>
 
             <button type="button"
-                    [routerLink]="['/admin/restaurant', restaurant.id, 'edit']"
+                    [routerLink]="['/restaurant', restaurant.id, 'edit']"
                     class="btn btn-primary">
                 <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
             </button>

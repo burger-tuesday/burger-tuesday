@@ -16,8 +16,8 @@
 logging:
   level:
     ROOT: INFO
-    rocks.burgertuesday.app: INFO
     io.github.jhipster: INFO
+    rocks.burgertuesday.app: INFO
 
 management:
   metrics:
@@ -49,6 +49,12 @@ spring:
       hibernate.cache.use_second_level_cache: true
       hibernate.cache.use_query_cache: false
       hibernate.generate_statistics: false
+      # modify batch size as necessary
+      hibernate.jdbc.batch_size: 25
+      hibernate.order_inserts: true
+      hibernate.order_updates: true
+      hibernate.query.fail_on_pagination_over_collection_fetch: true
+      hibernate.query.in_clause_parameter_padding: true
   data:
     jest:
       uri: http://localhost:9200
@@ -129,6 +135,9 @@ jhipster:
       host: localhost
       port: 5000
       queue-size: 512
+  audit-events:
+    retention-period: 30 # Number of days before audit events are deleted.
+
 # ===================================================================
 # Application specific properties
 # Add your own application properties here, see the ApplicationProperties class

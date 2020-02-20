@@ -1,21 +1,18 @@
 package rocks.burgertuesday.app.service.impl
 
-import rocks.burgertuesday.app.service.RestaurantService
-import rocks.burgertuesday.app.domain.Restaurant
-import rocks.burgertuesday.app.repository.RestaurantRepository
-import rocks.burgertuesday.app.repository.search.RestaurantSearchRepository
-import rocks.burgertuesday.app.service.dto.RestaurantDTO
-import rocks.burgertuesday.app.service.mapper.RestaurantMapper
+import java.util.Optional
+import org.elasticsearch.index.query.QueryBuilders.queryStringQuery
 import org.slf4j.LoggerFactory
-
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-
-import java.util.Optional
-
-import org.elasticsearch.index.query.QueryBuilders.queryStringQuery
+import rocks.burgertuesday.app.domain.Restaurant
+import rocks.burgertuesday.app.repository.RestaurantRepository
+import rocks.burgertuesday.app.repository.search.RestaurantSearchRepository
+import rocks.burgertuesday.app.service.RestaurantService
+import rocks.burgertuesday.app.service.dto.RestaurantDTO
+import rocks.burgertuesday.app.service.mapper.RestaurantMapper
 
 /**
  * Service Implementation for managing [Restaurant].

@@ -8,6 +8,7 @@
             </span>
         </button>
     </h2>
+    <jhi-alert-error></jhi-alert-error>
     <jhi-alert></jhi-alert>
     <div class="row">
         <div class="col-sm-12">
@@ -17,7 +18,7 @@
                     <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
                         <fa-icon [icon]="'search'"></fa-icon>
                     </button>
-                    <button class="input-group-append btn btn-danger" (click)="clear()" *ngIf="currentSearch">
+                    <button class="input-group-append btn btn-danger" (click)="search('')" *ngIf="currentSearch">
                         <fa-icon [icon]="'trash-alt'"></fa-icon>
                     </button>
                 </div>
@@ -31,23 +32,23 @@
     <div class="table-responsive" *ngIf="visits?.length > 0">
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
-            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
-            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="date"><span jhiTranslate="burgertuesdayApp.visit.date">Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="sponsored"><span jhiTranslate="burgertuesdayApp.visit.sponsored">Sponsored</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="restaurantId"><span jhiTranslate="burgertuesdayApp.visit.restaurant">Restaurant</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="userId"><span jhiTranslate="burgertuesdayApp.visit.user">User</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th></th>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="reset.bind(this)">
+            <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="date"><span jhiTranslate="burgertuesdayApp.visit.date">Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="sponsored"><span jhiTranslate="burgertuesdayApp.visit.sponsored">Sponsored</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="restaurantId"><span jhiTranslate="burgertuesdayApp.visit.restaurant">Restaurant</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="userId"><span jhiTranslate="burgertuesdayApp.visit.user">User</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"></th>
             </tr>
             </thead>
             <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
             <tr *ngFor="let visit of visits ;trackBy: trackId">
-                <td><a [routerLink]="['/admin/visit', visit.id, 'view' ]">{{visit.id}}</a></td>
+                <td><a [routerLink]="['/visit', visit.id, 'view' ]">{{visit.id}}</a></td>
                 <td>{{visit.date | date:'mediumDate'}}</td>
                 <td>{{visit.sponsored}}</td>
                 <td>
                     <div *ngIf="visit.restaurantId">
-                        <a [routerLink]="['/admin/restaurant', visit.restaurantId , 'view' ]" >{{visit.restaurantId}}</a>
+                        <a [routerLink]="['/restaurant', visit.restaurantId , 'view' ]" >{{visit.restaurantId}}</a>
                     </div>
                 </td>
                 <td>
@@ -56,21 +57,18 @@
                 <td class="text-right">
                     <div class="btn-group">
                         <button type="submit"
-                                [routerLink]="['/admin/visit', visit.id, 'view' ]"
+                                [routerLink]="['/visit', visit.id, 'view' ]"
                                 class="btn btn-info btn-sm">
                             <fa-icon [icon]="'eye'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
                         </button>
                         <button type="submit"
-                                [routerLink]="['/admin/visit', visit.id, 'edit']"
+                                [routerLink]="['/visit', visit.id, 'edit']"
                                 class="btn btn-primary btn-sm">
                             <fa-icon [icon]="'pencil-alt'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
                         </button>
-                        <button type="submit"
-                                [routerLink]="['/admin/visit', { outlets: { popup: visit.id + '/delete'} }]"
-                                replaceUrl="true"
-                                queryParamsHandling="merge"
+                        <button type="submit" (click)="delete(visit)"
                                 class="btn btn-danger btn-sm">
                             <fa-icon [icon]="'times'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>

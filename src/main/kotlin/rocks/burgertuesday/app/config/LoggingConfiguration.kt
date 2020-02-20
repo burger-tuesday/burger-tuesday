@@ -3,14 +3,13 @@ package rocks.burgertuesday.app.config
 import ch.qos.logback.classic.LoggerContext
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.github.jhipster.config.JHipsterProperties
-import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Value
-import org.springframework.context.annotation.Configuration
-
 import io.github.jhipster.config.logging.LoggingUtils.addContextListener
 import io.github.jhipster.config.logging.LoggingUtils.addJsonConsoleAppender
 import io.github.jhipster.config.logging.LoggingUtils.addLogstashTcpSocketAppender
 import io.github.jhipster.config.logging.LoggingUtils.setMetricsMarkerLogbackFilter
+import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Value
+import org.springframework.context.annotation.Configuration
 
 /*
  * Configures the console and Logstash log appenders from the app properties.

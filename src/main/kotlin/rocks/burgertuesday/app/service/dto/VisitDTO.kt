@@ -1,7 +1,7 @@
 package rocks.burgertuesday.app.service.dto
 
-import java.time.LocalDate
 import java.io.Serializable
+import java.time.LocalDate
 
 /**
  * A DTO for the [rocks.burgertuesday.app.domain.Visit] entity.

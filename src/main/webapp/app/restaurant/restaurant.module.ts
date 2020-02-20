@@ -6,13 +6,9 @@ import { RestaurantComponent } from './restaurant.component';
 import { RestaurantDetailComponent } from './restaurant-detail.component';
 import { restaurantRoute } from './restaurant.route';
 
-const ENTITY_STATES = [...restaurantRoute];
-
 @NgModule({
-  imports: [BurgertuesdaySharedModule, RouterModule.forChild(ENTITY_STATES)],
-  declarations: [
-    RestaurantComponent,
-    RestaurantDetailComponent,
-  ],
+  imports: [BurgertuesdaySharedModule, RouterModule.forChild(restaurantRoute)],
+  declarations: [RestaurantComponent, RestaurantDetailComponent],
+  entryComponents: []
 })
 export class BurgertuesdayRestaurantModule {}

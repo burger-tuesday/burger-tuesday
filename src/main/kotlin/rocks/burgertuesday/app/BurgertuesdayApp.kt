@@ -1,20 +1,17 @@
 package rocks.burgertuesday.app
 
-import rocks.burgertuesday.app.config.ApplicationProperties
-import rocks.burgertuesday.app.config.addDefaultProfile
-
+import io.github.jhipster.config.DefaultProfileUtil
 import io.github.jhipster.config.JHipsterConstants
-
+import java.net.InetAddress
+import java.net.UnknownHostException
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.InitializingBean
-import org.springframework.boot.runApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties
 import org.springframework.boot.context.properties.EnableConfigurationProperties
+import org.springframework.boot.runApplication
 import org.springframework.core.env.Environment
-
-import java.net.InetAddress
-import java.net.UnknownHostException
+import rocks.burgertuesday.app.config.ApplicationProperties
 
 @SpringBootApplication
 @EnableConfigurationProperties(LiquibaseProperties::class, ApplicationProperties::class)
@@ -60,7 +57,7 @@ class BurgertuesdayApp(private val env: Environment) : InitializingBean {
          */
         @JvmStatic
         fun main(args: Array<String>) {
-            val env = runApplication<BurgertuesdayApp>(*args) { addDefaultProfile(this) }.environment
+            val env = runApplication<BurgertuesdayApp>(*args) { DefaultProfileUtil.addDefaultProfile(this) }.environment
             logApplicationStartup(env)
         }
 

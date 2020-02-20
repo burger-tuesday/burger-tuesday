@@ -1,10 +1,8 @@
 package rocks.burgertuesday.app.repository
 
-import rocks.burgertuesday.app.BurgertuesdayApp
-import rocks.burgertuesday.app.config.ANONYMOUS_USER
-import rocks.burgertuesday.app.config.TestSecurityConfiguration
-import rocks.burgertuesday.app.config.audit.AuditEventConverter
-import rocks.burgertuesday.app.domain.PersistentAuditEvent
+import java.time.Instant
+import java.time.temporal.ChronoUnit
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -14,11 +12,11 @@ import org.springframework.mock.web.MockHttpServletRequest
 import org.springframework.mock.web.MockHttpSession
 import org.springframework.security.web.authentication.WebAuthenticationDetails
 import org.springframework.transaction.annotation.Transactional
-
-import java.time.Instant
-import java.time.temporal.ChronoUnit
-
-import org.assertj.core.api.Assertions.assertThat
+import rocks.burgertuesday.app.BurgertuesdayApp
+import rocks.burgertuesday.app.config.ANONYMOUS_USER
+import rocks.burgertuesday.app.config.TestSecurityConfiguration
+import rocks.burgertuesday.app.config.audit.AuditEventConverter
+import rocks.burgertuesday.app.domain.PersistentAuditEvent
 
 /**
  * Integration tests for [CustomAuditEventRepository].

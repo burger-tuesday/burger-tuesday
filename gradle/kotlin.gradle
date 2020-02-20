@@ -20,7 +20,7 @@ dependencies {
 
     testImplementation "org.jetbrains.kotlin:kotlin-test-junit:${kotlin_version}"
 
-    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0"
+    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0"
 }
 
 allOpen {
@@ -29,7 +29,7 @@ allOpen {
     annotation("javax.persistence.Embeddable")
 }
 
-compileKotlin {
+[compileKotlin, compileTestKotlin]*.with {
     kotlinOptions {
     	jvmTarget = "1.8"
         javaParameters = true

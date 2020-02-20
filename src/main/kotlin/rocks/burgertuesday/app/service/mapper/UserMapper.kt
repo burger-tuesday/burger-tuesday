@@ -1,10 +1,9 @@
 package rocks.burgertuesday.app.service.mapper
 
+import org.springframework.stereotype.Service
 import rocks.burgertuesday.app.domain.Authority
 import rocks.burgertuesday.app.domain.User
 import rocks.burgertuesday.app.service.dto.UserDTO
-
-import org.springframework.stereotype.Service
 
 /**
  * Mapper for the entity [User] and its DTO called [UserDTO].

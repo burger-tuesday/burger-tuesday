@@ -1,7 +1,7 @@
 version: '2'
 services:
   burgertuesday-postgresql:
-    image: postgres:11.4
+    image: postgres:11.6
     # volumes:
     #     - ~/volumes/jhipster/burgertuesday/postgresql/:/var/lib/postgresql/data/
     environment:

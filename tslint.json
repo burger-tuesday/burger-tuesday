@@ -1,8 +1,6 @@
 {
   "rulesDirectory": ["node_modules/codelyzer"],
   "rules": {
-    "directive-selector": [true, "attribute", "", "camelCase"],
-    "component-selector": [true, "element", "", "kebab-case"],
     "no-inputs-metadata-property": true,
     "no-outputs-metadata-property": true,
     "no-host-metadata-property": true,
@@ -11,6 +9,7 @@
     "use-lifecycle-interface": true,
     "use-pipe-transform-interface": false,
     "component-class-suffix": true,
-    "directive-class-suffix": true
+    "directive-class-suffix": true,
+    "typedef": [true, "call-signature"]
   }
 }

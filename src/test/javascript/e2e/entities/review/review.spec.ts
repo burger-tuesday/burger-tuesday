@@ -1,17 +1,19 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { browser, ExpectedConditions as ec, promise } from 'protractor';
+import { browser, ExpectedConditions as ec /* , promise */ } from 'protractor';
 import { NavBarPage, SignInPage } from '../../page-objects/jhi-page-objects';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { ReviewComponentsPage, /* ReviewDeleteDialog, */ ReviewUpdatePage } from './review.page-object';
+import {
+  ReviewComponentsPage,
+  /* ReviewDeleteDialog,
+   */ ReviewUpdatePage
+} from './review.page-object';
 
 const expect = chai.expect;
 
 describe('Review e2e test', () => {
   let navBarPage: NavBarPage;
   let signInPage: SignInPage;
-  let reviewUpdatePage: ReviewUpdatePage;
   let reviewComponentsPage: ReviewComponentsPage;
+  let reviewUpdatePage: ReviewUpdatePage;
   /* let reviewDeleteDialog: ReviewDeleteDialog; */
 
   before(async () => {

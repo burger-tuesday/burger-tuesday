@@ -6,7 +6,6 @@ import { NgJhipsterModule } from 'ng-jhipster';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TranslateModule } from '@ngx-translate/core';
-import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
   exports: [
@@ -17,8 +16,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     InfiniteScrollModule,
     FontAwesomeModule,
     ReactiveFormsModule,
-    FlexLayoutModule,
-    TranslateModule,
+    TranslateModule
   ]
 })
 export class BurgertuesdaySharedLibsModule {}

@@ -1,5 +1,9 @@
 package rocks.burgertuesday.app.security.oauth2
 
+import java.net.URI
+import java.time.Duration
+import java.time.Instant
+import java.util.regex.Pattern
 import org.slf4j.LoggerFactory
 import org.springframework.boot.web.client.RestTemplateBuilder
 import org.springframework.http.MediaType
@@ -22,10 +26,6 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.stereotype.Component
 import org.springframework.util.LinkedMultiValueMap
 import org.springframework.web.client.RestTemplate
-import java.net.URI
-import java.time.Duration
-import java.time.Instant
-import java.util.regex.Pattern
 
 @Component
 class AuthorizationHeaderUtil(

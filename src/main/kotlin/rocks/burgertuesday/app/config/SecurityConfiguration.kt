@@ -1,41 +1,38 @@
 package rocks.burgertuesday.app.config
 
-import rocks.burgertuesday.app.security.ADMIN
-import rocks.burgertuesday.app.security.extractAuthorityFromClaims
-
+import io.github.jhipster.config.JHipsterProperties
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Import
 import org.springframework.http.HttpMethod
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.builders.WebSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
-import rocks.burgertuesday.app.security.oauth2.AudienceValidator
+import org.springframework.security.core.GrantedAuthority
+import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMapper
 import org.springframework.security.oauth2.core.DelegatingOAuth2TokenValidator
+import org.springframework.security.oauth2.core.oidc.user.OidcUserAuthority
 import org.springframework.security.oauth2.jwt.JwtDecoder
 import org.springframework.security.oauth2.jwt.JwtDecoders
 import org.springframework.security.oauth2.jwt.JwtValidators
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoderJwkSupport
-import rocks.burgertuesday.app.security.oauth2.AuthorizationHeaderFilter
-import rocks.burgertuesday.app.security.oauth2.AuthorizationHeaderUtil
-import org.springframework.beans.factory.annotation.Value
-import org.springframework.security.core.GrantedAuthority
-import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMapper
-import org.springframework.security.oauth2.core.oidc.user.OidcUserAuthority
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository
 import org.springframework.security.web.csrf.CsrfFilter
-import rocks.burgertuesday.app.security.oauth2.JwtAuthorityExtractor
 import org.springframework.security.web.header.writers.ReferrerPolicyHeaderWriter
 import org.springframework.web.filter.CorsFilter
 import org.zalando.problem.spring.web.advice.security.SecurityProblemSupport
+import rocks.burgertuesday.app.security.ADMIN
+import rocks.burgertuesday.app.security.extractAuthorityFromClaims
+import rocks.burgertuesday.app.security.oauth2.AudienceValidator
+import rocks.burgertuesday.app.security.oauth2.JwtAuthorityExtractor
 
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 @Import(SecurityProblemSupport::class)
 class SecurityConfiguration(
     private val corsFilter: CorsFilter,
     private val jwtAuthorityExtractor: JwtAuthorityExtractor,
+    private val jHipsterProperties: JHipsterProperties,
     private val problemSupport: SecurityProblemSupport
 ) : WebSecurityConfigurerAdapter() {
 
@@ -61,10 +58,11 @@ class SecurityConfiguration(
         .and()
             .addFilterBefore(corsFilter, CsrfFilter::class.java)
             .exceptionHandling()
+            .authenticationEntryPoint(problemSupport)
             .accessDeniedHandler(problemSupport)
         .and()
             .headers()
-            .contentSecurityPolicy("default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://storage.googleapis.com; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; img-src 'self' data:; font-src 'self' https://fonts.gstatic.com data:")
+            .contentSecurityPolicy("default-src 'self'; frame-src 'self' data:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://storage.googleapis.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:")
         .and()
             .referrerPolicy(ReferrerPolicyHeaderWriter.ReferrerPolicy.STRICT_ORIGIN_WHEN_CROSS_ORIGIN)
         .and()
@@ -120,7 +118,7 @@ class SecurityConfiguration(
     fun jwtDecoder(): JwtDecoder {
         val jwtDecoder = JwtDecoders.fromOidcIssuerLocation(issuerUri) as NimbusJwtDecoderJwkSupport
 
-        val audienceValidator = AudienceValidator()
+        val audienceValidator = AudienceValidator(jHipsterProperties.security.oauth2.audience)
         val withIssuer = JwtValidators.createDefaultWithIssuer(issuerUri)
         val withAudience = DelegatingOAuth2TokenValidator(withIssuer, audienceValidator)
 
@@ -128,7 +126,4 @@ class SecurityConfiguration(
 
         return jwtDecoder
     }
-
-    @Bean
-    fun authHeaderFilter(headerUtil: AuthorizationHeaderUtil) = AuthorizationHeaderFilter(headerUtil)
 }

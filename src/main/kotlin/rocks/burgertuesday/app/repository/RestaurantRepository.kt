@@ -1,9 +1,9 @@
 package rocks.burgertuesday.app.repository
 
-import rocks.burgertuesday.app.domain.Restaurant
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
+import rocks.burgertuesday.app.domain.Restaurant
 
 /**
  * Spring Data  repository for the [Restaurant] entity.

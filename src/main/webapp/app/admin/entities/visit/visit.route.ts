@@ -1,27 +1,32 @@
 import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes } from '@angular/router';
+import { Resolve, ActivatedRouteSnapshot, Routes, Router } from '@angular/router';
+import { Observable, of, EMPTY } from 'rxjs';
+import { flatMap } from 'rxjs/operators';
+
 import { UserRouteAccessService } from 'app/core/auth/user-route-access-service';
-import { Observable, of } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
-import { Visit } from 'app/shared/model/visit.model';
+import { IVisit, Visit } from 'app/shared/model/visit.model';
 import { VisitService } from './visit.service';
 import { VisitComponent } from './visit.component';
 import { VisitDetailComponent } from './visit-detail.component';
 import { VisitUpdateComponent } from './visit-update.component';
-import { VisitDeletePopupComponent } from './visit-delete-dialog.component';
-import { IVisit } from 'app/shared/model/visit.model';
 
 @Injectable({ providedIn: 'root' })
 export class VisitResolve implements Resolve<IVisit> {
-  constructor(private service: VisitService) {}
+  constructor(private service: VisitService, private router: Router) {}
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IVisit> {
+  resolve(route: ActivatedRouteSnapshot): Observable<IVisit> | Observable<never> {
     const id = route.params['id'];
     if (id) {
       return this.service.find(id).pipe(
-        filter((response: HttpResponse<Visit>) => response.ok),
-        map((visit: HttpResponse<Visit>) => visit.body)
+        flatMap((visit: HttpResponse<Visit>) => {
+          if (visit.body) {
+            return of(visit.body);
+          } else {
+            this.router.navigate(['404']);
+            return EMPTY;
+          }
+        })
       );
     }
     return of(new Visit());
@@ -33,7 +38,7 @@ export const visitRoute: Routes = [
     path: '',
     component: VisitComponent,
     data: {
-      authorities: ['ROLE_ADMIN'],
+      authorities: ['ROLE_USER'],
       pageTitle: 'burgertuesdayApp.visit.home.title'
     },
     canActivate: [UserRouteAccessService]
@@ -45,7 +50,7 @@ export const visitRoute: Routes = [
       visit: VisitResolve
     },
     data: {
-      authorities: ['ROLE_ADMIN'],
+      authorities: ['ROLE_USER'],
       pageTitle: 'burgertuesdayApp.visit.home.title'
     },
     canActivate: [UserRouteAccessService]
@@ -57,7 +62,7 @@ export const visitRoute: Routes = [
       visit: VisitResolve
     },
     data: {
-      authorities: ['ROLE_ADMIN'],
+      authorities: ['ROLE_USER'],
       pageTitle: 'burgertuesdayApp.visit.home.title'
     },
     canActivate: [UserRouteAccessService]
@@ -69,25 +74,9 @@ export const visitRoute: Routes = [
       visit: VisitResolve
     },
     data: {
-      authorities: ['ROLE_ADMIN'],
+      authorities: ['ROLE_USER'],
       pageTitle: 'burgertuesdayApp.visit.home.title'
     },
     canActivate: [UserRouteAccessService]
-  }
-];
-
-export const visitPopupRoute: Routes = [
-  {
-    path: ':id/delete',
-    component: VisitDeletePopupComponent,
-    resolve: {
-      visit: VisitResolve
-    },
-    data: {
-      authorities: ['ROLE_ADMIN'],
-      pageTitle: 'burgertuesdayApp.visit.home.title'
-    },
-    canActivate: [UserRouteAccessService],
-    outlet: 'popup'
   }
 ];

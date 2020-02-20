@@ -1,9 +1,8 @@
 package rocks.burgertuesday.app.client
 
-import rocks.burgertuesday.app.security.oauth2.AuthorizationHeaderUtil
-
 import feign.RequestInterceptor
 import feign.RequestTemplate
+import rocks.burgertuesday.app.security.oauth2.AuthorizationHeaderUtil
 
 class TokenRelayRequestInterceptor(private val authorizationHeaderUtil: AuthorizationHeaderUtil) : RequestInterceptor {
 

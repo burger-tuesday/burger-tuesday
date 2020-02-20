@@ -24,6 +24,8 @@
       "url": "Url",
       "website": "Website",
       "googleRating": "Google Rating",
+      "btRating": "Bt Rating",
+      "numberOfReviews": "Number Of Reviews",
       "priceLevel": "Price Level",
       "permanentlyClosed": "Permanently Closed",
       "user": "User",

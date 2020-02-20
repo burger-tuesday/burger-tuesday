@@ -1,15 +1,7 @@
 package rocks.burgertuesday.app.service
 
-import rocks.burgertuesday.app.config.ANONYMOUS_USER
-import rocks.burgertuesday.app.config.DEFAULT_LANGUAGE
-import rocks.burgertuesday.app.domain.Authority
-import rocks.burgertuesday.app.domain.User
-import rocks.burgertuesday.app.repository.AuthorityRepository
-import rocks.burgertuesday.app.repository.UserRepository
-import rocks.burgertuesday.app.repository.search.UserSearchRepository
-import rocks.burgertuesday.app.security.getCurrentUserLogin
-import rocks.burgertuesday.app.service.dto.UserDTO
-
+import java.util.Date
+import java.util.Optional
 import org.slf4j.LoggerFactory
 import org.springframework.cache.CacheManager
 import org.springframework.data.domain.Page
@@ -20,9 +12,15 @@ import org.springframework.security.oauth2.client.authentication.OAuth2Authentic
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-
-import java.util.Date
-import java.util.Optional
+import rocks.burgertuesday.app.config.ANONYMOUS_USER
+import rocks.burgertuesday.app.config.DEFAULT_LANGUAGE
+import rocks.burgertuesday.app.domain.Authority
+import rocks.burgertuesday.app.domain.User
+import rocks.burgertuesday.app.repository.AuthorityRepository
+import rocks.burgertuesday.app.repository.UserRepository
+import rocks.burgertuesday.app.repository.search.UserSearchRepository
+import rocks.burgertuesday.app.security.getCurrentUserLogin
+import rocks.burgertuesday.app.service.dto.UserDTO
 
 /**
  * Service class for managing users.
@@ -191,7 +189,9 @@ class UserService(
 
     private fun clearUserCaches(user: User) {
         cacheManager.getCache(UserRepository.USERS_BY_LOGIN_CACHE)?.evict(user.login!!)
-        cacheManager.getCache(UserRepository.USERS_BY_EMAIL_CACHE)?.evict(user.email!!)
+        if (user.email != null) {
+            cacheManager.getCache(UserRepository.USERS_BY_EMAIL_CACHE)?.evict(user.email)
+        }
     }
 
     companion object {

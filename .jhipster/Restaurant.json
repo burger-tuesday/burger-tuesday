@@ -1,0 +1,75 @@
+{
+    "name": "Restaurant",
+    "fields": [
+        {
+            "fieldName": "placeId",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "name",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "address",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "vicinity",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "url",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "website",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "googleRating",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "btRating",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "numberOfReviews",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "priceLevel",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "permanentlyClosed",
+            "fieldType": "Boolean"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "user",
+            "otherEntityRelationshipName": "restaurant",
+            "relationshipValidateRules": "required",
+            "relationshipName": "user",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "visit",
+            "otherEntityRelationshipName": "restaurant",
+            "relationshipName": "visits"
+        }
+    ],
+    "changelogDate": "20191218095359",
+    "entityTableName": "restaurant",
+    "dto": "mapstruct",
+    "pagination": "infinite-scroll",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*",
+    "searchEngine": "elasticsearch"
+}

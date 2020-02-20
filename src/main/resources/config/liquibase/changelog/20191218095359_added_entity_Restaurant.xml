@@ -47,7 +47,7 @@
                 <constraints nullable="true" />
             </column>
 
-            <column name="num_reviews" type="bigint" defaultValueNumeric="0">
+            <column name="num_reviews" type="integer" defaultValueNumeric="0">
                 <constraints nullable="false"/>
             </column>
 

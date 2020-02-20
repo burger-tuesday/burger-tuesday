@@ -1,7 +1,7 @@
 package rocks.burgertuesday.app.security.oauth2
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import java.util.*
+import java.util.UUID
 
 open class OAuthIdpTokenResponseDTO(
     @JsonProperty("token_type")

@@ -1,16 +1,14 @@
 package rocks.burgertuesday.app.web.rest
 
-import rocks.burgertuesday.app.service.UserService
-import rocks.burgertuesday.app.service.dto.UserDTO
-
+import java.security.Principal
+import javax.servlet.http.HttpServletRequest
 import org.slf4j.LoggerFactory
 import org.springframework.security.authentication.AbstractAuthenticationToken
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-
-import javax.servlet.http.HttpServletRequest
-import java.security.Principal
+import rocks.burgertuesday.app.service.UserService
+import rocks.burgertuesday.app.service.dto.UserDTO
 
 /**
  * REST controller for managing the current user's account.

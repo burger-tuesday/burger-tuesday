@@ -1,19 +1,16 @@
 package rocks.burgertuesday.app.web.rest
 
-import rocks.burgertuesday.app.BurgertuesdayApp
-import rocks.burgertuesday.app.config.TestSecurityConfiguration
-import rocks.burgertuesday.app.domain.Restaurant
-import rocks.burgertuesday.app.repository.RestaurantRepository
-import rocks.burgertuesday.app.repository.search.RestaurantSearchRepository
-import rocks.burgertuesday.app.service.RestaurantService
-import rocks.burgertuesday.app.service.dto.RestaurantDTO
-import rocks.burgertuesday.app.service.mapper.RestaurantMapper
-import rocks.burgertuesday.app.web.rest.errors.ExceptionTranslator
-
+import java.math.BigDecimal
+import javax.persistence.EntityManager
 import kotlin.test.assertNotNull
-
+import org.assertj.core.api.Assertions.assertThat
+import org.elasticsearch.index.query.QueryBuilders.queryStringQuery
+import org.hamcrest.Matchers.hasItem
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.mockito.Mockito.`when`
+import org.mockito.Mockito.times
+import org.mockito.Mockito.verify
 import org.mockito.MockitoAnnotations
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -23,18 +20,6 @@ import org.springframework.data.web.PageableHandlerMethodArgumentResolver
 import org.springframework.http.MediaType
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.setup.MockMvcBuilders
-import org.springframework.transaction.annotation.Transactional
-import org.springframework.validation.Validator
-import javax.persistence.EntityManager
-import java.math.BigDecimal
-
-import org.assertj.core.api.Assertions.assertThat
-import org.elasticsearch.index.query.QueryBuilders.queryStringQuery
-import org.hamcrest.Matchers.hasItem
-import org.mockito.Mockito.`when`
-import org.mockito.Mockito.times
-import org.mockito.Mockito.verify
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
@@ -42,6 +27,17 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import org.springframework.test.web.servlet.setup.MockMvcBuilders
+import org.springframework.transaction.annotation.Transactional
+import org.springframework.validation.Validator
+import rocks.burgertuesday.app.BurgertuesdayApp
+import rocks.burgertuesday.app.config.TestSecurityConfiguration
+import rocks.burgertuesday.app.domain.Restaurant
+import rocks.burgertuesday.app.repository.RestaurantRepository
+import rocks.burgertuesday.app.repository.search.RestaurantSearchRepository
+import rocks.burgertuesday.app.service.RestaurantService
+import rocks.burgertuesday.app.service.mapper.RestaurantMapper
+import rocks.burgertuesday.app.web.rest.errors.ExceptionTranslator
 
 /**
  * Integration tests for the [RestaurantResource] REST controller.
@@ -106,6 +102,7 @@ class RestaurantResourceIT {
 
     @Test
     @Transactional
+    @Throws(Exception::class)
     fun createRestaurant() {
         val databaseSizeBeforeCreate = restaurantRepository.findAll().size
 
@@ -128,6 +125,8 @@ class RestaurantResourceIT {
         assertThat(testRestaurant.url).isEqualTo(DEFAULT_URL)
         assertThat(testRestaurant.website).isEqualTo(DEFAULT_WEBSITE)
         assertThat(testRestaurant.googleRating).isEqualTo(DEFAULT_GOOGLE_RATING)
+        assertThat(testRestaurant.btRating).isEqualTo(DEFAULT_BT_RATING)
+        assertThat(testRestaurant.numberOfReviews).isEqualTo(DEFAULT_NUMBER_OF_REVIEWS)
         assertThat(testRestaurant.priceLevel).isEqualTo(DEFAULT_PRICE_LEVEL)
         assertThat(testRestaurant.permanentlyClosed).isEqualTo(DEFAULT_PERMANENTLY_CLOSED)
 
@@ -176,6 +175,8 @@ class RestaurantResourceIT {
             .andExpect(jsonPath("$.[*].url").value(hasItem(DEFAULT_URL)))
             .andExpect(jsonPath("$.[*].website").value(hasItem(DEFAULT_WEBSITE)))
             .andExpect(jsonPath("$.[*].googleRating").value(hasItem(DEFAULT_GOOGLE_RATING.toInt())))
+            .andExpect(jsonPath("$.[*].btRating").value(hasItem(DEFAULT_BT_RATING.toInt())))
+            .andExpect(jsonPath("$.[*].numberOfReviews").value(hasItem(DEFAULT_NUMBER_OF_REVIEWS)))
             .andExpect(jsonPath("$.[*].priceLevel").value(hasItem(DEFAULT_PRICE_LEVEL)))
             .andExpect(jsonPath("$.[*].permanentlyClosed").value(hasItem(DEFAULT_PERMANENTLY_CLOSED)))
     }
@@ -201,6 +202,8 @@ class RestaurantResourceIT {
             .andExpect(jsonPath("$.url").value(DEFAULT_URL))
             .andExpect(jsonPath("$.website").value(DEFAULT_WEBSITE))
             .andExpect(jsonPath("$.googleRating").value(DEFAULT_GOOGLE_RATING.toInt()))
+            .andExpect(jsonPath("$.btRating").value(DEFAULT_BT_RATING.toInt()))
+            .andExpect(jsonPath("$.numberOfReviews").value(DEFAULT_NUMBER_OF_REVIEWS))
             .andExpect(jsonPath("$.priceLevel").value(DEFAULT_PRICE_LEVEL))
             .andExpect(jsonPath("$.permanentlyClosed").value(DEFAULT_PERMANENTLY_CLOSED))
     }
@@ -212,7 +215,6 @@ class RestaurantResourceIT {
         restRestaurantMockMvc.perform(get("/api/restaurants/{id}", Long.MAX_VALUE))
             .andExpect(status().isNotFound)
     }
-
     @Test
     @Transactional
     fun updateRestaurant() {
@@ -234,6 +236,8 @@ class RestaurantResourceIT {
         updatedRestaurant.url = UPDATED_URL
         updatedRestaurant.website = UPDATED_WEBSITE
         updatedRestaurant.googleRating = UPDATED_GOOGLE_RATING
+        updatedRestaurant.btRating = UPDATED_BT_RATING
+        updatedRestaurant.numberOfReviews = UPDATED_NUMBER_OF_REVIEWS
         updatedRestaurant.priceLevel = UPDATED_PRICE_LEVEL
         updatedRestaurant.permanentlyClosed = UPDATED_PERMANENTLY_CLOSED
         val restaurantDTO = restaurantMapper.toDto(updatedRestaurant)
@@ -255,6 +259,8 @@ class RestaurantResourceIT {
         assertThat(testRestaurant.url).isEqualTo(UPDATED_URL)
         assertThat(testRestaurant.website).isEqualTo(UPDATED_WEBSITE)
         assertThat(testRestaurant.googleRating).isEqualTo(UPDATED_GOOGLE_RATING)
+        assertThat(testRestaurant.btRating).isEqualTo(UPDATED_BT_RATING)
+        assertThat(testRestaurant.numberOfReviews).isEqualTo(UPDATED_NUMBER_OF_REVIEWS)
         assertThat(testRestaurant.priceLevel).isEqualTo(UPDATED_PRICE_LEVEL)
         assertThat(testRestaurant.permanentlyClosed).isEqualTo(UPDATED_PERMANENTLY_CLOSED)
 
@@ -312,8 +318,9 @@ class RestaurantResourceIT {
 
     @Test
     @Transactional
+    @Throws(Exception::class)
     fun searchRestaurant() {
-        // Initialize the database
+        // InitializesearchRestaurant() the database
         restaurantRepository.saveAndFlush(restaurant)
         `when`(mockRestaurantSearchRepository.search(queryStringQuery("id:" + restaurant.id), PageRequest.of(0, 20)))
             .thenReturn(PageImpl(listOf(restaurant), PageRequest.of(0, 1), 1))
@@ -329,73 +336,42 @@ class RestaurantResourceIT {
             .andExpect(jsonPath("$.[*].url").value(hasItem(DEFAULT_URL)))
             .andExpect(jsonPath("$.[*].website").value(hasItem(DEFAULT_WEBSITE)))
             .andExpect(jsonPath("$.[*].googleRating").value(hasItem(DEFAULT_GOOGLE_RATING.toInt())))
+            .andExpect(jsonPath("$.[*].btRating").value(hasItem(DEFAULT_BT_RATING.toInt())))
+            .andExpect(jsonPath("$.[*].numberOfReviews").value(hasItem(DEFAULT_NUMBER_OF_REVIEWS)))
             .andExpect(jsonPath("$.[*].priceLevel").value(hasItem(DEFAULT_PRICE_LEVEL)))
             .andExpect(jsonPath("$.[*].permanentlyClosed").value(hasItem(DEFAULT_PERMANENTLY_CLOSED)))
     }
 
-    @Test
-    @Transactional
-    fun equalsVerifier() {
-        equalsVerifier(Restaurant::class)
-        val restaurant1 = Restaurant()
-        restaurant1.id = 1L
-        val restaurant2 = Restaurant()
-        restaurant2.id = restaurant1.id
-        assertThat(restaurant1).isEqualTo(restaurant2)
-        restaurant2.id = 2L
-        assertThat(restaurant1).isNotEqualTo(restaurant2)
-        restaurant1.id = null
-        assertThat(restaurant1).isNotEqualTo(restaurant2)
-    }
-
-    @Test
-    @Transactional
-    fun dtoEqualsVerifier() {
-        equalsVerifier(RestaurantDTO::class)
-        val restaurantDTO1 = RestaurantDTO()
-        restaurantDTO1.id = 1L
-        val restaurantDTO2 = RestaurantDTO()
-        assertThat(restaurantDTO1).isNotEqualTo(restaurantDTO2)
-        restaurantDTO2.id = restaurantDTO1.id
-        assertThat(restaurantDTO1).isEqualTo(restaurantDTO2)
-        restaurantDTO2.id = 2L
-        assertThat(restaurantDTO1).isNotEqualTo(restaurantDTO2)
-        restaurantDTO1.id = null
-        assertThat(restaurantDTO1).isNotEqualTo(restaurantDTO2)
-    }
-
-    @Test
-    @Transactional
-    fun testEntityFromId() {
-        assertThat(restaurantMapper.fromId(42L)?.id).isEqualTo(42)
-        assertThat(restaurantMapper.fromId(null)).isNull()
-    }
-
     companion object {
 
-        private const val DEFAULT_PLACE_ID: String = "AAAAAAAAAA"
+        private const val DEFAULT_PLACE_ID = "AAAAAAAAAA"
         private const val UPDATED_PLACE_ID = "BBBBBBBBBB"
 
-        private const val DEFAULT_NAME: String = "AAAAAAAAAA"
+        private const val DEFAULT_NAME = "AAAAAAAAAA"
         private const val UPDATED_NAME = "BBBBBBBBBB"
 
-        private const val DEFAULT_ADDRESS: String = "AAAAAAAAAA"
+        private const val DEFAULT_ADDRESS = "AAAAAAAAAA"
         private const val UPDATED_ADDRESS = "BBBBBBBBBB"
 
-        private const val DEFAULT_VICINITY: String = "AAAAAAAAAA"
+        private const val DEFAULT_VICINITY = "AAAAAAAAAA"
         private const val UPDATED_VICINITY = "BBBBBBBBBB"
 
-        private const val DEFAULT_URL: String = "AAAAAAAAAA"
+        private const val DEFAULT_URL = "AAAAAAAAAA"
         private const val UPDATED_URL = "BBBBBBBBBB"
 
-        private const val DEFAULT_WEBSITE: String = "AAAAAAAAAA"
+        private const val DEFAULT_WEBSITE = "AAAAAAAAAA"
         private const val UPDATED_WEBSITE = "BBBBBBBBBB"
 
         private val DEFAULT_GOOGLE_RATING: BigDecimal = BigDecimal(1)
         private val UPDATED_GOOGLE_RATING: BigDecimal = BigDecimal(2)
-        private val SMALLER_GOOGLE_RATING: BigDecimal = BigDecimal(1 - 1)
 
-        private const val DEFAULT_PRICE_LEVEL: String = "AAAAAAAAAA"
+        private val DEFAULT_BT_RATING: BigDecimal = BigDecimal(1)
+        private val UPDATED_BT_RATING: BigDecimal = BigDecimal(2)
+
+        private const val DEFAULT_NUMBER_OF_REVIEWS: Int = 1
+        private const val UPDATED_NUMBER_OF_REVIEWS: Int = 2
+
+        private const val DEFAULT_PRICE_LEVEL = "AAAAAAAAAA"
         private const val UPDATED_PRICE_LEVEL = "BBBBBBBBBB"
 
         private const val DEFAULT_PERMANENTLY_CLOSED: Boolean = false
@@ -417,6 +393,8 @@ class RestaurantResourceIT {
                 url = DEFAULT_URL,
                 website = DEFAULT_WEBSITE,
                 googleRating = DEFAULT_GOOGLE_RATING,
+                btRating = DEFAULT_BT_RATING,
+                numberOfReviews = DEFAULT_NUMBER_OF_REVIEWS,
                 priceLevel = DEFAULT_PRICE_LEVEL,
                 permanentlyClosed = DEFAULT_PERMANENTLY_CLOSED
             )
@@ -445,6 +423,8 @@ class RestaurantResourceIT {
                 url = UPDATED_URL,
                 website = UPDATED_WEBSITE,
                 googleRating = UPDATED_GOOGLE_RATING,
+                btRating = UPDATED_BT_RATING,
+                numberOfReviews = UPDATED_NUMBER_OF_REVIEWS,
                 priceLevel = UPDATED_PRICE_LEVEL,
                 permanentlyClosed = UPDATED_PERMANENTLY_CLOSED
             )

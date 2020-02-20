@@ -1,7 +1,5 @@
 package rocks.burgertuesday.app.web.rest.errors
 
-import rocks.burgertuesday.app.BurgertuesdayApp
-import rocks.burgertuesday.app.config.TestSecurityConfiguration
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -9,13 +7,14 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.setup.MockMvcBuilders
-
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import org.springframework.test.web.servlet.setup.MockMvcBuilders
+import rocks.burgertuesday.app.BurgertuesdayApp
+import rocks.burgertuesday.app.config.TestSecurityConfiguration
 
 /**
  * Integration tests [ExceptionTranslator] controller advice.
@@ -58,7 +57,7 @@ class ExceptionTranslatorIT {
             .andExpect(status().isBadRequest)
             .andExpect(content().contentType(MediaType.APPLICATION_PROBLEM_JSON))
             .andExpect(jsonPath("\$.message").value(ERR_VALIDATION))
-            .andExpect(jsonPath("\$.fieldErrors.[0].objectName").value("testDTO"))
+            .andExpect(jsonPath("\$.fieldErrors.[0].objectName").value("test"))
             .andExpect(jsonPath("\$.fieldErrors.[0].field").value("test"))
             .andExpect(jsonPath("\$.fieldErrors.[0].message").value("NotNull"))
     }

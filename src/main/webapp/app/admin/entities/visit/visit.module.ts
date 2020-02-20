@@ -5,14 +5,12 @@ import { BurgertuesdaySharedModule } from 'app/shared/shared.module';
 import { VisitComponent } from './visit.component';
 import { VisitDetailComponent } from './visit-detail.component';
 import { VisitUpdateComponent } from './visit-update.component';
-import { VisitDeletePopupComponent, VisitDeleteDialogComponent } from './visit-delete-dialog.component';
-import { visitRoute, visitPopupRoute } from './visit.route';
-
-const ENTITY_STATES = [...visitRoute, ...visitPopupRoute];
+import { VisitDeleteDialogComponent } from './visit-delete-dialog.component';
+import { visitRoute } from './visit.route';
 
 @NgModule({
-  imports: [BurgertuesdaySharedModule, RouterModule.forChild(ENTITY_STATES)],
-  declarations: [VisitComponent, VisitDetailComponent, VisitUpdateComponent, VisitDeleteDialogComponent, VisitDeletePopupComponent],
+  imports: [BurgertuesdaySharedModule, RouterModule.forChild(visitRoute)],
+  declarations: [VisitComponent, VisitDetailComponent, VisitUpdateComponent, VisitDeleteDialogComponent],
   entryComponents: [VisitDeleteDialogComponent]
 })
 export class BurgertuesdayVisitModule {}

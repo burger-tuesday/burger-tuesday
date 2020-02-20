@@ -1,17 +1,15 @@
 package rocks.burgertuesday.app.security
 
+import java.time.Instant
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken
 import org.springframework.security.oauth2.core.oidc.OidcIdToken
-import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser
-
-import java.time.Instant
-
-import org.assertj.core.api.Assertions.assertThat
 import org.springframework.security.oauth2.core.oidc.endpoint.OidcParameterNames.ID_TOKEN
+import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser
 
 /**
  * Test class for the Security Utility methods.

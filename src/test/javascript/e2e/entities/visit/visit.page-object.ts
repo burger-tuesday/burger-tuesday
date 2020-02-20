@@ -5,19 +5,19 @@ export class VisitComponentsPage {
   deleteButtons = element.all(by.css('jhi-visit div table .btn-danger'));
   title = element.all(by.css('jhi-visit div h2#page-heading span')).first();
 
-  async clickOnCreateButton(timeout?: number) {
+  async clickOnCreateButton(): Promise<void> {
     await this.createButton.click();
   }
 
-  async clickOnLastDeleteButton(timeout?: number) {
+  async clickOnLastDeleteButton(): Promise<void> {
     await this.deleteButtons.last().click();
   }
 
-  async countDeleteButtons() {
+  async countDeleteButtons(): Promise<number> {
     return this.deleteButtons.count();
   }
 
-  async getTitle() {
+  async getTitle(): Promise<string> {
     return this.title.getAttribute('jhiTranslate');
   }
 }
@@ -31,30 +31,30 @@ export class VisitUpdatePage {
   restaurantSelect = element(by.id('field_restaurant'));
   userSelect = element(by.id('field_user'));
 
-  async getPageTitle() {
+  async getPageTitle(): Promise<string> {
     return this.pageTitle.getAttribute('jhiTranslate');
   }
 
-  async setDateInput(date) {
+  async setDateInput(date: string): Promise<void> {
     await this.dateInput.sendKeys(date);
   }
 
-  async getDateInput() {
+  async getDateInput(): Promise<string> {
     return await this.dateInput.getAttribute('value');
   }
 
-  getSponsoredInput(timeout?: number) {
+  getSponsoredInput(): ElementFinder {
     return this.sponsoredInput;
   }
 
-  async restaurantSelectLastOption(timeout?: number) {
+  async restaurantSelectLastOption(): Promise<void> {
     await this.restaurantSelect
       .all(by.tagName('option'))
       .last()
       .click();
   }
 
-  async restaurantSelectOption(option) {
+  async restaurantSelectOption(option: string): Promise<void> {
     await this.restaurantSelect.sendKeys(option);
   }
 
@@ -62,18 +62,18 @@ export class VisitUpdatePage {
     return this.restaurantSelect;
   }
 
-  async getRestaurantSelectedOption() {
+  async getRestaurantSelectedOption(): Promise<string> {
     return await this.restaurantSelect.element(by.css('option:checked')).getText();
   }
 
-  async userSelectLastOption(timeout?: number) {
+  async userSelectLastOption(): Promise<void> {
     await this.userSelect
       .all(by.tagName('option'))
       .last()
       .click();
   }
 
-  async userSelectOption(option) {
+  async userSelectOption(option: string): Promise<void> {
     await this.userSelect.sendKeys(option);
   }
 
@@ -81,15 +81,15 @@ export class VisitUpdatePage {
     return this.userSelect;
   }
 
-  async getUserSelectedOption() {
+  async getUserSelectedOption(): Promise<string> {
     return await this.userSelect.element(by.css('option:checked')).getText();
   }
 
-  async save(timeout?: number) {
+  async save(): Promise<void> {
     await this.saveButton.click();
   }
 
-  async cancel(timeout?: number) {
+  async cancel(): Promise<void> {
     await this.cancelButton.click();
   }
 
@@ -102,11 +102,11 @@ export class VisitDeleteDialog {
   private dialogTitle = element(by.id('jhi-delete-visit-heading'));
   private confirmButton = element(by.id('jhi-confirm-delete-visit'));
 
-  async getDialogTitle() {
+  async getDialogTitle(): Promise<string> {
     return this.dialogTitle.getAttribute('jhiTranslate');
   }
 
-  async clickOnConfirmButton(timeout?: number) {
+  async clickOnConfirmButton(): Promise<void> {
     await this.confirmButton.click();
   }
 }

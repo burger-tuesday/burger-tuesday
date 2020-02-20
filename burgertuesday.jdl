@@ -1,0 +1,41 @@
+entity Restaurant {
+    placeId String,
+    name String,
+    address String,
+    vicinity String,
+    url String,
+    website String,
+    googleRating BigDecimal,
+    priceLevel String,
+    permanentlyClosed Boolean
+}
+entity Visit {
+    date LocalDate,
+    sponsored Boolean
+}
+entity Review {
+    review String,
+    taste Integer,
+    likeness Integer,
+    menuDiversity Integer,
+    service Integer,
+    priceLevel Integer,
+    recommended Boolean
+}
+
+relationship ManyToOne {
+    Visit{restaurant required} to Restaurant{visits}
+    Review{visit required} to Visit{reviews}
+
+    Restaurant{user required} to User
+    Visit{user required} to User
+    Review{user required} to User
+}
+
+paginate * with infinite-scroll
+
+dto * with mapstruct
+
+service all with serviceImpl
+
+search Restaurant, Review with elasticsearch

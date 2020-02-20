@@ -8,17 +8,17 @@ import { IRestaurant } from 'app/shared/model/restaurant.model';
   templateUrl: './restaurant-detail.component.html'
 })
 export class RestaurantDetailComponent implements OnInit {
-  restaurant: IRestaurant;
+  restaurant: IRestaurant | null = null;
 
   constructor(protected activatedRoute: ActivatedRoute) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ restaurant }) => {
       this.restaurant = restaurant;
     });
   }
 
-  previousState() {
+  previousState(): void {
     window.history.back();
   }
 }

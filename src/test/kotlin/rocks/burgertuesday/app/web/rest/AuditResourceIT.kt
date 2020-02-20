@@ -1,12 +1,9 @@
 package rocks.burgertuesday.app.web.rest
 
-import rocks.burgertuesday.app.BurgertuesdayApp
-import rocks.burgertuesday.app.config.TestSecurityConfiguration
-import rocks.burgertuesday.app.config.audit.AuditEventConverter
-import rocks.burgertuesday.app.domain.PersistentAuditEvent
-import rocks.burgertuesday.app.repository.PersistenceAuditEventRepository
-
-import rocks.burgertuesday.app.service.AuditEventService
+import io.github.jhipster.config.JHipsterProperties
+import java.time.Instant
+import org.assertj.core.api.AssertionsForClassTypes.assertThat
+import org.hamcrest.Matchers.hasItem
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.MockitoAnnotations
@@ -18,18 +15,19 @@ import org.springframework.format.support.FormattingConversionService
 import org.springframework.http.MediaType
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.setup.MockMvcBuilders
-import org.springframework.transaction.annotation.Transactional
-
-import java.time.Instant
-
-import org.assertj.core.api.AssertionsForClassTypes.assertThat
-import org.hamcrest.Matchers.hasItem
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.header
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import org.springframework.test.web.servlet.setup.MockMvcBuilders
+import org.springframework.transaction.annotation.Transactional
+import rocks.burgertuesday.app.BurgertuesdayApp
+import rocks.burgertuesday.app.config.TestSecurityConfiguration
+import rocks.burgertuesday.app.config.audit.AuditEventConverter
+import rocks.burgertuesday.app.domain.PersistentAuditEvent
+import rocks.burgertuesday.app.repository.PersistenceAuditEventRepository
+import rocks.burgertuesday.app.service.AuditEventService
 
 private const val SAMPLE_PRINCIPAL = "SAMPLE_PRINCIPAL"
 private const val SAMPLE_TYPE = "SAMPLE_TYPE"
@@ -53,6 +51,9 @@ class AuditResourceIT {
     private lateinit var jacksonMessageConverter: MappingJackson2HttpMessageConverter
 
     @Autowired
+    private lateinit var jhipsterProperties: JHipsterProperties
+
+    @Autowired
     @Qualifier("mvcConversionService")
     private lateinit var formattingConversionService: FormattingConversionService
 
@@ -66,7 +67,7 @@ class AuditResourceIT {
     @BeforeEach
     fun setup() {
         MockitoAnnotations.initMocks(this)
-        val auditEventService = AuditEventService(auditEventRepository, auditEventConverter)
+        val auditEventService = AuditEventService(auditEventRepository, auditEventConverter, jhipsterProperties)
         val auditResource = AuditResource(auditEventService)
         this.restAuditMockMvc = MockMvcBuilders.standaloneSetup(auditResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)

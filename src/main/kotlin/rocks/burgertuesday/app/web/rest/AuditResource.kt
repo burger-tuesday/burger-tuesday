@@ -1,9 +1,9 @@
 package rocks.burgertuesday.app.web.rest
 
-import rocks.burgertuesday.app.service.AuditEventService
-
 import io.github.jhipster.web.util.PaginationUtil
 import io.github.jhipster.web.util.ResponseUtil
+import java.time.LocalDate
+import java.time.ZoneId
 import org.springframework.boot.actuate.audit.AuditEvent
 import org.springframework.data.domain.Pageable
 import org.springframework.http.HttpStatus
@@ -14,9 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder
-
-import java.time.LocalDate
-import java.time.ZoneId
+import rocks.burgertuesday.app.service.AuditEventService
 
 /**
  * REST controller for getting the `AuditEvent`s.
@@ -32,10 +30,7 @@ class AuditResource(private val auditEventService: AuditEventService) {
      * @return the `ResponseEntity` with status `200 (OK)` and the list of `AuditEvent`s in body.
      */
     @GetMapping
-    fun getAll(
-
-        pageable: Pageable
-    ): ResponseEntity<List<AuditEvent>> {
+    fun getAll(pageable: Pageable): ResponseEntity<List<AuditEvent>> {
         val page = auditEventService.findAll(pageable)
         val headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page)
         return ResponseEntity(page.content, headers, HttpStatus.OK)
@@ -56,11 +51,10 @@ class AuditResource(private val auditEventService: AuditEventService) {
         pageable: Pageable
     ): ResponseEntity<List<AuditEvent>> {
 
-        val page = auditEventService.findByDates(
-            fromDate.atStartOfDay(ZoneId.systemDefault()).toInstant(),
-            toDate.atStartOfDay(ZoneId.systemDefault()).plusDays(1).toInstant(),
-            pageable
-        )
+        val from = fromDate.atStartOfDay(ZoneId.systemDefault()).toInstant()
+        val to = toDate.atStartOfDay(ZoneId.systemDefault()).plusDays(1).toInstant()
+
+        val page = auditEventService.findByDates(from, to, pageable)
         val headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page)
         return ResponseEntity(page.content, headers, HttpStatus.OK)
     }

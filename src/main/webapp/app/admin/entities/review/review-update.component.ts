@@ -1,29 +1,30 @@
 import { Component, OnInit } from '@angular/core';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { HttpResponse } from '@angular/common/http';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
-import { JhiAlertService } from 'ng-jhipster';
+import { map } from 'rxjs/operators';
+
 import { IReview, Review } from 'app/shared/model/review.model';
 import { ReviewService } from './review.service';
 import { IVisit } from 'app/shared/model/visit.model';
-import { VisitService } from '../visit/visit.service';
+import { VisitService } from 'app/admin/entities/visit/visit.service';
 import { IUser } from 'app/core/user/user.model';
 import { UserService } from 'app/core/user/user.service';
+
+type SelectableEntity = IVisit | IUser;
 
 @Component({
   selector: 'jhi-review-update',
   templateUrl: './review-update.component.html'
 })
 export class ReviewUpdateComponent implements OnInit {
-  isSaving: boolean;
+  isSaving = false;
 
-  visits: IVisit[];
+  visits: IVisit[] = [];
 
-  users: IUser[];
+  users: IUser[] = [];
 
   editForm = this.fb.group({
     id: [],
@@ -39,7 +40,6 @@ export class ReviewUpdateComponent implements OnInit {
   });
 
   constructor(
-    protected jhiAlertService: JhiAlertService,
     protected reviewService: ReviewService,
     protected visitService: VisitService,
     protected userService: UserService,
@@ -47,28 +47,31 @@ export class ReviewUpdateComponent implements OnInit {
     private fb: FormBuilder
   ) {}
 
-  ngOnInit() {
-    this.isSaving = false;
+  ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ review }) => {
       this.updateForm(review);
+
+      this.visitService
+        .query()
+        .pipe(
+          map((res: HttpResponse<IVisit[]>) => {
+            return res.body ? res.body : [];
+          })
+        )
+        .subscribe((resBody: IVisit[]) => (this.visits = resBody));
+
+      this.userService
+        .query()
+        .pipe(
+          map((res: HttpResponse<IUser[]>) => {
+            return res.body ? res.body : [];
+          })
+        )
+        .subscribe((resBody: IUser[]) => (this.users = resBody));
     });
-    this.visitService
-      .query()
-      .pipe(
-        filter((mayBeOk: HttpResponse<IVisit[]>) => mayBeOk.ok),
-        map((response: HttpResponse<IVisit[]>) => response.body)
-      )
-      .subscribe((res: IVisit[]) => (this.visits = res), (res: HttpErrorResponse) => this.onError(res.message));
-    this.userService
-      .query()
-      .pipe(
-        filter((mayBeOk: HttpResponse<IUser[]>) => mayBeOk.ok),
-        map((response: HttpResponse<IUser[]>) => response.body)
-      )
-      .subscribe((res: IUser[]) => (this.users = res), (res: HttpErrorResponse) => this.onError(res.message));
   }
 
-  updateForm(review: IReview) {
+  updateForm(review: IReview): void {
     this.editForm.patchValue({
       id: review.id,
       review: review.review,
@@ -83,11 +86,11 @@ export class ReviewUpdateComponent implements OnInit {
     });
   }
 
-  previousState() {
+  previousState(): void {
     window.history.back();
   }
 
-  save() {
+  save(): void {
     this.isSaving = true;
     const review = this.createFromForm();
     if (review.id !== undefined) {
@@ -100,40 +103,36 @@ export class ReviewUpdateComponent implements OnInit {
   private createFromForm(): IReview {
     return {
       ...new Review(),
-      id: this.editForm.get(['id']).value,
-      review: this.editForm.get(['review']).value,
-      taste: this.editForm.get(['taste']).value,
-      likeness: this.editForm.get(['likeness']).value,
-      menuDiversity: this.editForm.get(['menuDiversity']).value,
-      service: this.editForm.get(['service']).value,
-      priceLevel: this.editForm.get(['priceLevel']).value,
-      recommended: this.editForm.get(['recommended']).value,
-      visitId: this.editForm.get(['visitId']).value,
-      userId: this.editForm.get(['userId']).value
+      id: this.editForm.get(['id'])!.value,
+      review: this.editForm.get(['review'])!.value,
+      taste: this.editForm.get(['taste'])!.value,
+      likeness: this.editForm.get(['likeness'])!.value,
+      menuDiversity: this.editForm.get(['menuDiversity'])!.value,
+      service: this.editForm.get(['service'])!.value,
+      priceLevel: this.editForm.get(['priceLevel'])!.value,
+      recommended: this.editForm.get(['recommended'])!.value,
+      visitId: this.editForm.get(['visitId'])!.value,
+      userId: this.editForm.get(['userId'])!.value
     };
   }
 
-  protected subscribeToSaveResponse(result: Observable<HttpResponse<IReview>>) {
-    result.subscribe(() => this.onSaveSuccess(), () => this.onSaveError());
+  protected subscribeToSaveResponse(result: Observable<HttpResponse<IReview>>): void {
+    result.subscribe(
+      () => this.onSaveSuccess(),
+      () => this.onSaveError()
+    );
   }
 
-  protected onSaveSuccess() {
+  protected onSaveSuccess(): void {
     this.isSaving = false;
     this.previousState();
   }
 
-  protected onSaveError() {
+  protected onSaveError(): void {
     this.isSaving = false;
   }
-  protected onError(errorMessage: string) {
-    this.jhiAlertService.error(errorMessage, null, null);
-  }
 
-  trackVisitById(index: number, item: IVisit) {
-    return item.id;
-  }
-
-  trackUserById(index: number, item: IUser) {
+  trackById(index: number, item: SelectableEntity): any {
     return item.id;
   }
 }

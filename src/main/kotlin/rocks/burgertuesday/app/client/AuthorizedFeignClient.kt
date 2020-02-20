@@ -1,10 +1,9 @@
 package rocks.burgertuesday.app.client
 
+import kotlin.reflect.KClass
 import org.springframework.cloud.openfeign.FeignClient
 import org.springframework.cloud.openfeign.FeignClientsConfiguration
 import org.springframework.core.annotation.AliasFor
-
-import kotlin.reflect.KClass
 
 @Retention(AnnotationRetention.RUNTIME)
 @Target(AnnotationTarget.CLASS, AnnotationTarget.FILE)

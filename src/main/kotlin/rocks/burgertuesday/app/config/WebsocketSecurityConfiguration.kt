@@ -1,10 +1,10 @@
 package rocks.burgertuesday.app.config
 
-import rocks.burgertuesday.app.security.ADMIN
 import org.springframework.context.annotation.Configuration
 import org.springframework.messaging.simp.SimpMessageType
 import org.springframework.security.config.annotation.web.messaging.MessageSecurityMetadataSourceRegistry
 import org.springframework.security.config.annotation.web.socket.AbstractSecurityWebSocketMessageBrokerConfigurer
+import rocks.burgertuesday.app.security.ADMIN
 
 @Configuration
 class WebsocketSecurityConfiguration : AbstractSecurityWebSocketMessageBrokerConfigurer() {

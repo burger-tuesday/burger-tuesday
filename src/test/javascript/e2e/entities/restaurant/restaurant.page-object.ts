@@ -5,19 +5,19 @@ export class RestaurantComponentsPage {
   deleteButtons = element.all(by.css('jhi-restaurant div table .btn-danger'));
   title = element.all(by.css('jhi-restaurant div h2#page-heading span')).first();
 
-  async clickOnCreateButton(timeout?: number) {
+  async clickOnCreateButton(): Promise<void> {
     await this.createButton.click();
   }
 
-  async clickOnLastDeleteButton(timeout?: number) {
+  async clickOnLastDeleteButton(): Promise<void> {
     await this.deleteButtons.last().click();
   }
 
-  async countDeleteButtons() {
+  async countDeleteButtons(): Promise<number> {
     return this.deleteButtons.count();
   }
 
-  async getTitle() {
+  async getTitle(): Promise<string> {
     return this.title.getAttribute('jhiTranslate');
   }
 }
@@ -33,90 +33,108 @@ export class RestaurantUpdatePage {
   urlInput = element(by.id('field_url'));
   websiteInput = element(by.id('field_website'));
   googleRatingInput = element(by.id('field_googleRating'));
+  btRatingInput = element(by.id('field_btRating'));
+  numberOfReviewsInput = element(by.id('field_numberOfReviews'));
   priceLevelInput = element(by.id('field_priceLevel'));
   permanentlyClosedInput = element(by.id('field_permanentlyClosed'));
   userSelect = element(by.id('field_user'));
 
-  async getPageTitle() {
+  async getPageTitle(): Promise<string> {
     return this.pageTitle.getAttribute('jhiTranslate');
   }
 
-  async setPlaceIdInput(placeId) {
+  async setPlaceIdInput(placeId: string): Promise<void> {
     await this.placeIdInput.sendKeys(placeId);
   }
 
-  async getPlaceIdInput() {
+  async getPlaceIdInput(): Promise<string> {
     return await this.placeIdInput.getAttribute('value');
   }
 
-  async setNameInput(name) {
+  async setNameInput(name: string): Promise<void> {
     await this.nameInput.sendKeys(name);
   }
 
-  async getNameInput() {
+  async getNameInput(): Promise<string> {
     return await this.nameInput.getAttribute('value');
   }
 
-  async setAddressInput(address) {
+  async setAddressInput(address: string): Promise<void> {
     await this.addressInput.sendKeys(address);
   }
 
-  async getAddressInput() {
+  async getAddressInput(): Promise<string> {
     return await this.addressInput.getAttribute('value');
   }
 
-  async setVicinityInput(vicinity) {
+  async setVicinityInput(vicinity: string): Promise<void> {
     await this.vicinityInput.sendKeys(vicinity);
   }
 
-  async getVicinityInput() {
+  async getVicinityInput(): Promise<string> {
     return await this.vicinityInput.getAttribute('value');
   }
 
-  async setUrlInput(url) {
+  async setUrlInput(url: string): Promise<void> {
     await this.urlInput.sendKeys(url);
   }
 
-  async getUrlInput() {
+  async getUrlInput(): Promise<string> {
     return await this.urlInput.getAttribute('value');
   }
 
-  async setWebsiteInput(website) {
+  async setWebsiteInput(website: string): Promise<void> {
     await this.websiteInput.sendKeys(website);
   }
 
-  async getWebsiteInput() {
+  async getWebsiteInput(): Promise<string> {
     return await this.websiteInput.getAttribute('value');
   }
 
-  async setGoogleRatingInput(googleRating) {
+  async setGoogleRatingInput(googleRating: string): Promise<void> {
     await this.googleRatingInput.sendKeys(googleRating);
   }
 
-  async getGoogleRatingInput() {
+  async getGoogleRatingInput(): Promise<string> {
     return await this.googleRatingInput.getAttribute('value');
   }
 
-  async setPriceLevelInput(priceLevel) {
+  async setBtRatingInput(btRating: string): Promise<void> {
+    await this.btRatingInput.sendKeys(btRating);
+  }
+
+  async getBtRatingInput(): Promise<string> {
+    return await this.btRatingInput.getAttribute('value');
+  }
+
+  async setNumberOfReviewsInput(numberOfReviews: string): Promise<void> {
+    await this.numberOfReviewsInput.sendKeys(numberOfReviews);
+  }
+
+  async getNumberOfReviewsInput(): Promise<string> {
+    return await this.numberOfReviewsInput.getAttribute('value');
+  }
+
+  async setPriceLevelInput(priceLevel: string): Promise<void> {
     await this.priceLevelInput.sendKeys(priceLevel);
   }
 
-  async getPriceLevelInput() {
+  async getPriceLevelInput(): Promise<string> {
     return await this.priceLevelInput.getAttribute('value');
   }
 
-  getPermanentlyClosedInput(timeout?: number) {
+  getPermanentlyClosedInput(): ElementFinder {
     return this.permanentlyClosedInput;
   }
 
-  async userSelectLastOption(timeout?: number) {
+  async userSelectLastOption(): Promise<void> {
     await this.userSelect
       .all(by.tagName('option'))
       .last()
       .click();
   }
 
-  async userSelectOption(option) {
+  async userSelectOption(option: string): Promise<void> {
     await this.userSelect.sendKeys(option);
   }
 
@@ -124,15 +142,15 @@ export class RestaurantUpdatePage {
     return this.userSelect;
   }
 
-  async getUserSelectedOption() {
+  async getUserSelectedOption(): Promise<string> {
     return await this.userSelect.element(by.css('option:checked')).getText();
   }
 
-  async save(timeout?: number) {
+  async save(): Promise<void> {
     await this.saveButton.click();
   }
 
-  async cancel(timeout?: number) {
+  async cancel(): Promise<void> {
     await this.cancelButton.click();
   }
 
@@ -145,11 +163,11 @@ export class RestaurantDeleteDialog {
   private dialogTitle = element(by.id('jhi-delete-restaurant-heading'));
   private confirmButton = element(by.id('jhi-confirm-delete-restaurant'));
 
-  async getDialogTitle() {
+  async getDialogTitle(): Promise<string> {
     return this.dialogTitle.getAttribute('jhiTranslate');
   }
 
-  async clickOnConfirmButton(timeout?: number) {
+  async clickOnConfirmButton(): Promise<void> {
     await this.confirmButton.click();
   }
 }

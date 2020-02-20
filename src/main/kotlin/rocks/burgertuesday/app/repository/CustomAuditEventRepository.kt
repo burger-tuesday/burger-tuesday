@@ -1,17 +1,15 @@
 package rocks.burgertuesday.app.repository
 
-import rocks.burgertuesday.app.config.ANONYMOUS_USER
-import rocks.burgertuesday.app.config.audit.AuditEventConverter
-import rocks.burgertuesday.app.domain.PersistentAuditEvent
-
+import java.time.Instant
 import org.slf4j.LoggerFactory
 import org.springframework.boot.actuate.audit.AuditEvent
 import org.springframework.boot.actuate.audit.AuditEventRepository
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Propagation
 import org.springframework.transaction.annotation.Transactional
-
-import java.time.Instant
+import rocks.burgertuesday.app.config.ANONYMOUS_USER
+import rocks.burgertuesday.app.config.audit.AuditEventConverter
+import rocks.burgertuesday.app.domain.PersistentAuditEvent
 
 private const val AUTHORIZATION_FAILURE = "AUTHORIZATION_FAILURE"
 

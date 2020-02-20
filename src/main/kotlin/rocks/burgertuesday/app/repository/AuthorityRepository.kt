@@ -1,8 +1,7 @@
 package rocks.burgertuesday.app.repository
 
-import rocks.burgertuesday.app.domain.Authority
-
 import org.springframework.data.jpa.repository.JpaRepository
+import rocks.burgertuesday.app.domain.Authority
 
 /**
  * Spring Data JPA repository for the [Authority] entity.

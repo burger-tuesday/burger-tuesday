@@ -1,15 +1,10 @@
 package rocks.burgertuesday.app.web.rest
 
-import rocks.burgertuesday.app.config.LOGIN_REGEX
-import rocks.burgertuesday.app.domain.User
-import rocks.burgertuesday.app.repository.search.UserSearchRepository
-import rocks.burgertuesday.app.security.ADMIN
-import rocks.burgertuesday.app.service.UserService
-import rocks.burgertuesday.app.service.dto.UserDTO
-
 import io.github.jhipster.web.util.PaginationUtil
 import io.github.jhipster.web.util.ResponseUtil
-
+import java.util.stream.Collectors
+import java.util.stream.StreamSupport
+import org.elasticsearch.index.query.QueryBuilders.queryStringQuery
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.data.domain.Pageable
@@ -21,11 +16,12 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder
-
-import java.util.stream.Collectors
-import java.util.stream.StreamSupport
-
-import org.elasticsearch.index.query.QueryBuilders.queryStringQuery
+import rocks.burgertuesday.app.config.LOGIN_REGEX
+import rocks.burgertuesday.app.domain.User
+import rocks.burgertuesday.app.repository.search.UserSearchRepository
+import rocks.burgertuesday.app.security.ADMIN
+import rocks.burgertuesday.app.service.UserService
+import rocks.burgertuesday.app.service.dto.UserDTO
 
 /**
  * REST controller for managing users.

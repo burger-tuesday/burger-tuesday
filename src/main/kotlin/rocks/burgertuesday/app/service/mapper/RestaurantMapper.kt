@@ -1,11 +1,10 @@
 package rocks.burgertuesday.app.service.mapper
 
-import rocks.burgertuesday.app.domain.Restaurant
-import rocks.burgertuesday.app.service.dto.RestaurantDTO
-
 import org.mapstruct.Mapper
 import org.mapstruct.Mapping
 import org.mapstruct.Mappings
+import rocks.burgertuesday.app.domain.Restaurant
+import rocks.burgertuesday.app.service.dto.RestaurantDTO
 
 /**
  * Mapper for the entity [Restaurant] and its DTO [RestaurantDTO].

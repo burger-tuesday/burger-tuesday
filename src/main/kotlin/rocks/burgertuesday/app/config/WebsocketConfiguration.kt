@@ -1,9 +1,8 @@
 package rocks.burgertuesday.app.config
 
-import rocks.burgertuesday.app.security.ANONYMOUS
-
 import io.github.jhipster.config.JHipsterProperties
-
+import java.security.Principal
+import java.util.Optional
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.server.ServerHttpRequest
@@ -18,9 +17,7 @@ import org.springframework.web.socket.config.annotation.StompEndpointRegistry
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer
 import org.springframework.web.socket.server.HandshakeInterceptor
 import org.springframework.web.socket.server.support.DefaultHandshakeHandler
-
-import java.security.Principal
-import java.util.Optional
+import rocks.burgertuesday.app.security.ANONYMOUS
 
 @Configuration
 @EnableWebSocketMessageBroker

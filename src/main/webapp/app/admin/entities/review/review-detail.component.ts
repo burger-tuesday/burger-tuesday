@@ -8,17 +8,17 @@ import { IReview } from 'app/shared/model/review.model';
   templateUrl: './review-detail.component.html'
 })
 export class ReviewDetailComponent implements OnInit {
-  review: IReview;
+  review: IReview | null = null;
 
   constructor(protected activatedRoute: ActivatedRoute) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ review }) => {
       this.review = review;
     });
   }
 
-  previousState() {
+  previousState(): void {
     window.history.back();
   }
 }

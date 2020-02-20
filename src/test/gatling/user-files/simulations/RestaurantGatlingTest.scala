@@ -108,6 +108,8 @@ class RestaurantGatlingTest extends Simulation {
                 , "url":"SAMPLE_TEXT"
                 , "website":"SAMPLE_TEXT"
                 , "googleRating":"0"
+                , "btRating":"0"
+                , "numberOfReviews":"0"
                 , "priceLevel":"SAMPLE_TEXT"
                 , "permanentlyClosed":null
                 }""")).asJson

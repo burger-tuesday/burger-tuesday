@@ -1,41 +1,35 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { filter, map } from 'rxjs/operators';
-import { JhiEventManager, JhiParseLinks, JhiAlertService } from 'ng-jhipster';
+import { JhiEventManager, JhiParseLinks } from 'ng-jhipster';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { IRestaurant } from 'app/shared/model/restaurant.model';
-import { AccountService } from 'app/core/auth/account.service';
 
 import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 import { RestaurantService } from './restaurant.service';
 
 @Component({
   selector: 'jhi-restaurant',
-  templateUrl: './restaurant.component.html',
-  styleUrls: ['./restaurant.component.scss']
+  templateUrl: './restaurant.component.html'
 })
 export class RestaurantComponent implements OnInit, OnDestroy {
   restaurants: IRestaurant[];
-  currentAccount: any;
-  eventSubscriber: Subscription;
+  eventSubscriber?: Subscription;
   itemsPerPage: number;
   links: any;
-  page: any;
-  predicate: any;
-  reverse: any;
-  totalItems: number;
+  page: number;
+  predicate: string;
+  ascending: boolean;
   currentSearch: string;
 
   constructor(
     protected restaurantService: RestaurantService,
-    protected jhiAlertService: JhiAlertService,
     protected eventManager: JhiEventManager,
+    protected modalService: NgbModal,
     protected parseLinks: JhiParseLinks,
-    protected activatedRoute: ActivatedRoute,
-    protected accountService: AccountService
+    protected activatedRoute: ActivatedRoute
   ) {
     this.restaurants = [];
     this.itemsPerPage = ITEMS_PER_PAGE;
@@ -44,14 +38,14 @@ export class RestaurantComponent implements OnInit, OnDestroy {
       last: 0
     };
     this.predicate = 'id';
-    this.reverse = true;
+    this.ascending = true;
     this.currentSearch =
       this.activatedRoute.snapshot && this.activatedRoute.snapshot.queryParams['search']
         ? this.activatedRoute.snapshot.queryParams['search']
         : '';
   }
 
-  loadAll() {
+  loadAll(): void {
     if (this.currentSearch) {
       this.restaurantService
         .search({
@@ -60,10 +54,7 @@ export class RestaurantComponent implements OnInit, OnDestroy {
           size: this.itemsPerPage,
           sort: this.sort()
         })
-        .subscribe(
-          (res: HttpResponse<IRestaurant[]>) => this.paginateRestaurants(res.body, res.headers),
-          (res: HttpErrorResponse) => this.onError(res.message)
-        );
+        .subscribe((res: HttpResponse<IRestaurant[]>) => this.paginateRestaurants(res.body, res.headers));
       return;
     }
     this.restaurantService
@@ -72,87 +63,72 @@ export class RestaurantComponent implements OnInit, OnDestroy {
         size: this.itemsPerPage,
         sort: this.sort()
       })
-      .subscribe(
-        (res: HttpResponse<IRestaurant[]>) => this.paginateRestaurants(res.body, res.headers),
-        (res: HttpErrorResponse) => this.onError(res.message)
-      );
+      .subscribe((res: HttpResponse<IRestaurant[]>) => this.paginateRestaurants(res.body, res.headers));
   }
 
-  reset() {
+  reset(): void {
     this.page = 0;
     this.restaurants = [];
     this.loadAll();
   }
 
-  loadPage(page) {
+  loadPage(page: number): void {
     this.page = page;
     this.loadAll();
   }
 
-  clear() {
+  search(query: string): void {
     this.restaurants = [];
     this.links = {
       last: 0
     };
     this.page = 0;
-    this.predicate = 'id';
-    this.reverse = true;
-    this.currentSearch = '';
-    this.loadAll();
-  }
-
-  search(query) {
-    if (!query) {
-      return this.clear();
+    if (query) {
+      this.predicate = '_score';
+      this.ascending = false;
+    } else {
+      this.predicate = 'id';
+      this.ascending = true;
     }
-    this.restaurants = [];
-    this.links = {
-      last: 0
-    };
-    this.page = 0;
-    this.predicate = '_score';
-    this.reverse = false;
     this.currentSearch = query;
     this.loadAll();
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.loadAll();
-    this.accountService.identity().then(account => {
-      this.currentAccount = account;
-    });
     this.registerChangeInRestaurants();
   }
 
-  ngOnDestroy() {
-    this.eventManager.destroy(this.eventSubscriber);
+  ngOnDestroy(): void {
+    if (this.eventSubscriber) {
+      this.eventManager.destroy(this.eventSubscriber);
+    }
   }
 
-  trackId(index: number, item: IRestaurant) {
-    return item.id;
+  trackId(index: number, item: IRestaurant): number {
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+    return item.id!;
   }
 
-  registerChangeInRestaurants() {
-    this.eventSubscriber = this.eventManager.subscribe('restaurantListModification', response => this.reset());
+  registerChangeInRestaurants(): void {
+    this.eventSubscriber = this.eventManager.subscribe('restaurantListModification', () => this.reset());
   }
 
-  sort() {
-    const result = [this.predicate + ',' + (this.reverse ? 'asc' : 'desc')];
+  sort(): string[] {
+    const result = [this.predicate + ',' + (this.ascending ? 'asc' : 'desc')];
     if (this.predicate !== 'id') {
       result.push('id');
     }
     return result;
   }
 
-  protected paginateRestaurants(data: IRestaurant[], headers: HttpHeaders) {
-    this.links = this.parseLinks.parse(headers.get('link'));
-    this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
-    for (let i = 0; i < data.length; i++) {
-      this.restaurants.push(data[i]);
+  protected paginateRestaurants(data: IRestaurant[] | null, headers: HttpHeaders): void {
+    const headersLink = headers.get('link');
+    this.links = this.parseLinks.parse(headersLink ? headersLink : '');
+    if (data) {
+      for (let i = 0; i < data.length; i++) {
+        this.restaurants.push(data[i]);
+      }
     }
-  }
-
-  protected onError(errorMessage: string) {
-    this.jhiAlertService.error(errorMessage, null, null);
   }
 }

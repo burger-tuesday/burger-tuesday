@@ -16,7 +16,7 @@
                 <dt><span jhiTranslate="burgertuesdayApp.visit.restaurant">Restaurant</span></dt>
                 <dd>
                     <div *ngIf="visit.restaurantId">
-                        <a [routerLink]="['/admin/restaurant', visit.restaurantId, 'view']">{{visit.restaurantId}}</a>
+                        <a [routerLink]="['/restaurant', visit.restaurantId, 'view']">{{visit.restaurantId}}</a>
                     </div>
                 </dd>
                 <dt><span jhiTranslate="burgertuesdayApp.visit.user">User</span></dt>
@@ -32,7 +32,7 @@
             </button>
 
             <button type="button"
-                    [routerLink]="['/admin/visit', visit.id, 'edit']"
+                    [routerLink]="['/visit', visit.id, 'edit']"
                     class="btn btn-primary">
                 <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
             </button>

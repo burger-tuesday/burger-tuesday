@@ -1,6 +1,6 @@
 package rocks.burgertuesday.app
 
-import rocks.burgertuesday.app.config.addDefaultProfile
+import io.github.jhipster.config.DefaultProfileUtil
 import org.springframework.boot.builder.SpringApplicationBuilder
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 
@@ -14,7 +14,7 @@ class ApplicationWebXml : SpringBootServletInitializer() {
         /**
          * set a default to use when no profile is configured.
          */
-        addDefaultProfile(application.application())
+        DefaultProfileUtil.addDefaultProfile(application.application())
         return application.sources(BurgertuesdayApp::class.java)
     }
 }

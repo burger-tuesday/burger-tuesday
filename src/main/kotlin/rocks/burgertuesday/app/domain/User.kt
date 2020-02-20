@@ -1,13 +1,9 @@
 package rocks.burgertuesday.app.domain
 
-import rocks.burgertuesday.app.config.LOGIN_REGEX
-
 import com.fasterxml.jackson.annotation.JsonIgnore
-import org.hibernate.annotations.BatchSize
-import org.hibernate.annotations.Cache
-import org.hibernate.annotations.CacheConcurrencyStrategy
-import org.springframework.data.elasticsearch.annotations.FieldType
-
+import java.io.Serializable
+import java.time.Instant
+import java.util.Locale
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.Id
@@ -19,9 +15,11 @@ import javax.validation.constraints.Email
 import javax.validation.constraints.NotNull
 import javax.validation.constraints.Pattern
 import javax.validation.constraints.Size
-import java.io.Serializable
-import java.time.Instant
-import java.util.Locale
+import org.hibernate.annotations.BatchSize
+import org.hibernate.annotations.Cache
+import org.hibernate.annotations.CacheConcurrencyStrategy
+import org.springframework.data.elasticsearch.annotations.FieldType
+import rocks.burgertuesday.app.config.LOGIN_REGEX
 
 /**
  * A user.

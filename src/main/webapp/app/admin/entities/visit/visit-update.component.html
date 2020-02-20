@@ -4,7 +4,7 @@
             <h2 id="jhi-visit-heading" jhiTranslate="burgertuesdayApp.visit.home.createOrEditLabel">Create or edit a Visit</h2>
             <div>
                 <jhi-alert-error></jhi-alert-error>
-                <div class="form-group" [hidden]="!editForm.get('id').value">
+                <div class="form-group" [hidden]="!editForm.get('id')!.value">
                     <label for="id" jhiTranslate="global.field.id">ID</label>
                     <input type="text" class="form-control" id="id" name="id" formControlName="id"
                         readonly />
@@ -27,26 +27,26 @@
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="burgertuesdayApp.visit.restaurant" for="field_restaurant">Restaurant</label>
                     <select class="form-control" id="field_restaurant" name="restaurant" formControlName="restaurantId">
-                        <option *ngIf="!editForm.get('restaurantId').value" [ngValue]="null" selected></option>
-                        <option [ngValue]="restaurantOption.id" *ngFor="let restaurantOption of restaurants; trackBy: trackRestaurantById">{{restaurantOption.id}}</option>
+                        <option *ngIf="!editForm.get('restaurantId')!.value" [ngValue]="null" selected></option>
+                        <option [ngValue]="restaurantOption.id" *ngFor="let restaurantOption of restaurants; trackBy: trackById">{{restaurantOption.id}}</option>
                     </select>
                 </div>
-                <div *ngIf="editForm.get('restaurantId').invalid && (editForm.get('restaurantId').dirty || editForm.get('restaurantId').touched)">
+                <div *ngIf="editForm.get('restaurantId')!.invalid && (editForm.get('restaurantId')!.dirty || editForm.get('restaurantId')!.touched)">
                     <small class="form-text text-danger"
-                           *ngIf="editForm.get('restaurantId').errors.required" jhiTranslate="entity.validation.required">
+                           *ngIf="editForm.get('restaurantId')?.errors?.required" jhiTranslate="entity.validation.required">
                         This field is required.
                     </small>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="burgertuesdayApp.visit.user" for="field_user">User</label>
                     <select class="form-control" id="field_user" name="user" formControlName="userId">
-                        <option *ngIf="!editForm.get('userId').value" [ngValue]="null" selected></option>
-                        <option [ngValue]="userOption.id" *ngFor="let userOption of users; trackBy: trackUserById">{{userOption.id}}</option>
+                        <option *ngIf="!editForm.get('userId')!.value" [ngValue]="null" selected></option>
+                        <option [ngValue]="userOption.id" *ngFor="let userOption of users; trackBy: trackById">{{userOption.id}}</option>
                     </select>
                 </div>
-                <div *ngIf="editForm.get('userId').invalid && (editForm.get('userId').dirty || editForm.get('userId').touched)">
+                <div *ngIf="editForm.get('userId')!.invalid && (editForm.get('userId')!.dirty || editForm.get('userId')!.touched)">
                     <small class="form-text text-danger"
-                           *ngIf="editForm.get('userId').errors.required" jhiTranslate="entity.validation.required">
+                           *ngIf="editForm.get('userId')?.errors?.required" jhiTranslate="entity.validation.required">
                         This field is required.
                     </small>
                 </div>

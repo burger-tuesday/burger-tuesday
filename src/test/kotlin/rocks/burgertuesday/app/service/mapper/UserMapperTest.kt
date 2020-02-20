@@ -1,28 +1,21 @@
 package rocks.burgertuesday.app.service.mapper
 
-import rocks.burgertuesday.app.BurgertuesdayApp
-import rocks.burgertuesday.app.config.TestSecurityConfiguration
-import rocks.burgertuesday.app.domain.User
-import rocks.burgertuesday.app.service.dto.UserDTO
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.context.SpringBootTest
-
-import org.assertj.core.api.Assertions.assertThat
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
+import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import rocks.burgertuesday.app.domain.User
+import rocks.burgertuesday.app.service.dto.UserDTO
 
 private const val DEFAULT_LOGIN = "johndoe"
 private const val DEFAULT_ID = "id1"
 
 /**
- * Integration tests for [UserMapper].
+ * Unit tests for [UserMapper].
  */
-@SpringBootTest(classes = [BurgertuesdayApp::class, TestSecurityConfiguration::class])
-class UserMapperIT {
+class UserMapperTest {
 
-    @Autowired
     private lateinit var userMapper: UserMapper
 
     private lateinit var user: User
@@ -30,6 +23,7 @@ class UserMapperIT {
 
     @BeforeEach
     fun init() {
+        userMapper = UserMapper()
         user = User(
             login = DEFAULT_LOGIN,
             activated = true,

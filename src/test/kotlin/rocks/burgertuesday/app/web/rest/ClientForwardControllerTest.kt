@@ -1,26 +1,21 @@
 package rocks.burgertuesday.app.web.rest
 
-import rocks.burgertuesday.app.BurgertuesdayApp
-import rocks.burgertuesday.app.config.TestSecurityConfiguration
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.setup.MockMvcBuilders
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
-
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import org.springframework.test.web.servlet.setup.MockMvcBuilders
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RestController
 
 /**
- * Integration tests for the [ClientForwardController] REST controller.
+ * Unit tests for the [ClientForwardController] REST controller.
  */
-@SpringBootTest(classes = [BurgertuesdayApp::class, TestSecurityConfiguration::class])
-class ClientForwardControllerIT {
+class ClientForwardControllerTest {
 
     private lateinit var restMockMvc: MockMvc
 
@@ -56,6 +51,27 @@ class ClientForwardControllerIT {
         restMockMvc.perform(get("/admin/user-management"))
             .andExpect(status().isOk)
             .andExpect(forwardedUrl("/"))
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun getWebsocketInfoEndpoint() {
+        restMockMvc.perform(get("/websocket/info"))
+            .andExpect(status().isNotFound())
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun getWebsocketEndpoint() {
+        restMockMvc.perform(get("/websocket/tracker/308/sessionId/websocket"))
+            .andExpect(status().isNotFound())
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun getWebsocketFallbackEndpoint() {
+        restMockMvc.perform(get("/websocket/tracker/308/sessionId/xhr_streaming"))
+            .andExpect(status().isNotFound())
     }
 
     @RestController

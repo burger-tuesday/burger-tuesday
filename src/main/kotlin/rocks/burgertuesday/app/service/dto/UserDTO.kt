@@ -1,14 +1,12 @@
 package rocks.burgertuesday.app.service.dto
 
-import rocks.burgertuesday.app.config.LOGIN_REGEX
-import rocks.burgertuesday.app.domain.User
-
+import java.time.Instant
 import javax.validation.constraints.Email
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.Pattern
 import javax.validation.constraints.Size
-
-import java.time.Instant
+import rocks.burgertuesday.app.config.LOGIN_REGEX
+import rocks.burgertuesday.app.domain.User
 
 /**
  * A DTO representing a user, with his authorities.

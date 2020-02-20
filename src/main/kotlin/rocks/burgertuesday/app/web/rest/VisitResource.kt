@@ -1,16 +1,14 @@
 package rocks.burgertuesday.app.web.rest
 
-import rocks.burgertuesday.app.service.VisitService
-import rocks.burgertuesday.app.web.rest.errors.BadRequestAlertException
-import rocks.burgertuesday.app.service.dto.VisitDTO
-
 import io.github.jhipster.web.util.HeaderUtil
 import io.github.jhipster.web.util.PaginationUtil
 import io.github.jhipster.web.util.ResponseUtil
+import java.net.URI
+import java.net.URISyntaxException
+import javax.validation.Valid
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.data.domain.Pageable
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -22,11 +20,11 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder
 import rocks.burgertuesday.app.security.ADMIN
-
-import javax.validation.Valid
-import java.net.URI
-import java.net.URISyntaxException
+import rocks.burgertuesday.app.service.VisitService
+import rocks.burgertuesday.app.service.dto.VisitDTO
+import rocks.burgertuesday.app.web.rest.errors.BadRequestAlertException
 
 private const val ENTITY_NAME = "visit"
 

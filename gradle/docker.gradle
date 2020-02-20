@@ -1,7 +1,7 @@
 jib {
     to {
         image = System.getenv("CONTAINER_NAME")
-        tags = ["latest", "${project.version}"]
+        tags = ["latest", "${project.version}".toString()]
         auth {
             username = System.getenv("DOCKER_USERNAME")
             password = System.getenv("DOCKER_PASSWORD")

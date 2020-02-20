@@ -1,21 +1,18 @@
 package rocks.burgertuesday.app.service.impl
 
-import rocks.burgertuesday.app.service.ReviewService
-import rocks.burgertuesday.app.domain.Review
-import rocks.burgertuesday.app.repository.ReviewRepository
-import rocks.burgertuesday.app.repository.search.ReviewSearchRepository
-import rocks.burgertuesday.app.service.dto.ReviewDTO
-import rocks.burgertuesday.app.service.mapper.ReviewMapper
+import java.util.Optional
+import org.elasticsearch.index.query.QueryBuilders.queryStringQuery
 import org.slf4j.LoggerFactory
-
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-
-import java.util.Optional
-
-import org.elasticsearch.index.query.QueryBuilders.queryStringQuery
+import rocks.burgertuesday.app.domain.Review
+import rocks.burgertuesday.app.repository.ReviewRepository
+import rocks.burgertuesday.app.repository.search.ReviewSearchRepository
+import rocks.burgertuesday.app.service.ReviewService
+import rocks.burgertuesday.app.service.dto.ReviewDTO
+import rocks.burgertuesday.app.service.mapper.ReviewMapper
 
 /**
  * Service Implementation for managing [Review].

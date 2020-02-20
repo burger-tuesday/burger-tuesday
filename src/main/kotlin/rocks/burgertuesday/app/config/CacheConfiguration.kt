@@ -1,15 +1,14 @@
 package rocks.burgertuesday.app.config
 
+import io.github.jhipster.config.JHipsterProperties
 import java.time.Duration
-
 import org.ehcache.config.builders.CacheConfigurationBuilder
 import org.ehcache.config.builders.ExpiryPolicyBuilder
 import org.ehcache.config.builders.ResourcePoolsBuilder
 import org.ehcache.jsr107.Eh107Configuration
-
-import io.github.jhipster.config.JHipsterProperties
-
+import org.hibernate.cache.jcache.ConfigSettings
 import org.springframework.boot.autoconfigure.cache.JCacheManagerCustomizer
+import org.springframework.boot.autoconfigure.orm.jpa.HibernatePropertiesCustomizer
 import org.springframework.cache.annotation.EnableCaching
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -31,6 +30,11 @@ class CacheConfiguration(jHipsterProperties: JHipsterProperties) {
                 .withExpiry(ExpiryPolicyBuilder.timeToLiveExpiration(Duration.ofSeconds(ehcache.timeToLiveSeconds.toLong())))
                 .build()
         )
+    }
+
+    @Bean
+    fun hibernatePropertiesCustomizer(cacheManager: javax.cache.CacheManager) = HibernatePropertiesCustomizer {
+        hibernateProperties -> hibernateProperties[ConfigSettings.CACHE_MANAGER] = cacheManager
     }
 
     @Bean

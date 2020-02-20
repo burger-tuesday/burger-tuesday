@@ -1,5 +1,7 @@
 package rocks.burgertuesday.app.web.rest.errors
 
+import javax.validation.Valid
+import javax.validation.constraints.NotNull
 import org.springframework.dao.ConcurrencyFailureException
 import org.springframework.http.HttpStatus
 import org.springframework.security.access.AccessDeniedException
@@ -11,9 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RequestPart
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
-
-import javax.validation.Valid
-import javax.validation.constraints.NotNull
 
 @RestController
 class ExceptionTranslatorTestController {

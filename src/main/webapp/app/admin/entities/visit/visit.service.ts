@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import * as moment from 'moment';
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { DATE_FORMAT } from 'app/shared/constants/input.constants';
-import { map } from 'rxjs/operators';
-
 import { SERVER_API_URL } from 'app/app.constants';
-import { createRequestOption } from 'app/shared/util/request-util';
+import { createRequestOption, SearchWithPagination } from 'app/shared/util/request-util';
 import { IVisit } from 'app/shared/model/visit.model';
 
 type EntityResponseType = HttpResponse<IVisit>;
@@ -47,11 +47,11 @@ export class VisitService {
       .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
   }
 
-  delete(id: number): Observable<HttpResponse<any>> {
-    return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
+  delete(id: number): Observable<HttpResponse<{}>> {
+    return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
 
-  search(req?: any): Observable<EntityArrayResponseType> {
+  search(req: SearchWithPagination): Observable<EntityArrayResponseType> {
     const options = createRequestOption(req);
     return this.http
       .get<IVisit[]>(this.resourceSearchUrl, { params: options, observe: 'response' })
@@ -60,14 +60,14 @@ export class VisitService {
 
   protected convertDateFromClient(visit: IVisit): IVisit {
     const copy: IVisit = Object.assign({}, visit, {
-      date: visit.date != null && visit.date.isValid() ? visit.date.format(DATE_FORMAT) : null
+      date: visit.date && visit.date.isValid() ? visit.date.format(DATE_FORMAT) : undefined
     });
     return copy;
   }
 
   protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
     if (res.body) {
-      res.body.date = res.body.date != null ? moment(res.body.date) : null;
+      res.body.date = res.body.date ? moment(res.body.date) : undefined;
     }
     return res;
   }
@@ -75,7 +75,7 @@ export class VisitService {
   protected convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
     if (res.body) {
       res.body.forEach((visit: IVisit) => {
-        visit.date = visit.date != null ? moment(visit.date) : null;
+        visit.date = visit.date ? moment(visit.date) : undefined;
       });
     }
     return res;

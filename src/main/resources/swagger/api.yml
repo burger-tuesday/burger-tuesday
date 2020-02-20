@@ -5,13 +5,20 @@ info:
   title: 'burgertuesday'
   version: 0.0.1
 servers:
-  - url: http://localhost:8080
+  - url: http://localhost:8080/api
     description: Development server
-  - url: https://localhost:8080
+  - url: https://localhost:8080/api
     description: Development server with TLS Profile
 paths: {}
-
 components:
+  responses:
+    Problem:
+      description: error occurred - see status code and problem object for more information.
+      content:
+        'application/problem+json':
+          schema:
+            $ref: 'https://opensource.zalando.com/problem/schema.yaml#/Problem'
+
   securitySchemes:
     oauth:
       type: oauth2

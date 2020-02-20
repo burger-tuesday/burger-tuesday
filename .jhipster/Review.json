@@ -1,0 +1,61 @@
+{
+    "name": "Review",
+    "fields": [
+        {
+            "fieldName": "review",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "taste",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "likeness",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "menuDiversity",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "service",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "priceLevel",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "recommended",
+            "fieldType": "Boolean"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "visit",
+            "otherEntityRelationshipName": "reviews",
+            "relationshipValidateRules": "required",
+            "relationshipName": "visit",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "user",
+            "otherEntityRelationshipName": "review",
+            "relationshipValidateRules": "required",
+            "relationshipName": "user",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20191218095401",
+    "entityTableName": "review",
+    "dto": "mapstruct",
+    "pagination": "infinite-scroll",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*",
+    "searchEngine": "elasticsearch"
+}

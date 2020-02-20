@@ -2,14 +2,14 @@
 
 package rocks.burgertuesday.app.security
 
+import java.util.Optional
+import org.springframework.security.core.Authentication
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken
-
-import java.util.Optional
 
 /**
  * Get the login of the current user.
@@ -39,18 +39,15 @@ fun getCurrentUserLogin(): Optional<String> =
  *
  * @return true if the user is authenticated, false otherwise.
  */
-fun isAuthenticated(): Boolean =
-    Optional.ofNullable(SecurityContextHolder.getContext().authentication)
-        .map {
-            val authorities = when (it) {
-                    is JwtAuthenticationToken ->
-                        extractAuthorityFromClaims(it.token.claims)
-                    else ->
-                        it.authorities
-                }
-            authorities.none { authority -> authority.authority == ANONYMOUS }
-        }
-        .orElse(false)
+fun isAuthenticated(): Boolean {
+    val authentication = SecurityContextHolder.getContext().authentication
+
+    if (authentication != null) {
+        return getAuthorities(authentication).none { it == ANONYMOUS }
+    }
+
+    return false
+}
 
 /**
  * If the current user has a specific authority (security role).
@@ -60,30 +57,38 @@ fun isAuthenticated(): Boolean =
  * @param authority the authority to check.
  * @return true if the current user has the authority, false otherwise.
  */
-fun isCurrentUserInRole(authority: String): Boolean =
-    Optional.ofNullable(SecurityContextHolder.getContext().authentication)
-        .map {
-            val authorities = when (it) {
-                    is JwtAuthenticationToken ->
-                        extractAuthorityFromClaims(it.token.claims)
-                    else ->
-                        it.authorities
-                }
-            authorities.any { auth -> auth.authority.equals(authority) }
-        }
-        .orElse(false)
+fun isCurrentUserInRole(authority: String): Boolean {
+    val authentication = SecurityContextHolder.getContext().authentication
 
-    fun extractAuthorityFromClaims(claims: Map<String, Any>): List<GrantedAuthority> {
-        return mapRolesToGrantedAuthorities(getRolesFromClaims(claims))
+    if (authentication != null) {
+        return getAuthorities(authentication).any { it == authority }
     }
 
-    @Suppress("UNCHECKED_CAST")
-    fun getRolesFromClaims(claims: Map<String, Any>): Collection<String> {
-        return claims.getOrDefault("groups", claims.getOrDefault("roles", listOf<String>())) as Collection<String>
-    }
+    return false
+}
 
-    fun mapRolesToGrantedAuthorities(roles: Collection<String>): List<GrantedAuthority> {
-        return roles
-            .filter { it.startsWith("ROLE_") }
-            .map { SimpleGrantedAuthority(it) }
+fun getAuthorities(authentication: Authentication): List<String> {
+    val authorities = when (val auth = authentication) {
+        is JwtAuthenticationToken ->
+            extractAuthorityFromClaims(auth.token.claims)
+        else ->
+            auth.authorities
     }
+    return authorities
+        .map(GrantedAuthority::getAuthority)
+}
+
+fun extractAuthorityFromClaims(claims: Map<String, Any>): List<GrantedAuthority> {
+    return mapRolesToGrantedAuthorities(getRolesFromClaims(claims))
+}
+
+@Suppress("UNCHECKED_CAST")
+fun getRolesFromClaims(claims: Map<String, Any>): Collection<String> {
+    return claims.getOrDefault("groups", claims.getOrDefault("roles", listOf<String>())) as Collection<String>
+}
+
+fun mapRolesToGrantedAuthorities(roles: Collection<String>): List<GrantedAuthority> {
+    return roles
+        .filter { it.startsWith("ROLE_") }
+        .map { SimpleGrantedAuthority(it) }
+}

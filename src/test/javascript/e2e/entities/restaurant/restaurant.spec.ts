@@ -1,17 +1,19 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { browser, ExpectedConditions as ec, promise } from 'protractor';
+import { browser, ExpectedConditions as ec /* , promise */ } from 'protractor';
 import { NavBarPage, SignInPage } from '../../page-objects/jhi-page-objects';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { RestaurantComponentsPage, /* RestaurantDeleteDialog, */ RestaurantUpdatePage } from './restaurant.page-object';
+import {
+  RestaurantComponentsPage,
+  /* RestaurantDeleteDialog,
+   */ RestaurantUpdatePage
+} from './restaurant.page-object';
 
 const expect = chai.expect;
 
 describe('Restaurant e2e test', () => {
   let navBarPage: NavBarPage;
   let signInPage: SignInPage;
-  let restaurantUpdatePage: RestaurantUpdatePage;
   let restaurantComponentsPage: RestaurantComponentsPage;
+  let restaurantUpdatePage: RestaurantUpdatePage;
   /* let restaurantDeleteDialog: RestaurantDeleteDialog; */
 
   before(async () => {
@@ -48,6 +50,8 @@ describe('Restaurant e2e test', () => {
             restaurantUpdatePage.setUrlInput('url'),
             restaurantUpdatePage.setWebsiteInput('website'),
             restaurantUpdatePage.setGoogleRatingInput('5'),
+            restaurantUpdatePage.setBtRatingInput('5'),
+            restaurantUpdatePage.setNumberOfReviewsInput('5'),
             restaurantUpdatePage.setPriceLevelInput('priceLevel'),
             restaurantUpdatePage.userSelectLastOption(),
         ]);
@@ -58,6 +62,8 @@ describe('Restaurant e2e test', () => {
         expect(await restaurantUpdatePage.getUrlInput()).to.eq('url', 'Expected Url value to be equals to url');
         expect(await restaurantUpdatePage.getWebsiteInput()).to.eq('website', 'Expected Website value to be equals to website');
         expect(await restaurantUpdatePage.getGoogleRatingInput()).to.eq('5', 'Expected googleRating value to be equals to 5');
+        expect(await restaurantUpdatePage.getBtRatingInput()).to.eq('5', 'Expected btRating value to be equals to 5');
+        expect(await restaurantUpdatePage.getNumberOfReviewsInput()).to.eq('5', 'Expected numberOfReviews value to be equals to 5');
         expect(await restaurantUpdatePage.getPriceLevelInput()).to.eq('priceLevel', 'Expected PriceLevel value to be equals to priceLevel');
         const selectedPermanentlyClosed = restaurantUpdatePage.getPermanentlyClosedInput();
         if (await selectedPermanentlyClosed.isSelected()) {
