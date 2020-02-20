@@ -20,7 +20,7 @@ describe('Service Tests', () => {
       service = injector.get(RestaurantService);
       httpMock = injector.get(HttpTestingController);
 
-      elemDefault = new Restaurant(0, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 0, 'AAAAAAA', false);
+      elemDefault = new Restaurant(0, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 0, 0, 0, 'AAAAAAA', false);
     });
 
     describe('Service methods', () => {
@@ -89,6 +89,8 @@ describe('Service Tests', () => {
             url: 'BBBBBB',
             website: 'BBBBBB',
             googleRating: 1,
+            btRating: 1,
+            numberOfReviews: 1,
             priceLevel: 'BBBBBB',
             permanentlyClosed: true
           },

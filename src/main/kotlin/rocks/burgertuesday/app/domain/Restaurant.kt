@@ -60,7 +60,7 @@ class Restaurant(
     var btRating: BigDecimal? = null,
 
     @Column(name = "num_reviews")
-    var numberOfReviews: Int? = null,
+    var numberOfReviews: Long? = null,
 
     @Column(name = "price_level")
     var priceLevel: String? = null,
