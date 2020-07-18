@@ -68,7 +68,7 @@ val dockerImage = System.getenv("CONTAINER_NAME")
 jib.to {
     image = dockerImage
     tags = setOf("latest", "${project.version}")
-    jib.container.jvmFlags = listOf("-agentpath:/sentry/libsentry_agent_linux-x86_64.so")
+    jib.container.jvmFlags = listOf("-agentpath:/sentry/libsentry_agent_linux-x86_64.so -javaagent:/rookout/rook-0.1.123.jar")
 
     auth {
         username = "pdgwien"
